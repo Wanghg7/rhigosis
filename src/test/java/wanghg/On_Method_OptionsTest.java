@@ -21,17 +21,17 @@ public class On_Method_OptionsTest {
         //
         assertNotNull(scanner);
         //
-        assertEquals(7, scanner.yylex()); // 'I'
-        assertEquals(7, scanner.yylex()); // ' '
-        assertEquals(7, scanner.yylex()); // 'l'
-        assertEquals(7, scanner.yylex()); // 'o'
-        assertEquals(7, scanner.yylex()); // 'v'
-        assertEquals(7, scanner.yylex()); // 'e'
-        assertEquals(7, scanner.yylex()); // ' '
-        assertEquals(7, scanner.yylex()); // '🍎'
-        assertEquals(7, scanner.yylex()); // '!'
-        assertEquals(7, scanner.yylex()); // '!'
-        assertEquals(SimpleCharByChar.YYEOF, scanner.yylex());
+        assertEquals(7, scanner.next()); // 'I'
+        assertEquals(7, scanner.next()); // ' '
+        assertEquals(7, scanner.next()); // 'l'
+        assertEquals(7, scanner.next()); // 'o'
+        assertEquals(7, scanner.next()); // 'v'
+        assertEquals(7, scanner.next()); // 'e'
+        assertEquals(7, scanner.next()); // ' '
+        assertEquals(7, scanner.next()); // '🍎'
+        assertEquals(7, scanner.next()); // '!'
+        assertEquals(7, scanner.next()); // '!'
+        assertEquals(SimpleCharByChar.YYEOF, scanner.next());
         //
         System.out.println("SimpleCharByChar Okay!");
     }
