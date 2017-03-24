@@ -12,17 +12,18 @@ import wanghg.fake.Baseball;
 
 /* Each JFlex directive must sit at the beginning of a line and starts with the % character */
 
-%public// no spaces before //
+%public
 
 /* not demoed: %final, %abstract */
 
-%class On_Class_Options// related things: -d <directory>, Yylex.java
+/* related things: -d <directory>, Yylex.java */
+%class On_Class_Options
 
 %extends Baseball
 
 %implements Readable, Writable
 
-%ctorarg String s// conflicts with the %standalone and %debug directives
+%ctorarg String s   // conflicts with the %standalone and %debug directives
 %ctorarg int n
 
 %init{
@@ -49,7 +50,7 @@ import wanghg.fake.Baseball;
 
 /* not demoed: %include */
 
-%apiprivate// totally encapsulation of methods and fields, except constructor and next_token
+%apiprivate // totally encapsulation of methods and fields, except constructor and next_token
 
 %%
 
