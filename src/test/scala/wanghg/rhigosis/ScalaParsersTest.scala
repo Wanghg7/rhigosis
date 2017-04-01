@@ -21,9 +21,15 @@ class ScalaParsersTest {
   def test_idrest(): Unit = {
     val parsers = new ScalaParsers
     assertEquals(true, parsers.parseAll(parsers.idrest, "abc").successful)
+    assertEquals(true, parsers.parseAll(parsers.idrest, "_abc").successful)
+    assertEquals(true, parsers.parseAll(parsers.idrest, "_abc__").successful)
     assertEquals(true, parsers.parseAll(parsers.idrest, "abc_123").successful)
+    assertEquals(true, parsers.parseAll(parsers.idrest, "__abc_123").successful)
+    assertEquals(true, parsers.parseAll(parsers.idrest, "abc_123__").successful)
+    assertEquals(true, parsers.parseAll(parsers.idrest, "_abc_123__").successful)
     assertEquals(false, parsers.parseAll(parsers.idrest, "#@!&^%").successful)
     assertEquals(false, parsers.parseAll(parsers.idrest, "abc_123#@!&^%").successful)
+    assertEquals(true, parsers.parseAll(parsers.idrest, "_#@!&^%").successful)
     assertEquals(true, parsers.parseAll(parsers.idrest, "abc_123_@").successful)
     assertEquals(true, parsers.parseAll(parsers.idrest, "abc_123_#@!&^%").successful)
   }

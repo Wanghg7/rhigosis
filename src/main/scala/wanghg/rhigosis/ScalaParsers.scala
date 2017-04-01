@@ -29,13 +29,9 @@ class ScalaParsers extends RegexParsers {
     *
     */
   private[this] val IDREST =
-    """[\p{Alnum}$_]*(_""" + OP +""")?"""
-  //= """[\p{Alnum}$_]*(_[~!@#%^&*-=+\|:<>/?]+)?"""
+    """[\p{Alnum}$_]*_[~!@#%^&*=+\|:<>/?-]+|[\p{Alnum}$_]*"""
 
-  def idrest: Parser[String] = {
-    println()
-    """[\p{Alnum}$_]*(_[~!@#%^&*-=+\|:<>/?]+)?""".r
-  }
+  def idrest: Parser[String] = IDREST.r
 
   /**
     * varid    ::=  lower idrest
