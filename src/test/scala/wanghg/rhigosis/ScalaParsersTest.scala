@@ -149,5 +149,21 @@ class ScalaParsersTest {
     assertEquals(false, parsers.parseAll(parsers.id, "`this`that`").successful)
   }
 
+  @Test
+  def test_reserved: Unit = {
+    val parsers = new ScalaParsers
+    assertEquals(true, parsers.parseAll(parsers.reserved, "abstract").successful)
+    assertEquals(true, parsers.parseAll(parsers.reserved, "do").successful)
+    assertEquals(true, parsers.parseAll(parsers.reserved, "_").successful)
+    assertEquals(true, parsers.parseAll(parsers.reserved, ">:").successful)
+    assertEquals(true, parsers.parseAll(parsers.reserved, "<:").successful)
+    assertEquals(true, parsers.parseAll(parsers.reserved, "<-").successful)
+    assertEquals(true, parsers.parseAll(parsers.reserved, "=>").successful)
+    assertEquals(true, parsers.parseAll(parsers.reserved, "⇒").successful)
+    assertEquals(true, parsers.parseAll(parsers.reserved, "←").successful)
+    //
+    assertEquals(false, parsers.parseAll(parsers.reserved, "fork").successful)
+  }
+
 }
 

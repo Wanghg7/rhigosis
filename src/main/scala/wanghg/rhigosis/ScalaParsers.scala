@@ -57,9 +57,38 @@ class ScalaParsers extends RegexParsers {
     * id       ::=  plainid |  ‘`’ { charNoBackQuoteOrNewline | UnicodeEscape | charEscapeSeq } ‘`’
     *
     */
-  private[this] val ID = "(" + PLAINID + ")|" + "`" + """([\\f\\n\\r\\b\\t\\"\\'\\\\]|\\u+[0-9a-fA-F]{4}|[^\n`])+""" + "`"
+  private[this] val ID =
+    "(" + PLAINID + ")|" + "`" + """([\\f\\n\\r\\b\\t\\"\\'\\\\]|\\u+[0-9a-fA-F]{4}|[^\n`])+""" + "`"
 
   def id: Parser[String] = ID.r
+
+  /**
+    * abstract    case        catch       class       def
+    * do          else        extends     false       final
+    * finally     for         forSome     if          implicit
+    * import      lazy        macro       match       new
+    * null        object      override    package     private
+    * protected   return      sealed      super       this
+    * throw       trait       try         true        type
+    * val         var         while       with        yield
+    * _    :    =    =>    <-    <:    <%     >:    #    @
+    *
+    * The Unicode operators \u21D2 ‘⇒’ and \u2190 ‘←’, which have the ASCII equivalents => and <-, are also reserved.
+    *
+    */
+  private[this] val RESERVED =
+    "abstract|case|catch|class|def|" +
+      "do|else|extends|false|final|" +
+      "finally|for|forSome|if|implicit|" +
+      "import|lazy|macro|match|new|" +
+      "null|object|override|package|private|" +
+      "protected|return|sealed|super|this|" +
+      "throw|trait|try|true|type|" +
+      "val|var|while|with|yield|" +
+      "_|=>|=|<-|<:|<%|>:|#|@|:|" +
+      "\u21d2|\u2190"
+
+  def reserved: Parser[String] = RESERVED.r
 
 }
 
