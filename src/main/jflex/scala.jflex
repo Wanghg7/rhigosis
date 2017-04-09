@@ -16,9 +16,11 @@ import java_cup.runtime.Symbol;
 %line
 %column
 
+MultilineComment = "/*" ( [^*] | [*]+ [^*/] )* [*]+ [/]
+
 %%
 
-"/*" ( [^*] | [*]+ [^*/] )* [*]+ [/]  { return new Symbol(Sym.MULTI_LINE_COMMENT); }
+{MultilineComment}  { return new Symbol(Sym.MULTI_LINE_COMMENT); }
 
 "\n"+    { return new Symbol(Sym.NEWLINE); }
 
