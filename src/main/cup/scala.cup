@@ -1,0 +1,9 @@
+package wanghg.rhigosis;
+
+terminal    PACKAGE;
+terminal    MULTI_LINE_COMMENT;
+
+nonterminal expr;
+
+expr    ::= PACKAGE;
+

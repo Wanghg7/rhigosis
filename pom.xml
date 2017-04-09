@@ -33,6 +33,7 @@
             <groupId>de.jflex</groupId>
             <artifactId>jflex</artifactId>
             <version>1.6.1</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>com.github.vbmacher</groupId>
@@ -64,6 +65,18 @@
                 <artifactId>cup-maven-plugin</artifactId>
                 <version>11b-20160615</version>
                 <executions>
+                    <execution>
+                        <id>cup:scala</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <cupDefinition>${basedir}/src/main/cup/scala.cup</cupDefinition>
+                            <className>Parser</className>
+                            <symbolsName>Sym</symbolsName>
+                        </configuration>
+                    </execution>
                     <execution>
                         <id>cup:test</id>
                         <phase>generate-sources</phase>
