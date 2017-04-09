@@ -2,8 +2,6 @@ package wanghg.examples.jflex
 
 import java.io.Reader
 
-import scala.collection.mutable.ListBuffer
-
 /**
   * Created by wanghg on 9/4/2017.
   */
