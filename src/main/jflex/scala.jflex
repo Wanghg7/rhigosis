@@ -18,7 +18,9 @@ import java_cup.runtime.Symbol;
 
 %%
 
-"/*"    { return new Symbol(Sym.MULTI_LINE_COMMENT); }
+"/*" ( [^*] | [*]+ [^*/] )* [*]+ [/]  { return new Symbol(Sym.MULTI_LINE_COMMENT); }
 
-[^] { throw new RuntimeException(String.format("%s,%d,%d", source, yyline, yycolumn)); }
+"\n"+    { return new Symbol(Sym.NEWLINE); }
+
+[^] { throw new RuntimeException(String.format("\n%s\n%d,%d", source, yyline + 1, yycolumn + 1)); }
 

@@ -2,6 +2,7 @@ package wanghg.rhigosis;
 
 terminal    PACKAGE;
 terminal    MULTI_LINE_COMMENT;
+terminal    NEWLINE;
 
 nonterminal expr;
 
