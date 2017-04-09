@@ -1,4 +1,4 @@
-package wanghg;
+package wanghg.examples.cup;
 
 
 terminal           SEMI;

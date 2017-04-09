@@ -1,0 +1,9 @@
+package wanghg.examples.cup2;
+
+
+terminal           SEMI;
+terminal Integer   NUMBER;
+
+non terminal Integer    expr;
+
+expr      ::= NUMBER:n SEMI {: RESULT = n; :};

@@ -2,9 +2,8 @@ package wanghg.examples.jflex
 
 import java.io.StringReader
 
-import org.junit.Test
 import org.junit.Assert._
-import wanghg.examples.jflex.SuppFinder
+import org.junit.Test
 
 /**
   * Created by wanghg on 9/4/2017.

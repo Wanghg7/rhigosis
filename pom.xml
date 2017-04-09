@@ -65,16 +65,30 @@
                 <version>11b-20160615</version>
                 <executions>
                     <execution>
+                        <id>cup:test</id>
                         <phase>generate-sources</phase>
                         <goals>
                             <goal>generate</goal>
                         </goals>
+                        <configuration>
+                            <cupDefinition>${basedir}/src/main/cup/test.cup</cupDefinition>
+                            <className>Parser</className>
+                            <symbolsName>Sym</symbolsName>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>cup:test2</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <cupDefinition>${basedir}/src/main/cup/test2.cup</cupDefinition>
+                            <className>Parser</className>
+                            <symbolsName>Sym</symbolsName>
+                        </configuration>
                     </execution>
                 </executions>
-                <configuration>
-                    <className>MyParserClassName</className>
-                    <symbolsName>MySymbolsClassName</symbolsName>
-                </configuration>
             </plugin>
             <plugin>
                 <groupId>de.jflex</groupId>
