@@ -12,6 +12,7 @@ terminal    AT;
 terminal    LPAREN;
 terminal    RPAREN;
 terminal    STRING;
+terminal    MSTRING;
 terminal    COMMA;
 terminal    LBRAC;
 terminal    RBRAC;
@@ -21,6 +22,8 @@ terminal    EQ;
 terminal    INT;
 terminal    SYMBOL;
 terminal    CHAR;
+terminal    RDARROW;
+terminal    LARROW;
 
 nonterminal expr;
 

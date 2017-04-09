@@ -19,6 +19,8 @@ import java_cup.runtime.Symbol;
 MultilineComment = "/*" ( [^*] | "*"+ [^*/] )* "*"+ "/"
 SinglelineComment = "//" .* "\n"
 
+%x MLS
+
 %%
 
 {MultilineComment}  { return new Symbol(Sym.MCOMMENT); }
@@ -49,6 +51,10 @@ SinglelineComment = "//" .* "\n"
 
 "]" { return new Symbol(Sym.RBRAC); }
 
+"⇒" | "=>"  { return new Symbol(Sym.RDARROW); }
+
+"←" | "<-"  { return new Symbol(Sym.LARROW); }
+
 ":" { return new Symbol(Sym.COLON); }
 
 ";" { return new Symbol(Sym.SEMICOLON); }
@@ -57,15 +63,21 @@ SinglelineComment = "//" .* "\n"
 
 "0" | [1-9][0-9]* { return new Symbol(Sym.INT); }
 
-"'" [a-zA-Z_][a-zA-Z0-9_]* { return new Symbol(Sym.SYMBOL); }
+"'" [[:letter:]_][[:letter:]0-9_]* { return new Symbol(Sym.SYMBOL); }
 
-"'" [^'\n] "'" { return new Symbol(Sym.CHAR); }
+"'" ( [^'\n] | "\\n" | "\\r" | "\\t" ) "'" { return new Symbol(Sym.CHAR); }
 
-[a-zA-Z_][a-zA-Z0-9_]* |
+[[:letter:]_][[:letter:]0-9_]* |
     "`" [^`\n]* "`" |
     [[]!#%&*+/:<=>?@\\\^|~+-]+ { return new Symbol(Sym.ID); }
 
 \" [^\"\n]* \" { return new Symbol(Sym.STRING); }
+
+\"\"\" { yybegin(MLS); }
+
+<MLS> \" | \"\" | [^\"] {}
+
+<MLS> \"\"\" { yybegin(YYINITIAL); return new Symbol(Sym.MSTRING); }
 
 [^] { throw new RuntimeException(String.format("\n%s\n%d,%d", source, yyline + 1, yycolumn + 1)); }
 
