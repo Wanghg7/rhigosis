@@ -1,6 +1,6 @@
 package wanghg.rhigosis
 
-import java.io.File
+import java.io._
 
 /**
   * Created by wanghg on 9/4/2017.
@@ -11,13 +11,28 @@ object Main {
 
   def main(args: Array[String]): Unit = {
     require(ROOT.exists())
+    val parsers = new ScalaParsers
     val it = files(List(Iterator(ROOT)))
-    var count = 0
     for (file <- it) {
       println(file)
-      count += 1
+      withReader(file) { reader =>
+        parsers.parseAll(parsers.CompilationUnit, reader)
+      }
     }
-    println(count)
+  }
+
+  def withReader(file: File)(op: Reader => Unit): Unit = {
+    val in = new FileInputStream(file)
+    try {
+      val reader = new InputStreamReader(in)
+      try {
+        op(reader)
+      } finally {
+        reader.close()
+      }
+    } finally {
+      in.close()
+    }
   }
 
   def files(itList: List[Iterator[File]]): Stream[File] = itList match {

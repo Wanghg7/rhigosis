@@ -90,5 +90,10 @@ class ScalaParsers extends RegexParsers {
 
   def reserved: Parser[String] = RESERVED.r
 
+  def semi: Parser[String] = """;|\n+""".r
+
+  def CompilationUnit: Parser[Unit] =
+    opt("package" ~ id ~ rep("." ~ id) ~ semi) ^^ (_ => ())
+
 }
 
