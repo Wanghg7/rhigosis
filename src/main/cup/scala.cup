@@ -1,8 +1,26 @@
 package wanghg.rhigosis;
 
 terminal    PACKAGE;
-terminal    MULTI_LINE_COMMENT;
+terminal    MCOMMENT;
+terminal    SCOMMENT;
 terminal    NEWLINE;
+terminal    ID;
+terminal    DOT;
+terminal    LBRACE;
+terminal    RBRACE;
+terminal    AT;
+terminal    LPAREN;
+terminal    RPAREN;
+terminal    STRING;
+terminal    COMMA;
+terminal    LBRAC;
+terminal    RBRAC;
+terminal    SEMICOLON;
+terminal    COLON;
+terminal    EQ;
+terminal    INT;
+terminal    SYMBOL;
+terminal    CHAR;
 
 nonterminal expr;
 

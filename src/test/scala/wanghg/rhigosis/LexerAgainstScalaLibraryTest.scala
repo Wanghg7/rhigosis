@@ -23,7 +23,6 @@ class LexerAgainstScalaLibraryTest {
   def doTest(): Unit = {
     val it = Utils.files(List(Iterator(ROOT)), "scala")
     for (file <- it) {
-      println(file)
       Utils.withReader(file) { reader =>
         val lexer = new Lexer(reader, file.getAbsolutePath)
         foreach(lexer)
