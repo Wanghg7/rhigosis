@@ -49,6 +49,14 @@ SinglelineComment = "//" .* "\n"
 
 "class" { return symbol(Sym.CLASS); }
 
+"private" { return symbol(Sym.PRIVATE); }
+
+"this" { return symbol(Sym.THIS); }
+
+"extends" { return symbol(Sym.EXTENDS); }
+
+"with" { return symbol(Sym.WITH); }
+
 "." { return symbol(Sym.DOT); }
 
 "{" { return symbol(Sym.LBRACE); }

@@ -26,6 +26,10 @@ terminal    STRING;
 terminal    SYMBOL;
 terminal    ABSTRACT;
 terminal    CLASS;
+terminal    PRIVATE;
+terminal    THIS;
+terminal    EXTENDS;
+terminal    WITH;
 
 nonterminal CompilationUnit;
 nonterminal QualId;
@@ -37,14 +41,32 @@ nonterminal TmplDef;
 nonterminal ClassDef;
 nonterminal ClassTemplateOpt;
 nonterminal TemplateBody;
+nonterminal Annotation;
+nonterminal SimpleType;
+nonterminal StableId;
+nonterminal ArgumentExprs;
+nonterminal Exprs;
+nonterminal Expr;
+nonterminal Literal;
+nonterminal AccessModifier;
+nonterminal AccessQualifier;
+nonterminal ClassTemplate;
+nonterminal ClassParents;
+nonterminal Constr;
+nonterminal AnnotType;
+nonterminal Path;
 
 CompilationUnit     ::= PACKAGE QualId TopStatSeq;
 
 TopStatSeq          ::= TopStat;
 
-TopStat             ::= Modifier TmplDef;
+TopStat             ::= Modifier TmplDef
+                      | Annotation Modifier TmplDef
+                      ;
 
-Modifier            ::= LocalModifier;
+Modifier            ::= LocalModifier
+                      | AccessModifier
+                      ;
 
 LocalModifier       ::= ABSTRACT;
 
@@ -56,7 +78,52 @@ TmplDef             ::= CLASS ClassDef;
 
 ClassDef            ::= ID ClassTemplateOpt;
 
-ClassTemplateOpt    ::= TemplateBody;
+ClassTemplateOpt    ::= EXTENDS ClassTemplate
+                      | TemplateBody
+                      ;
+
+ClassTemplate       ::= ClassParents;
+
+ClassParents        ::= Constr
+                      | ClassParents WITH AnnotType
+                      ;
+
+Constr              ::= AnnotType;
+
+AnnotType           ::= SimpleType;
 
 TemplateBody        ::= LBRACE RBRACE;
+
+Annotation          ::= AT SimpleType
+                      | Annotation ArgumentExprs
+                      ;
+
+SimpleType          ::= StableId
+                      ;
+
+StableId            ::= ID
+                      | StableId DOT ID
+                      | THIS DOT ID
+                      | StableId DOT THIS DOT ID
+                      ;
+
+ArgumentExprs       ::= LPAREN RPAREN
+                      | LPAREN Exprs RPAREN
+                      ;
+
+Exprs               ::= Expr
+                      | Exprs COMMA Expr
+                      ;
+
+Expr                ::= Literal;
+
+Literal             ::= STRING;
+
+AccessModifier      ::= PRIVATE
+                      | PRIVATE AccessQualifier
+                      ;
+
+AccessQualifier     ::= LBRACK THIS RBRACK
+                      | LBRACK ID RBRACK
+                      ;
 
