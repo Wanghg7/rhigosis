@@ -91,6 +91,8 @@ nonterminal Pattern2List;
 nonterminal Pattern2;
 nonterminal Def_withAnnotation;
 nonterminal Def_withModifier;
+nonterminal TypeArgs;
+nonterminal Types;
 
 CompilationUnit             ::= PACKAGE QualId TopStatSeq;
 
@@ -247,6 +249,14 @@ Annotation                  ::= AT SimpleType
                               ;
 
 SimpleType                  ::= StableId
+                              | SimpleType TypeArgs
+                              ;
+
+TypeArgs                    ::= LBRACK Types RBRACK
+                              ;
+
+Types                       ::= Type
+                              | Types COMMA Type
                               ;
 
 StableId                    ::= ID
