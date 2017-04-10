@@ -57,6 +57,14 @@ SinglelineComment = "//" .* "\n"
 
 "with" { return symbol(Sym.WITH); }
 
+"trait" { return symbol(Sym.TRAIT); }
+
+"import" { return symbol(Sym.IMPORT); }
+
+"final" { return symbol(Sym.FINAL); }
+
+"_" { return symbol(Sym.UNDERSCORE); }
+
 "." { return symbol(Sym.DOT); }
 
 "{" { return symbol(Sym.LBRACE); }

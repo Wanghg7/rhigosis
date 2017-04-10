@@ -30,6 +30,10 @@ terminal    PRIVATE;
 terminal    THIS;
 terminal    EXTENDS;
 terminal    WITH;
+terminal    TRAIT;
+terminal    IMPORT;
+terminal    UNDERSCORE;
+terminal    FINAL;
 
 nonterminal CompilationUnit;
 nonterminal QualId;
@@ -55,75 +59,156 @@ nonterminal ClassParents;
 nonterminal Constr;
 nonterminal AnnotType;
 nonterminal Path;
+nonterminal TraitDef;
+nonterminal TmplDef_withAnnotation;
+nonterminal TmplDef_withModifier;
+nonterminal TraitTemplateOpt;
+nonterminal TraitTemplate;
+nonterminal TraitParents;
+nonterminal Import;
+nonterminal ImportExpr;
+nonterminal ClassParamClauses;
+nonterminal ClassParamClauseList;
+nonterminal ClassParamClause;
+nonterminal ClassParams;
+nonterminal ClassParam;
+nonterminal ParamType;
+nonterminal Type;
+nonterminal InfixType;
+nonterminal CompoundType;
 
-CompilationUnit     ::= PACKAGE QualId TopStatSeq;
+CompilationUnit         ::= PACKAGE QualId TopStatSeq;
 
-TopStatSeq          ::= TopStat;
+TopStatSeq              ::= TopStat
+                          | TopStatSeq TopStat
+                          ;
 
-TopStat             ::= Modifier TmplDef
-                      | Annotation Modifier TmplDef
-                      ;
+TopStat                 ::= TmplDef_withAnnotation
+                          | Import
+                          ;
 
-Modifier            ::= LocalModifier
-                      | AccessModifier
-                      ;
+Import                  ::= IMPORT ImportExpr
+                          ;
 
-LocalModifier       ::= ABSTRACT;
+ImportExpr              ::= StableId
+                          | StableId DOT UNDERSCORE
+                          ;
 
-QualId              ::= ID
-                      | QualId DOT ID
-                      ;
+TmplDef_withModifier    ::= TmplDef
+                          | Modifier TmplDef_withModifier
+                          ;
 
-TmplDef             ::= CLASS ClassDef;
+TmplDef_withAnnotation  ::= TmplDef_withModifier
+                          | Annotation TmplDef_withAnnotation
+                          ;
 
-ClassDef            ::= ID ClassTemplateOpt;
+Modifier                ::= LocalModifier
+                          | AccessModifier
+                          ;
 
-ClassTemplateOpt    ::= EXTENDS ClassTemplate
-                      | TemplateBody
-                      ;
+LocalModifier           ::= ABSTRACT
+                          | FINAL
+                          ;
 
-ClassTemplate       ::= ClassParents;
+QualId                  ::= ID
+                          | QualId DOT ID
+                          ;
 
-ClassParents        ::= Constr
-                      | ClassParents WITH AnnotType
-                      ;
+TmplDef                 ::= CLASS ClassDef
+                          | TRAIT TraitDef
+                          ;
 
-Constr              ::= AnnotType;
+TraitDef                ::= ID TraitTemplateOpt
+                          ;
 
-AnnotType           ::= SimpleType;
+TraitTemplateOpt        ::= EXTENDS TraitTemplate
+                          ;
 
-TemplateBody        ::= LBRACE RBRACE;
+TraitTemplate           ::= TraitParents
+                          ;
 
-Annotation          ::= AT SimpleType
-                      | Annotation ArgumentExprs
-                      ;
+TraitParents            ::= AnnotType
+                          ;
 
-SimpleType          ::= StableId
-                      ;
+ClassDef                ::= ID ClassParamClauses ClassTemplateOpt;
 
-StableId            ::= ID
-                      | StableId DOT ID
-                      | THIS DOT ID
-                      | StableId DOT THIS DOT ID
-                      ;
+ClassParamClauses       ::=
+                          | ClassParamClauseList
+                          ;
 
-ArgumentExprs       ::= LPAREN RPAREN
-                      | LPAREN Exprs RPAREN
-                      ;
+ClassParamClauseList    ::= ClassParamClause
+                          | ClassParamClauseList ClassParamClause
+                          ;
 
-Exprs               ::= Expr
-                      | Exprs COMMA Expr
-                      ;
+ClassParamClause        ::= LPAREN ClassParams RPAREN
+                          ;
 
-Expr                ::= Literal;
+ClassParams             ::=
+                          | ClassParam
+                          | ClassParams COMMA ClassParam
+                          ;
 
-Literal             ::= STRING;
+ClassParam              ::= ID COLON ParamType
+                          ;
 
-AccessModifier      ::= PRIVATE
-                      | PRIVATE AccessQualifier
-                      ;
+ParamType               ::= Type
+                          ;
 
-AccessQualifier     ::= LBRACK THIS RBRACK
-                      | LBRACK ID RBRACK
-                      ;
+Type                    ::= InfixType
+                          ;
+
+InfixType               ::= CompoundType
+                          ;
+
+CompoundType            ::= AnnotType
+                          ;
+
+ClassTemplateOpt        ::= EXTENDS ClassTemplate
+                          | TemplateBody
+                          ;
+
+ClassTemplate           ::= ClassParents;
+
+ClassParents            ::= Constr
+                          | ClassParents WITH AnnotType
+                          ;
+
+Constr                  ::= AnnotType;
+
+AnnotType               ::= SimpleType;
+
+TemplateBody            ::= LBRACE RBRACE;
+
+Annotation              ::= AT SimpleType
+                          | Annotation ArgumentExprs
+                          ;
+
+SimpleType              ::= StableId
+                          ;
+
+StableId                ::= ID
+                          | StableId DOT ID
+                          | THIS DOT ID
+                          | StableId DOT THIS DOT ID
+                          ;
+
+ArgumentExprs           ::= LPAREN RPAREN
+                          | LPAREN Exprs RPAREN
+                          ;
+
+Exprs                   ::= Expr
+                          | Exprs COMMA Expr
+                          ;
+
+Expr                    ::= Literal;
+
+Literal                 ::= STRING;
+
+AccessModifier          ::= PRIVATE
+                          | PRIVATE AccessQualifier
+                          ;
+
+AccessQualifier         ::= LBRACK THIS RBRACK
+                          | LBRACK ID RBRACK
+                          ;
 
