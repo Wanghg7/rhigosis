@@ -1,31 +1,62 @@
 package wanghg.rhigosis;
 
-terminal    PACKAGE;
-terminal    MCOMMENT;
-terminal    SCOMMENT;
-terminal    NEWLINE;
-terminal    ID;
-terminal    DOT;
-terminal    LBRACE;
-terminal    RBRACE;
 terminal    AT;
-terminal    LPAREN;
-terminal    RPAREN;
-terminal    STRING;
-terminal    MSTRING;
-terminal    COMMA;
-terminal    LBRAC;
-terminal    RBRAC;
-terminal    SEMICOLON;
-terminal    COLON;
-terminal    EQ;
-terminal    INT;
-terminal    SYMBOL;
 terminal    CHAR;
-terminal    RDARROW;
+terminal    COLON;
+terminal    COMMA;
+terminal    DOT;
+terminal    EQ;
+terminal    ID;
+terminal    INT;
 terminal    LARROW;
+terminal    LBRACK;
+terminal    LBRACE;
+terminal    LPAREN;
+terminal    MCOMMENT;
+terminal    MSTRING;
+terminal    NEWLINE;
+terminal    PACKAGE;
+terminal    RBRACK;
+terminal    RBRACE;
+terminal    RDARROW;
+terminal    RPAREN;
+terminal    SCOMMENT;
+terminal    SEMICOLON;
+terminal    STRING;
+terminal    SYMBOL;
+terminal    ABSTRACT;
+terminal    CLASS;
 
-nonterminal expr;
+nonterminal CompilationUnit;
+nonterminal QualId;
+nonterminal TopStatSeq;
+nonterminal TopStat;
+nonterminal Modifier;
+nonterminal LocalModifier;
+nonterminal TmplDef;
+nonterminal ClassDef;
+nonterminal ClassTemplateOpt;
+nonterminal TemplateBody;
 
-expr    ::= PACKAGE;
+CompilationUnit     ::= PACKAGE QualId TopStatSeq;
+
+TopStatSeq          ::= TopStat;
+
+TopStat             ::= Modifier TmplDef;
+
+Modifier            ::= LocalModifier;
+
+LocalModifier       ::= ABSTRACT;
+
+QualId              ::= ID
+                      | QualId DOT ID
+                      ;
+
+TmplDef             ::= CLASS ClassDef;
+
+ClassDef            ::= ID ClassTemplateOpt;
+
+ClassTemplateOpt    ::= TemplateBody;
+
+TemplateBody        ::= LBRACE RBRACE;
 

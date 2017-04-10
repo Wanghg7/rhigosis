@@ -1,15 +1,27 @@
 package wanghg.rhigosis;
 import java_cup.runtime.Symbol;
+import java_cup.runtime.ComplexSymbolFactory;
+import java_cup.runtime.ComplexSymbolFactory.Location;
+import java_cup.runtime.ComplexSymbolFactory.ComplexSymbol;
 
 %%
 
 %class Lexer
-%ctorarg String source
+%ctorarg String unit
 %init{
-    this.source = source;
+    this.unit = unit;
 %init}
 %{
-    private final String source;
+    private final String unit;
+    private final ComplexSymbolFactory fact = new ComplexSymbolFactory();
+    private final Location BLANK = new Location("", 0, 0);
+    private ComplexSymbol symbol = null;
+    private Symbol symbol(int id) {
+        Location loc = new Location(unit, yyline+1, yycolumn+1);
+        if (symbol != null)
+            symbol.xright = loc;
+        return symbol = (ComplexSymbol)fact.newSymbol(Sym.terminalNames[id], id, loc, BLANK, yytext());
+    }
 %}
 %cupsym Sym
 %cup
@@ -23,61 +35,65 @@ SinglelineComment = "//" .* "\n"
 
 %%
 
-{MultilineComment}  { return new Symbol(Sym.MCOMMENT); }
+{MultilineComment}  {}
 
-{SinglelineComment}  { return new Symbol(Sym.SCOMMENT); }
+{SinglelineComment}  {}
 
-"\n"+    { return new Symbol(Sym.NEWLINE); }
+"\n"+    {}
 
 [ \t]+  {}
 
-"package" { return new Symbol(Sym.PACKAGE); }
+"package" { return symbol(Sym.PACKAGE); }
 
-"." { return new Symbol(Sym.DOT); }
+"abstract" { return symbol(Sym.ABSTRACT); }
 
-"{" { return new Symbol(Sym.LBRACE); }
+"class" { return symbol(Sym.CLASS); }
 
-"}" { return new Symbol(Sym.RBRACE); }
+"." { return symbol(Sym.DOT); }
 
-"@" { return new Symbol(Sym.AT); }
+"{" { return symbol(Sym.LBRACE); }
 
-"(" { return new Symbol(Sym.LPAREN); }
+"}" { return symbol(Sym.RBRACE); }
 
-")" { return new Symbol(Sym.RPAREN); }
+"@" { return symbol(Sym.AT); }
 
-"," { return new Symbol(Sym.COMMA); }
+"(" { return symbol(Sym.LPAREN); }
 
-"[" { return new Symbol(Sym.LBRAC); }
+")" { return symbol(Sym.RPAREN); }
 
-"]" { return new Symbol(Sym.RBRAC); }
+"," { return symbol(Sym.COMMA); }
 
-"⇒" | "=>"  { return new Symbol(Sym.RDARROW); }
+"[" { return symbol(Sym.LBRACK); }
 
-"←" | "<-"  { return new Symbol(Sym.LARROW); }
+"]" { return symbol(Sym.RBRACK); }
 
-":" { return new Symbol(Sym.COLON); }
+"⇒" | "=>"  { return symbol(Sym.RDARROW); }
 
-";" { return new Symbol(Sym.SEMICOLON); }
+"←" | "<-"  { return symbol(Sym.LARROW); }
 
-"=" { return new Symbol(Sym.EQ); }
+":" { return symbol(Sym.COLON); }
 
-"0" | [1-9][0-9]* { return new Symbol(Sym.INT); }
+";" { return symbol(Sym.SEMICOLON); }
 
-"'" [[:letter:]_][[:letter:]0-9_]* { return new Symbol(Sym.SYMBOL); }
+"=" { return symbol(Sym.EQ); }
 
-"'" ( [^'\n] | "\\n" | "\\r" | "\\t" | "\\\\" ) "'" { return new Symbol(Sym.CHAR); }
+"0" | [1-9][0-9]* { return symbol(Sym.INT); }
+
+"'" [[:letter:]_][[:letter:]0-9_]* { return symbol(Sym.SYMBOL); }
+
+"'" ( [^'\n] | "\\n" | "\\r" | "\\t" | "\\\\" ) "'" { return symbol(Sym.CHAR); }
 
 [[:letter:]$_][[:letter:]0-9$_]* |
     "`" [^`\n]* "`" |
-    [[]!#%&*+/:<=>?@\\\^|~+\p{Sm}\p{So}-]+ { return new Symbol(Sym.ID); }
+    [[]!#%&*+/:<=>?@\\\^|~+\p{Sm}\p{So}-]+ { return symbol(Sym.ID); }
 
-\" [^\"\n]* \" { return new Symbol(Sym.STRING); }
+\" [^\"\n]* \" { return symbol(Sym.STRING); }
 
 \"\"\" { yybegin(MLS); }
 
 <MLS> \" | \"\" | [^\"] {}
 
-<MLS> \"\"\" { yybegin(YYINITIAL); return new Symbol(Sym.MSTRING); }
+<MLS> \"\"\" { yybegin(YYINITIAL); return symbol(Sym.MSTRING); }
 
-[^] { throw new RuntimeException(String.format("\n%s\n%d,%d", source, yyline + 1, yycolumn + 1)); }
+[^] { throw new RuntimeException(String.format("\n%s\n%d,%d", unit, yyline + 1, yycolumn + 1)); }
 
