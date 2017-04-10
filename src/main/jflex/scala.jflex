@@ -65,11 +65,11 @@ SinglelineComment = "//" .* "\n"
 
 "'" [[:letter:]_][[:letter:]0-9_]* { return new Symbol(Sym.SYMBOL); }
 
-"'" ( [^'\n] | "\\n" | "\\r" | "\\t" ) "'" { return new Symbol(Sym.CHAR); }
+"'" ( [^'\n] | "\\n" | "\\r" | "\\t" | "\\\\" ) "'" { return new Symbol(Sym.CHAR); }
 
-[[:letter:]_][[:letter:]0-9_]* |
+[[:letter:]$_][[:letter:]0-9$_]* |
     "`" [^`\n]* "`" |
-    [[]!#%&*+/:<=>?@\\\^|~+-]+ { return new Symbol(Sym.ID); }
+    [[]!#%&*+/:<=>?@\\\^|~+\p{Sm}\p{So}-]+ { return new Symbol(Sym.ID); }
 
 \" [^\"\n]* \" { return new Symbol(Sym.STRING); }
 
