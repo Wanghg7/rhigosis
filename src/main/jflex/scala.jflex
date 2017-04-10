@@ -51,6 +51,12 @@ SinglelineComment = "//" .* "\n"
 
 "private" { return symbol(Sym.PRIVATE); }
 
+"var" { return symbol(Sym.VAR); }
+
+"val" { return symbol(Sym.VAL); }
+
+"object" { return symbol(Sym.OBJECT); }
+
 "this" { return symbol(Sym.THIS); }
 
 "extends" { return symbol(Sym.EXTENDS); }

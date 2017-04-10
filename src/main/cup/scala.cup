@@ -34,6 +34,9 @@ terminal    TRAIT;
 terminal    IMPORT;
 terminal    UNDERSCORE;
 terminal    FINAL;
+terminal    VAL;
+terminal    VAR;
+terminal    OBJECT;
 
 nonterminal CompilationUnit;
 nonterminal QualId;
@@ -76,139 +79,203 @@ nonterminal ParamType;
 nonterminal Type;
 nonterminal InfixType;
 nonterminal CompoundType;
+nonterminal ClassParam_withAnnotation;
+nonterminal ClassParam_withModifier;
+nonterminal ObjectDef;
+nonterminal TemplateStatList;
+nonterminal TemplateStat;
+nonterminal Def;
+nonterminal PatVarDef;
+nonterminal PatDef;
+nonterminal Pattern2List;
+nonterminal Pattern2;
+nonterminal Def_withAnnotation;
+nonterminal Def_withModifier;
 
-CompilationUnit         ::= PACKAGE QualId TopStatSeq;
+CompilationUnit             ::= PACKAGE QualId TopStatSeq;
 
-TopStatSeq              ::= TopStat
-                          | TopStatSeq TopStat
-                          ;
+TopStatSeq                  ::= TopStat
+                              | TopStatSeq TopStat
+                              ;
 
-TopStat                 ::= TmplDef_withAnnotation
-                          | Import
-                          ;
+TopStat                     ::= TmplDef_withAnnotation
+                              | Import
+                              ;
 
-Import                  ::= IMPORT ImportExpr
-                          ;
+Import                      ::= IMPORT ImportExpr
+                              ;
 
-ImportExpr              ::= StableId
-                          | StableId DOT UNDERSCORE
-                          ;
+ImportExpr                  ::= StableId
+                              | StableId DOT UNDERSCORE
+                              ;
 
-TmplDef_withModifier    ::= TmplDef
-                          | Modifier TmplDef_withModifier
-                          ;
+TmplDef_withModifier        ::= TmplDef
+                              | Modifier TmplDef_withModifier
+                              ;
 
-TmplDef_withAnnotation  ::= TmplDef_withModifier
-                          | Annotation TmplDef_withAnnotation
-                          ;
+TmplDef_withAnnotation      ::= TmplDef_withModifier
+                              | Annotation TmplDef_withAnnotation
+                              ;
 
-Modifier                ::= LocalModifier
-                          | AccessModifier
-                          ;
+Modifier                    ::= LocalModifier
+                              | AccessModifier
+                              ;
 
-LocalModifier           ::= ABSTRACT
-                          | FINAL
-                          ;
+LocalModifier               ::= ABSTRACT
+                              | FINAL
+                              ;
 
-QualId                  ::= ID
-                          | QualId DOT ID
-                          ;
+QualId                      ::= ID
+                              | QualId DOT ID
+                              ;
 
-TmplDef                 ::= CLASS ClassDef
-                          | TRAIT TraitDef
-                          ;
+TmplDef                     ::= CLASS ClassDef
+                              | OBJECT ObjectDef
+                              | TRAIT TraitDef
+                              ;
 
-TraitDef                ::= ID TraitTemplateOpt
-                          ;
+ObjectDef                   ::= ID ClassTemplateOpt
+                              ;
 
-TraitTemplateOpt        ::= EXTENDS TraitTemplate
-                          ;
+TraitDef                    ::= ID TraitTemplateOpt
+                              ;
 
-TraitTemplate           ::= TraitParents
-                          ;
+TraitTemplateOpt            ::= EXTENDS TraitTemplate
+                              ;
 
-TraitParents            ::= AnnotType
-                          ;
+TraitTemplate               ::= TraitParents
+                              ;
 
-ClassDef                ::= ID ClassParamClauses ClassTemplateOpt;
+TraitParents                ::= AnnotType
+                              ;
 
-ClassParamClauses       ::=
-                          | ClassParamClauseList
-                          ;
+ClassDef                    ::= ID ClassParamClauses ClassTemplateOpt;
 
-ClassParamClauseList    ::= ClassParamClause
-                          | ClassParamClauseList ClassParamClause
-                          ;
+ClassParamClauses           ::=
+                              | ClassParamClauseList
+                              ;
 
-ClassParamClause        ::= LPAREN ClassParams RPAREN
-                          ;
+ClassParamClauseList        ::= ClassParamClause
+                              | ClassParamClauseList ClassParamClause
+                              ;
 
-ClassParams             ::=
-                          | ClassParam
-                          | ClassParams COMMA ClassParam
-                          ;
+ClassParamClause            ::= LPAREN ClassParams RPAREN
+                              ;
 
-ClassParam              ::= ID COLON ParamType
-                          ;
+ClassParams                 ::=
+                              | ClassParam_withAnnotation
+                              | ClassParams COMMA ClassParam_withAnnotation
+                              ;
 
-ParamType               ::= Type
-                          ;
+ClassParam                  ::= ID COLON ParamType
+                              | VAR ID COLON ParamType
+                              | VAL ID COLON ParamType
+                              ;
 
-Type                    ::= InfixType
-                          ;
+ClassParam_withModifier     ::= ClassParam
+                              | Modifier ClassParam_withModifier
+                              ;
 
-InfixType               ::= CompoundType
-                          ;
+ClassParam_withAnnotation   ::= ClassParam_withModifier
+                              | Annotation ClassParam_withAnnotation
+                              ;
 
-CompoundType            ::= AnnotType
-                          ;
+ParamType                   ::= Type
+                              ;
 
-ClassTemplateOpt        ::= EXTENDS ClassTemplate
-                          | TemplateBody
-                          ;
+Type                        ::= InfixType
+                              ;
 
-ClassTemplate           ::= ClassParents;
+InfixType                   ::= CompoundType
+                              ;
 
-ClassParents            ::= Constr
-                          | ClassParents WITH AnnotType
-                          ;
+CompoundType                ::= AnnotType
+                              ;
 
-Constr                  ::= AnnotType;
+ClassTemplateOpt            ::= EXTENDS ClassTemplate
+                              | TemplateBody
+                              ;
 
-AnnotType               ::= SimpleType;
+ClassTemplate               ::= ClassParents;
 
-TemplateBody            ::= LBRACE RBRACE;
+ClassParents                ::= Constr
+                              | ClassParents WITH AnnotType
+                              ;
 
-Annotation              ::= AT SimpleType
-                          | Annotation ArgumentExprs
-                          ;
+Constr                      ::= AnnotType;
 
-SimpleType              ::= StableId
-                          ;
+AnnotType                   ::= SimpleType;
 
-StableId                ::= ID
-                          | StableId DOT ID
-                          | THIS DOT ID
-                          | StableId DOT THIS DOT ID
-                          ;
+TemplateBody                ::= LBRACE RBRACE
+                              | LBRACE TemplateStatList RBRACE
+                              ;
 
-ArgumentExprs           ::= LPAREN RPAREN
-                          | LPAREN Exprs RPAREN
-                          ;
+TemplateStatList            ::= TemplateStat
+                              | TemplateStatList TemplateStat
+                              ;
 
-Exprs                   ::= Expr
-                          | Exprs COMMA Expr
-                          ;
+TemplateStat                ::= Def_withAnnotation
+                              ;
 
-Expr                    ::= Literal;
+Def                         ::= PatVarDef
+                              ;
 
-Literal                 ::= STRING;
+Def_withModifier            ::= Def
+                              | Modifier Def_withModifier
+                              ;
 
-AccessModifier          ::= PRIVATE
-                          | PRIVATE AccessQualifier
-                          ;
+Def_withAnnotation          ::= Def_withModifier
+                              | Annotation Def_withAnnotation
+                              ;
 
-AccessQualifier         ::= LBRACK THIS RBRACK
-                          | LBRACK ID RBRACK
-                          ;
+PatVarDef                   ::= VAL PatDef
+                              ;
+
+PatDef                      ::= Pattern2List EQ Expr
+                              | Pattern2List COLON Type EQ Expr
+                              ;
+
+Pattern2List                ::= Pattern2
+                              | Pattern2List COMMA Pattern2
+                              ;
+
+Pattern2                    ::= ID
+                              ;
+
+Annotation                  ::= AT SimpleType
+                              | Annotation ArgumentExprs
+                              ;
+
+SimpleType                  ::= StableId
+                              ;
+
+StableId                    ::= ID
+                              | StableId DOT ID
+                              | THIS DOT ID
+                              | StableId DOT THIS DOT ID
+                              ;
+
+ArgumentExprs               ::= LPAREN RPAREN
+                              | LPAREN Exprs RPAREN
+                              ;
+
+Exprs                       ::= Expr
+                              | Exprs COMMA Expr
+                              ;
+
+Expr                        ::= Literal
+                              | StableId
+                              ;
+
+Literal                     ::= STRING
+                              | INT
+                              ;
+
+AccessModifier              ::= PRIVATE
+                              | PRIVATE AccessQualifier
+                              ;
+
+AccessQualifier             ::= LBRACK THIS RBRACK
+                              | LBRACK ID RBRACK
+                              ;
 
