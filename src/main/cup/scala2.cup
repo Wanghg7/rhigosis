@@ -1,0 +1,51 @@
+package wanghg.rhigosis;
+
+terminal PACKAGE;
+terminal SEMI;
+terminal ID;
+terminal DOT;
+terminal IMPORT;
+terminal COMMA;
+terminal LBRACE;
+terminal RBRACE;
+terminal NL;
+//
+terminal PackageObject;
+terminal TmplDef;
+terminal Modifier;
+terminal Annotation;
+terminal ImportExpr;
+//
+nonterminal CompilationUnit;
+nonterminal QualId;
+nonterminal TopStatSeq;
+nonterminal TopStat;
+nonterminal A_M_TmplDef;
+nonterminal M_TmplDef;
+nonterminal Import;
+nonterminal Packaging;
+
+CompilationUnit  ::=  PACKAGE QualId SEMI CompilationUnit
+                    | TopStatSeq;
+
+TopStatSeq       ::=  TopStat | TopStatSeq SEMI TopStat;
+
+TopStat          ::=  A_M_TmplDef
+                   |  Import
+                   |  Packaging
+                   |  PackageObject
+                   |
+                   ;
+
+M_TmplDef   ::= TmplDef | Modifier M_TmplDef;
+
+A_M_TmplDef ::= M_TmplDef | Annotation A_M_TmplDef;
+
+QualId           ::=  ID | QualId DOT ID;
+
+Import            ::=  IMPORT ImportExpr | Import COMMA ImportExpr;
+
+Packaging         ::=  PACKAGE QualId LBRACE TopStatSeq RBRACE
+                    | PACKAGE QualId NL LBRACE TopStatSeq RBRACE
+                    ;
+

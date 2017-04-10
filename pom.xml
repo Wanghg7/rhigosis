@@ -66,6 +66,19 @@
                 <version>11b-20160615</version>
                 <executions>
                     <execution>
+                        <id>cup:scala2</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <nontermsToSymbols>true</nontermsToSymbols>
+                            <cupDefinition>${basedir}/src/main/cup/scala2.cup</cupDefinition>
+                            <className>Parser2</className>
+                            <symbolsName>Sym2</symbolsName>
+                        </configuration>
+                    </execution>
+                    <execution>
                         <id>cup:scala</id>
                         <phase>generate-sources</phase>
                         <goals>
