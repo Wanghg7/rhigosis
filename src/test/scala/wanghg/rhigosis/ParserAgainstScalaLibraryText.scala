@@ -8,7 +8,7 @@ import wanghg.Utils
 /**
   * Created by wanghg on 9/4/2017.
   */
-class ParserAgainstScalaLibraryTest {
+class ParserAgainstScalaLibraryText {
 
   val ROOT = new File("/Users/wanghg/temp/scala-2.12.x/src/library")
 
