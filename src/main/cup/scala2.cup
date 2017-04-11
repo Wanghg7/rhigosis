@@ -63,7 +63,6 @@ terminal EXCLAM;
 terminal UNARY;
 terminal DEF;
 // TODO
-terminal ParamType;
 terminal CompoundType;
 terminal ExistentialDcl;
 terminal Binding;
@@ -169,6 +168,7 @@ nonterminal Dcl;
 nonterminal N_TypeDcl;
 nonterminal Constr;
 nonterminal AnnotType;
+nonterminal ParamType;
 //
 precedence left UNDERSCORE, IMPLICIT, SimpleExpr1, SimpleExpr;
 //
@@ -600,7 +600,10 @@ Constr            ::=  AnnotType | Constr ArgumentExprs;
 
 AnnotType         ::=  SimpleType | AnnotType Annotation;
 
-
+ParamType         ::=  Type
+                      |  RDARROW Type
+                      |  Type ASTERISK
+                      ;
 
 
 
