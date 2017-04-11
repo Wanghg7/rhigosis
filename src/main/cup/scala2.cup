@@ -63,7 +63,6 @@ terminal EXCLAM;
 terminal UNARY;
 terminal DEF;
 // TODO
-terminal EarlyDef;
 terminal ParamType;
 terminal CompoundType;
 terminal ExistentialDcl;
@@ -136,7 +135,6 @@ nonterminal M_Def;
 nonterminal A_M_Def;
 nonterminal SelfType;
 nonterminal ClassParents;
-nonterminal _EarlyDefs;
 nonterminal _TypeParam;
 nonterminal TypeParam_V;
 nonterminal TypeParam_V_C;
@@ -349,16 +347,16 @@ ClassTemplate     ::=  ClassParents
                     |  ClassParents LBRACE  RBRACE
                     |  ClassParents NL LBRACE _TemplateBody RBRACE
                     |  ClassParents NL LBRACE  RBRACE
-                    |  LBRACE  RBRACE WITH ClassParents
-                    |  LBRACE _EarlyDefs RBRACE WITH ClassParents
-                    |  LBRACE  RBRACE WITH ClassParents LBRACE _TemplateBody RBRACE
-                    |  LBRACE  RBRACE WITH ClassParents LBRACE  RBRACE
-                    |  LBRACE _EarlyDefs RBRACE WITH ClassParents LBRACE _TemplateBody RBRACE
-                    |  LBRACE _EarlyDefs RBRACE WITH ClassParents LBRACE  RBRACE
-                    |  LBRACE  RBRACE WITH ClassParents NL LBRACE _TemplateBody RBRACE
-                    |  LBRACE  RBRACE WITH ClassParents NL LBRACE  RBRACE
-                    |  LBRACE _EarlyDefs RBRACE WITH ClassParents NL LBRACE _TemplateBody RBRACE
-                    |  LBRACE _EarlyDefs RBRACE WITH ClassParents NL LBRACE  RBRACE
+                    |  LBRACE               RBRACE WITH ClassParents
+                    |  LBRACE _TemplateBody RBRACE WITH ClassParents
+                    |  LBRACE               RBRACE WITH ClassParents LBRACE _TemplateBody RBRACE
+                    |  LBRACE               RBRACE WITH ClassParents LBRACE  RBRACE
+                    |  LBRACE _TemplateBody RBRACE WITH ClassParents LBRACE _TemplateBody RBRACE
+                    |  LBRACE _TemplateBody RBRACE WITH ClassParents LBRACE  RBRACE
+                    |  LBRACE               RBRACE WITH ClassParents NL LBRACE _TemplateBody RBRACE
+                    |  LBRACE               RBRACE WITH ClassParents NL LBRACE  RBRACE
+                    |  LBRACE _TemplateBody RBRACE WITH ClassParents NL LBRACE _TemplateBody RBRACE
+                    |  LBRACE _TemplateBody RBRACE WITH ClassParents NL LBRACE  RBRACE
                     ;
 
 VariantTypeParam  ::=  TypeParam_V_C
@@ -381,15 +379,15 @@ TraitTemplate     ::=  TraitParents
                     |  TraitParents NL LBRACE _TemplateBody RBRACE
                     |  TraitParents NL LBRACE  RBRACE
                     |  LBRACE  RBRACE WITH TraitParents
-                    |  LBRACE _EarlyDefs RBRACE WITH TraitParents
+                    |  LBRACE _TemplateBody RBRACE WITH TraitParents
                     |  LBRACE  RBRACE WITH TraitParents LBRACE _TemplateBody RBRACE
                     |  LBRACE  RBRACE WITH TraitParents LBRACE  RBRACE
-                    |  LBRACE _EarlyDefs RBRACE WITH TraitParents LBRACE _TemplateBody RBRACE
-                    |  LBRACE _EarlyDefs RBRACE WITH TraitParents LBRACE  RBRACE
+                    |  LBRACE _TemplateBody RBRACE WITH TraitParents LBRACE _TemplateBody RBRACE
+                    |  LBRACE _TemplateBody RBRACE WITH TraitParents LBRACE  RBRACE
                     |  LBRACE  RBRACE WITH TraitParents NL LBRACE _TemplateBody RBRACE
                     |  LBRACE  RBRACE WITH TraitParents NL LBRACE  RBRACE
-                    |  LBRACE _EarlyDefs RBRACE WITH TraitParents NL LBRACE _TemplateBody RBRACE
-                    |  LBRACE _EarlyDefs RBRACE WITH TraitParents NL LBRACE  RBRACE
+                    |  LBRACE _TemplateBody RBRACE WITH TraitParents NL LBRACE _TemplateBody RBRACE
+                    |  LBRACE _TemplateBody RBRACE WITH TraitParents NL LBRACE  RBRACE
                     ;
 
 Type              ::=  FunctionArgTypes Type
@@ -445,10 +443,6 @@ SelfType          ::=  ID RDARROW
                       %prec NL;
 
 ClassParents      ::=  Constr | ClassParents WITH AnnotType;
-
-_EarlyDefs         ::= EarlyDef
-                     | _EarlyDefs SEMI EarlyDef
-                     ;
 
 _TypeParam         ::=   UNDERSCORE
                        | UNDERSCORE UBOUNDS Type
