@@ -61,8 +61,8 @@ terminal YIELD;
 terminal TILDE;
 terminal EXCLAM;
 terminal UNARY;
+terminal DEF;
 // TODO
-terminal Def;
 terminal Dcl;
 terminal Constr;
 terminal AnnotType;
@@ -77,6 +77,8 @@ terminal SimpleExpr1;
 terminal Ascription;
 terminal Pattern;
 terminal Guard;
+terminal PatVarDef;
+terminal FunDef;
 // DONE
 nonterminal CompilationUnit;
 nonterminal QualId;
@@ -160,6 +162,10 @@ nonterminal BlockStat;
 nonterminal A_Def;
 nonterminal A_LM_TmplDef;
 nonterminal LM_TmplDef;
+nonterminal Def;
+nonterminal N_TypeDef;
+nonterminal TypeDef;
+nonterminal Def_withoutTmplDef;
 //
 precedence left UNDERSCORE, IMPLICIT, SimpleExpr1, SimpleExpr;
 //
@@ -555,9 +561,9 @@ BlockStat         ::=
                       |  Expr1
                       ;
 
-A_Def               ::= Def
-                      | IMPLICIT Def
-                      | LAZY Def
+A_Def               ::= Def_withoutTmplDef
+                      | IMPLICIT Def_withoutTmplDef
+                      | LAZY Def_withoutTmplDef
                       | Annotation A_Def
                       ;
 
@@ -569,7 +575,18 @@ A_LM_TmplDef        ::= LM_TmplDef
                       | Annotation A_LM_TmplDef
                       ;
 
+Def               ::=  PatVarDef
+                      |  DEF FunDef
+                      |  TYPE N_TypeDef
+                      |  TmplDef
+                      ;
 
+Def_withoutTmplDef  ::=  PatVarDef
+                      |  DEF FunDef
+                      |  TYPE N_TypeDef
+                      ;
+
+N_TypeDef       ::= TypeDef | NL N_TypeDef;
 
 
 
