@@ -39,8 +39,10 @@ terminal RDARROW;
 terminal PLUS;
 terminal MINUS;
 terminal WITH;
+terminal UBOUNDS;
+terminal LBOUNDS;
+terminal VBOUNDS;
 // TODO
-terminal TypeParam;
 terminal ClassParam;
 terminal TraitParents;
 terminal FunctionArgTypes;
@@ -114,6 +116,10 @@ nonterminal A_M_Def;
 nonterminal SelfType;
 nonterminal ClassParents;
 nonterminal _EarlyDefs;
+nonterminal _TypeParam;
+nonterminal TypeParam_V;
+nonterminal TypeParam_V_C;
+nonterminal TypeParamClause;
 //
 precedence left UNDERSCORE, IMPLICIT, Bindings, Expr1;
 //
@@ -302,9 +308,9 @@ ClassTemplate     ::=  ClassParents
                     |  LBRACE _EarlyDefs RBRACE WITH ClassParents NL LBRACE  RBRACE
                     ;
 
-VariantTypeParam  ::=  TypeParam
-                    |  PLUS TypeParam
-                    |  MINUS TypeParam
+VariantTypeParam  ::=  TypeParam_V_C
+                    |  PLUS TypeParam_V_C
+                    |  MINUS TypeParam_V_C
                     |  Annotation VariantTypeParam
                     ;
 
@@ -390,6 +396,41 @@ ClassParents      ::=  Constr | ClassParents WITH AnnotType;
 _EarlyDefs         ::= EarlyDef
                      | _EarlyDefs SEMI EarlyDef
                      ;
+
+_TypeParam         ::=   UNDERSCORE
+                       | UNDERSCORE UBOUNDS Type
+                       | UNDERSCORE LBOUNDS Type
+                       | UNDERSCORE LBOUNDS Type UBOUNDS Type
+                       | UNDERSCORE TypeParamClause
+                       | UNDERSCORE TypeParamClause UBOUNDS Type
+                       | UNDERSCORE TypeParamClause LBOUNDS Type
+                       | UNDERSCORE TypeParamClause LBOUNDS Type UBOUNDS Type
+                       | ID
+                       | ID UBOUNDS Type
+                       | ID LBOUNDS Type
+                       | ID LBOUNDS Type UBOUNDS Type
+                       | ID TypeParamClause
+                       | ID TypeParamClause UBOUNDS Type
+                       | ID TypeParamClause LBOUNDS Type
+                       | ID TypeParamClause LBOUNDS Type UBOUNDS Type
+                       ;
+
+TypeParam_V         ::= _TypeParam | TypeParam_V VBOUNDS Type;
+
+TypeParam_V_C       ::= TypeParam_V | TypeParam_V_C COLON Type;
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
