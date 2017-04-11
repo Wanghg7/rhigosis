@@ -38,10 +38,8 @@ terminal THIS;
 terminal RDARROW;
 terminal PLUS;
 terminal MINUS;
+terminal WITH;
 // TODO
-terminal ClassParents;
-terminal TemplateBody;
-terminal EarlyDefs;
 terminal TypeParam;
 terminal ClassParam;
 terminal TraitParents;
@@ -56,6 +54,9 @@ terminal ResultExpr;
 terminal BlockStat;
 terminal Def;
 terminal Dcl;
+terminal Constr;
+terminal AnnotType;
+terminal EarlyDef;
 // DONE
 nonterminal CompilationUnit;
 nonterminal QualId;
@@ -111,7 +112,11 @@ nonterminal A_M_Dcl;
 nonterminal M_Def;
 nonterminal A_M_Def;
 nonterminal SelfType;
-
+nonterminal ClassParents;
+nonterminal _EarlyDefs;
+//
+precedence left UNDERSCORE, IMPLICIT, Bindings, Expr1;
+//
 precedence left NL;
 precedence left ID;
 precedence left DOT;
@@ -219,9 +224,13 @@ _ImportSelectors   ::=  ImportSelector | UNDERSCORE | ImportSelector COMMA _Impo
 
 ClassTemplateOpt  ::=
                     | LBRACE _TemplateBody RBRACE
+                    | LBRACE  RBRACE
                     | NL LBRACE _TemplateBody RBRACE
+                    | NL LBRACE  RBRACE
                     | EXTENDS LBRACE _TemplateBody RBRACE
+                    | EXTENDS LBRACE  RBRACE
                     | EXTENDS NL LBRACE _TemplateBody RBRACE
+                    | EXTENDS NL LBRACE  RBRACE
                     | EXTENDS ClassTemplate
                     ;
 
@@ -231,9 +240,13 @@ ConstrAnnotation  ::=  AT SimpleType ArgumentExprs;
 
 TraitTemplateOpt  ::=
                     | LBRACE _TemplateBody RBRACE
+                    | LBRACE  RBRACE
                     | NL LBRACE _TemplateBody RBRACE
+                    | NL LBRACE  RBRACE
                     | EXTENDS LBRACE _TemplateBody RBRACE
+                    | EXTENDS LBRACE  RBRACE
                     | EXTENDS NL LBRACE _TemplateBody RBRACE
+                    | EXTENDS NL LBRACE  RBRACE
                     | EXTENDS TraitTemplate
                     ;
 
@@ -265,12 +278,28 @@ ImportSelector    ::=  ID
                     |  ID RDARROW UNDERSCORE
                     ;
 
-_TemplateBody      ::=  TemplateStat | SelfType TemplateStat | _TemplateBody SEMI TemplateStat;
+_TemplateBody      ::=  TemplateStat
+                    | SelfType
+                    | SelfType TemplateStat
+                    | _TemplateBody SEMI TemplateStat
+                    | _TemplateBody SEMI
+                    ;
 
 ClassTemplate     ::=  ClassParents
-                    |  ClassParents TemplateBody
-                    |  EarlyDefs ClassParents
-                    |  EarlyDefs ClassParents TemplateBody
+                    |  ClassParents LBRACE _TemplateBody RBRACE
+                    |  ClassParents LBRACE  RBRACE
+                    |  ClassParents NL LBRACE _TemplateBody RBRACE
+                    |  ClassParents NL LBRACE  RBRACE
+                    |  LBRACE  RBRACE WITH ClassParents
+                    |  LBRACE _EarlyDefs RBRACE WITH ClassParents
+                    |  LBRACE  RBRACE WITH ClassParents LBRACE _TemplateBody RBRACE
+                    |  LBRACE  RBRACE WITH ClassParents LBRACE  RBRACE
+                    |  LBRACE _EarlyDefs RBRACE WITH ClassParents LBRACE _TemplateBody RBRACE
+                    |  LBRACE _EarlyDefs RBRACE WITH ClassParents LBRACE  RBRACE
+                    |  LBRACE  RBRACE WITH ClassParents NL LBRACE _TemplateBody RBRACE
+                    |  LBRACE  RBRACE WITH ClassParents NL LBRACE  RBRACE
+                    |  LBRACE _EarlyDefs RBRACE WITH ClassParents NL LBRACE _TemplateBody RBRACE
+                    |  LBRACE _EarlyDefs RBRACE WITH ClassParents NL LBRACE  RBRACE
                     ;
 
 VariantTypeParam  ::=  TypeParam
@@ -288,9 +317,20 @@ ClassParamClause  ::=  LPAREN RPAREN
                     ;
 
 TraitTemplate     ::=  TraitParents
-                    |  TraitParents TemplateBody
-                    |  EarlyDefs TraitParents
-                    |  EarlyDefs TraitParents TemplateBody
+                    |  TraitParents LBRACE _TemplateBody RBRACE
+                    |  TraitParents LBRACE  RBRACE
+                    |  TraitParents NL LBRACE _TemplateBody RBRACE
+                    |  TraitParents NL LBRACE  RBRACE
+                    |  LBRACE  RBRACE WITH TraitParents
+                    |  LBRACE _EarlyDefs RBRACE WITH TraitParents
+                    |  LBRACE  RBRACE WITH TraitParents LBRACE _TemplateBody RBRACE
+                    |  LBRACE  RBRACE WITH TraitParents LBRACE  RBRACE
+                    |  LBRACE _EarlyDefs RBRACE WITH TraitParents LBRACE _TemplateBody RBRACE
+                    |  LBRACE _EarlyDefs RBRACE WITH TraitParents LBRACE  RBRACE
+                    |  LBRACE  RBRACE WITH TraitParents NL LBRACE _TemplateBody RBRACE
+                    |  LBRACE  RBRACE WITH TraitParents NL LBRACE  RBRACE
+                    |  LBRACE _EarlyDefs RBRACE WITH TraitParents NL LBRACE _TemplateBody RBRACE
+                    |  LBRACE _EarlyDefs RBRACE WITH TraitParents NL LBRACE  RBRACE
                     ;
 
 Type              ::=  FunctionArgTypes RDARROW Type
@@ -316,8 +356,7 @@ CaseClauses       ::=  CaseClause | CaseClauses CaseClause
 _Block             ::=  BlockStat | _Block SEMI BlockStat
                     ;
 
-TemplateStat      ::=
-                      |  Import
+TemplateStat      ::=  Import
                       |  A_M_Def
                       |  A_M_Dcl
                       |  Expr
@@ -344,12 +383,13 @@ A_M_Dcl             ::= M_Dcl
 SelfType          ::=  ID RDARROW
                       | ID COLON Type RDARROW
                       |  THIS COLON Type RDARROW
-                      ;
+                      %prec NL;
 
+ClassParents      ::=  Constr | ClassParents WITH AnnotType;
 
-
-
-
+_EarlyDefs         ::= EarlyDef
+                     | _EarlyDefs SEMI EarlyDef
+                     ;
 
 
 
