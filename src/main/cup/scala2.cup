@@ -60,6 +60,7 @@ terminal MATCH;
 terminal YIELD;
 terminal TILDE;
 terminal EXCLAM;
+terminal UNARY;
 // TODO
 terminal Def;
 terminal Dcl;
@@ -160,9 +161,11 @@ nonterminal A_Def;
 nonterminal A_LM_TmplDef;
 nonterminal LM_TmplDef;
 //
-precedence left UNDERSCORE, IMPLICIT;
+precedence left UNDERSCORE, IMPLICIT, SimpleExpr1, SimpleExpr;
 //
-precedence left FINALLY, RDARROW, NL, ID, CATCH, SEMI, ELSE;
+precedence left FINALLY, RDARROW, NL, ID, CATCH, SEMI, ELSE, WHILE, TRY, DO, IF, FOR, THROW, RETURN;
+precedence left PLUS, MINUS;
+precedence left UNARY, EXCLAM, TILDE, LPAREN;
 precedence left DOT;
 
 CompilationUnit  ::=  PACKAGE QualId SEMI CompilationUnit
@@ -531,6 +534,7 @@ PrefixExpr        ::=  SimpleExpr
                     |  PLUS SimpleExpr
                     |  TILDE SimpleExpr
                     |  EXCLAM SimpleExpr
+                    %prec UNARY
                     ;
 
 CaseClause        ::=  CASE Pattern RDARROW _Block ResultExpr
