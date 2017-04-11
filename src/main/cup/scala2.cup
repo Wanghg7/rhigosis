@@ -45,10 +45,8 @@ terminal VBOUNDS;
 terminal EQ;
 terminal VAR;
 terminal VAL;
+terminal FORSOME;
 // TODO
-terminal InfixType;
-terminal ExistentialClause;
-terminal Bindings;
 terminal Expr1;
 terminal PrefixExpr;
 terminal CaseClause;
@@ -60,6 +58,9 @@ terminal Constr;
 terminal AnnotType;
 terminal EarlyDef;
 terminal ParamType;
+terminal CompoundType;
+terminal ExistentialDcl;
+terminal Binding;
 // DONE
 nonterminal CompilationUnit;
 nonterminal QualId;
@@ -127,8 +128,13 @@ nonterminal M_ClassParam;
 nonterminal TraitParents;
 nonterminal FunctionArgTypes;
 nonterminal _ParamTypes;
+nonterminal InfixType;
+nonterminal ExistentialClause;
+nonterminal _ExistentialDcls;
+nonterminal Bindings;
+nonterminal _Bindings;
 //
-precedence left UNDERSCORE, IMPLICIT, Bindings, Expr1;
+precedence left UNDERSCORE, IMPLICIT, Expr1;
 //
 precedence left RDARROW;
 precedence left NL;
@@ -448,13 +454,15 @@ FunctionArgTypes  ::= InfixType RDARROW
 
 _ParamTypes         ::= ParamType | _ParamTypes COMMA ParamType;
 
+InfixType         ::=  CompoundType | InfixType ID CompoundType | InfixType ID NL CompoundType;
 
+ExistentialClause ::=  FORSOME LBRACE _ExistentialDcls RBRACE;
 
+_ExistentialDcls    ::= ExistentialDcl | _ExistentialDcls SEMI ExistentialDcl;
 
+Bindings          ::=  LPAREN _Bindings RPAREN;
 
-
-
-
+_Bindings          ::=  Binding | _Bindings COMMA Binding;
 
 
 
