@@ -58,9 +58,9 @@ terminal THROW;
 terminal RETURN;
 terminal MATCH;
 terminal YIELD;
+terminal TILDE;
+terminal EXCLAM;
 // TODO
-terminal PrefixExpr;
-terminal CaseClause;
 terminal ResultExpr;
 terminal BlockStat;
 terminal Def;
@@ -76,6 +76,8 @@ terminal Enumerators;
 terminal SimpleExpr;
 terminal SimpleExpr1;
 terminal Ascription;
+terminal Pattern;
+terminal Guard;
 // DONE
 nonterminal CompilationUnit;
 nonterminal QualId;
@@ -152,6 +154,8 @@ nonterminal Expr1;
 nonterminal N_Expr;
 nonterminal N_Y_Expr;
 nonterminal Expr1_return;
+nonterminal PrefixExpr;
+nonterminal CaseClause;
 //
 precedence left UNDERSCORE, IMPLICIT;
 //
@@ -518,6 +522,43 @@ N_Y_Expr            ::= Expr
 N_Expr              ::= Expr
                       | NL N_Expr
                       ;
+
+PrefixExpr        ::=  SimpleExpr
+                    |  MINUS SimpleExpr
+                    |  PLUS SimpleExpr
+                    |  TILDE SimpleExpr
+                    |  EXCLAM SimpleExpr
+                    ;
+
+CaseClause        ::=  CASE Pattern RDARROW _Block ResultExpr
+                    |  CASE Pattern Guard RDARROW _Block ResultExpr
+                    ;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
