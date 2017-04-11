@@ -31,20 +31,23 @@ terminal RPAREN;
 terminal COLON;
 terminal ASTERISK;
 terminal SUPER;
+terminal EXTENDS;
+terminal LBRACK;
+terminal RBRACK;
 //
-terminal ImportSelectors;
-terminal ClassTemplateOpt;
-terminal TypeParamClause;
-terminal ClassParamClauses;
-terminal ConstrAnnotation;
-terminal TraitTemplateOpt;
-terminal TypeArgs;
 terminal Path;
 terminal Types;
 terminal Exprs;
 terminal PostfixExpr;
 terminal BlockExpr;
 terminal ClassQualifier;
+terminal ImportSelector;
+terminal TemplateBody;
+terminal ClassTemplate;
+terminal VariantTypeParam;
+terminal ClassParams;
+terminal ClassParamClause;
+terminal TraitTemplate;
 //
 nonterminal CompilationUnit;
 nonterminal QualId;
@@ -69,6 +72,15 @@ nonterminal AccessModifier;
 nonterminal SimpleType;
 nonterminal ArgumentExprs;
 nonterminal StableId;
+nonterminal _ImportSelectors;
+nonterminal ClassTemplateOpt;
+nonterminal _TypeParamClause;
+nonterminal ClassParamClauses;
+nonterminal ConstrAnnotation;
+nonterminal TraitTemplateOpt;
+nonterminal TypeArgs;
+
+precedence left DOT;
 
 CompilationUnit  ::=  PACKAGE QualId SEMI CompilationUnit
                     | TopStatSeq;
@@ -114,20 +126,20 @@ Annotation        ::=  AT SimpleType | Annotation ArgumentExprs
 
 ImportExpr        ::=  StableId DOT ID
                     |  StableId DOT UNDERSCORE
-                    |  StableId DOT ImportSelectors
+                    |  StableId DOT LBRACE _ImportSelectors RBRACE
                     ;
 
 ObjectDef         ::=  ID ClassTemplateOpt;
 
 ClassDef          ::=  ID  A_M_ClassParamClauses ClassTemplateOpt
-                    |   ID TypeParamClause A_M_ClassParamClauses ClassTemplateOpt;
+                    |   ID LBRACK _TypeParamClause RBRACK A_M_ClassParamClauses ClassTemplateOpt;
 
 M_ClassParamClauses ::= ClassParamClauses | AccessModifier ClassParamClauses;
 
 A_M_ClassParamClauses   ::= M_ClassParamClauses | ConstrAnnotation A_M_ClassParamClauses;
 
 TraitDef          ::=  ID TraitTemplateOpt
-                    | ID TypeParamClause TraitTemplateOpt;
+                    | ID LBRACK _TypeParamClause RBRACK TraitTemplateOpt;
 
 LocalModifier     ::=  ABSTRACT |  FINAL |  SEALED |  IMPLICIT |  LAZY ;
 
@@ -160,7 +172,31 @@ StableId          ::=  ID
                       |  ID DOT SUPER ClassQualifier DOT ID
                       ;
 
+_ImportSelectors   ::=  ImportSelector | UNDERSCORE | ImportSelector COMMA _ImportSelectors;
 
+ClassTemplateOpt  ::=
+                    | TemplateBody
+                    | EXTENDS TemplateBody
+                    | EXTENDS ClassTemplate
+                    ;
+
+_TypeParamClause   ::=  VariantTypeParam | _TypeParamClause COMMA VariantTypeParam;
+
+ClassParamClauses ::=
+                    | LPAREN IMPLICIT ClassParams RPAREN
+                    | NL LPAREN IMPLICIT ClassParams RPAREN
+                    | ClassParamClause ClassParamClauses
+                    ;
+
+ConstrAnnotation  ::=  AT SimpleType ArgumentExprs;
+
+TraitTemplateOpt  ::=
+                    | TemplateBody
+                    | EXTENDS TemplateBody
+                    | EXTENDS TraitTemplate
+                    ;
+
+TypeArgs          ::=  LBRACK Types RBRACK;
 
 
 
