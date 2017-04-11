@@ -46,8 +46,19 @@ terminal EQ;
 terminal VAR;
 terminal VAL;
 terminal FORSOME;
+terminal IF;
+terminal ELSE;
+terminal WHILE;
+terminal TRY;
+terminal FINALLY;
+terminal CATCH;
+terminal DO;
+terminal FOR;
+terminal THROW;
+terminal RETURN;
+terminal MATCH;
+terminal YIELD;
 // TODO
-terminal Expr1;
 terminal PrefixExpr;
 terminal CaseClause;
 terminal ResultExpr;
@@ -61,6 +72,10 @@ terminal ParamType;
 terminal CompoundType;
 terminal ExistentialDcl;
 terminal Binding;
+terminal Enumerators;
+terminal SimpleExpr;
+terminal SimpleExpr1;
+terminal Ascription;
 // DONE
 nonterminal CompilationUnit;
 nonterminal QualId;
@@ -133,6 +148,9 @@ nonterminal ExistentialClause;
 nonterminal _ExistentialDcls;
 nonterminal Bindings;
 nonterminal _Bindings;
+nonterminal Expr1;
+nonterminal N_Expr;
+nonterminal N_Y_Expr;
 //
 precedence left UNDERSCORE, IMPLICIT, Expr1;
 //
@@ -464,9 +482,41 @@ Bindings          ::=  LPAREN _Bindings RPAREN;
 
 _Bindings          ::=  Binding | _Bindings COMMA Binding;
 
+Expr1             ::=    IF LPAREN Expr RPAREN N_Expr
+                      |  IF LPAREN Expr RPAREN N_Expr ELSE Expr
+                      |  IF LPAREN Expr RPAREN N_Expr SEMI ELSE Expr
+                      |  WHILE LPAREN Expr RPAREN N_Expr
+                      |  TRY LBRACE _Block ResultExpr RBRACE
+                      |  TRY LBRACE _Block ResultExpr RBRACE FINALLY Expr
+                      |  TRY LBRACE _Block ResultExpr RBRACE CATCH LBRACE CaseClauses RBRACE
+                      |  TRY LBRACE _Block ResultExpr RBRACE CATCH LBRACE CaseClauses RBRACE FINALLY Expr
+                      |  TRY Expr
+                      |  TRY Expr FINALLY Expr
+                      |  TRY Expr CATCH LBRACE CaseClauses RBRACE
+                      |  TRY Expr CATCH LBRACE CaseClauses RBRACE FINALLY Expr
+                      |  DO Expr WHILE LPAREN Expr RPAREN
+                      |  DO Expr SEMI WHILE LPAREN Expr RPAREN
+                      |  FOR LBRACE Enumerators RBRACE N_Y_Expr
+                      |  FOR LPAREN Enumerators RPAREN N_Y_Expr
+                      |  THROW Expr
+                      |  RETURN
+                      |  RETURN Expr
+                      |  ID EQ Expr
+                      |  SimpleExpr DOT ID EQ Expr
+                      |  SimpleExpr1 ArgumentExprs EQ Expr
+                      |  PostfixExpr
+                      |  PostfixExpr Ascription
+                      |  PostfixExpr MATCH LBRACE CaseClauses RBRACE
+                      ;
 
+N_Y_Expr            ::= Expr
+                      | YIELD Expr
+                      | NL N_Y_Expr
+                      ;
 
-
+N_Expr              ::= Expr
+                      | NL N_Expr
+                      ;
 
 
 
