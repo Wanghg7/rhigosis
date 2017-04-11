@@ -61,8 +61,6 @@ terminal YIELD;
 terminal TILDE;
 terminal EXCLAM;
 // TODO
-terminal ResultExpr;
-terminal BlockStat;
 terminal Def;
 terminal Dcl;
 terminal Constr;
@@ -156,6 +154,11 @@ nonterminal N_Y_Expr;
 nonterminal Expr1_return;
 nonterminal PrefixExpr;
 nonterminal CaseClause;
+nonterminal ResultExpr;
+nonterminal BlockStat;
+nonterminal A_Def;
+nonterminal A_LM_TmplDef;
+nonterminal LM_TmplDef;
 //
 precedence left UNDERSCORE, IMPLICIT;
 //
@@ -534,15 +537,33 @@ CaseClause        ::=  CASE Pattern RDARROW _Block ResultExpr
                     |  CASE Pattern Guard RDARROW _Block ResultExpr
                     ;
 
+ResultExpr        ::=  Expr1
+                      |  Bindings RDARROW _Block ResultExpr
+                      |  UNDERSCORE COLON CompoundType RDARROW _Block ResultExpr
+                      |  ID COLON CompoundType RDARROW _Block ResultExpr
+                      |  IMPLICIT ID COLON CompoundType RDARROW _Block ResultExpr
+                      ;
 
+BlockStat         ::=
+                      |  Import
+                      |  A_Def
+                      |  A_LM_TmplDef
+                      |  Expr1
+                      ;
 
+A_Def               ::= Def
+                      | IMPLICIT Def
+                      | LAZY Def
+                      | Annotation A_Def
+                      ;
 
+LM_TmplDef          ::= TmplDef
+                      | LocalModifier LM_TmplDef
+                      ;
 
-
-
-
-
-
+A_LM_TmplDef        ::= LM_TmplDef
+                      | Annotation A_LM_TmplDef
+                      ;
 
 
 
