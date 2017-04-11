@@ -46,8 +46,6 @@ terminal EQ;
 terminal VAR;
 terminal VAL;
 // TODO
-terminal TraitParents;
-terminal FunctionArgTypes;
 terminal InfixType;
 terminal ExistentialClause;
 terminal Bindings;
@@ -126,6 +124,9 @@ nonterminal TypeParamClause;
 nonterminal _ClassParam;
 nonterminal A_M_ClassParam;
 nonterminal M_ClassParam;
+nonterminal TraitParents;
+nonterminal FunctionArgTypes;
+nonterminal _ParamTypes;
 //
 precedence left UNDERSCORE, IMPLICIT, Bindings, Expr1;
 //
@@ -437,11 +438,14 @@ M_ClassParam        ::= _ClassParam | Modifier M_ClassParam;
 
 A_M_ClassParam      ::= M_ClassParam | Annotation A_M_ClassParam;
 
+TraitParents      ::=  AnnotType | TraitParents WITH AnnotType;
 
+FunctionArgTypes  ::= InfixType
+                    | LPAREN RPAREN
+                    | LPAREN _ParamTypes RPAREN
+                    ;
 
-
-
-
+_ParamTypes         ::= ParamType | _ParamTypes COMMA ParamType;
 
 
 
