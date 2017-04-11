@@ -42,8 +42,10 @@ terminal WITH;
 terminal UBOUNDS;
 terminal LBOUNDS;
 terminal VBOUNDS;
+terminal EQ;
+terminal VAR;
+terminal VAL;
 // TODO
-terminal ClassParam;
 terminal TraitParents;
 terminal FunctionArgTypes;
 terminal InfixType;
@@ -59,6 +61,7 @@ terminal Dcl;
 terminal Constr;
 terminal AnnotType;
 terminal EarlyDef;
+terminal ParamType;
 // DONE
 nonterminal CompilationUnit;
 nonterminal QualId;
@@ -120,6 +123,9 @@ nonterminal _TypeParam;
 nonterminal TypeParam_V;
 nonterminal TypeParam_V_C;
 nonterminal TypeParamClause;
+nonterminal _ClassParam;
+nonterminal A_M_ClassParam;
+nonterminal M_ClassParam;
 //
 precedence left UNDERSCORE, IMPLICIT, Bindings, Expr1;
 //
@@ -314,7 +320,7 @@ VariantTypeParam  ::=  TypeParam_V_C
                     |  Annotation VariantTypeParam
                     ;
 
-ClassParams       ::=  ClassParam | ClassParams COMMA ClassParam;
+ClassParams       ::=  A_M_ClassParam | ClassParams COMMA A_M_ClassParam;
 
 ClassParamClause  ::=  LPAREN RPAREN
                     |  LPAREN ClassParams RPAREN
@@ -419,9 +425,17 @@ TypeParam_V         ::= _TypeParam | TypeParam_V VBOUNDS Type;
 
 TypeParam_V_C       ::= TypeParam_V | TypeParam_V_C COLON Type;
 
+_ClassParam         ::=   ID COLON ParamType
+                        | ID COLON ParamType EQ Expr
+                        | VAR ID COLON ParamType
+                        | VAR ID COLON ParamType EQ Expr
+                        | VAL ID COLON ParamType
+                        | VAL ID COLON ParamType EQ Expr
+                        ;
 
+M_ClassParam        ::= _ClassParam | Modifier M_ClassParam;
 
-
+A_M_ClassParam      ::= M_ClassParam | Annotation A_M_ClassParam;
 
 
 
