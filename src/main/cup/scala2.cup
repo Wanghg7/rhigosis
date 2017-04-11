@@ -9,12 +9,37 @@ terminal COMMA;
 terminal LBRACE;
 terminal RBRACE;
 terminal NL;
+terminal OBJECT;
+terminal CLASS;
+terminal CASE;
+terminal TRAIT;
+terminal OVERRIDE;
+terminal AT;
+terminal UNDERSCORE;
+terminal ABSTRACT;
+terminal FINAL;
+terminal SEALED;
+terminal IMPLICIT;
+terminal LAZY;
+terminal PRIVATE;
+terminal AccessQualifier;
+terminal PROTECTED;
+terminal HASH;
+terminal TYPE;
+terminal LPAREN;
+terminal RPAREN;
 //
-terminal PackageObject;
-terminal TmplDef;
-terminal Modifier;
-terminal Annotation;
-terminal ImportExpr;
+terminal ArgumentExprs;
+terminal StableId;
+terminal ImportSelectors;
+terminal ClassTemplateOpt;
+terminal TypeParamClause;
+terminal ClassParamClauses;
+terminal ConstrAnnotation;
+terminal TraitTemplateOpt;
+terminal TypeArgs;
+terminal Path;
+terminal Types;
 //
 nonterminal CompilationUnit;
 nonterminal QualId;
@@ -24,6 +49,19 @@ nonterminal A_M_TmplDef;
 nonterminal M_TmplDef;
 nonterminal Import;
 nonterminal Packaging;
+nonterminal PackageObject;
+nonterminal TmplDef;
+nonterminal Modifier;
+nonterminal Annotation;
+nonterminal ImportExpr;
+nonterminal ObjectDef;
+nonterminal ClassDef;
+nonterminal A_M_ClassParamClauses;
+nonterminal M_ClassParamClauses;
+nonterminal TraitDef;
+nonterminal LocalModifier;
+nonterminal AccessModifier;
+nonterminal SimpleType;
 
 CompilationUnit  ::=  PACKAGE QualId SEMI CompilationUnit
                     | TopStatSeq;
@@ -48,4 +86,64 @@ Import            ::=  IMPORT ImportExpr | Import COMMA ImportExpr;
 Packaging         ::=  PACKAGE QualId LBRACE TopStatSeq RBRACE
                     | PACKAGE QualId NL LBRACE TopStatSeq RBRACE
                     ;
+
+PackageObject     ::=  PACKAGE OBJECT ObjectDef
+                      ;
+
+TmplDef           ::=   CLASS ClassDef
+                      | CASE CLASS ClassDef
+                      |  OBJECT ObjectDef
+                      |  CASE OBJECT ObjectDef
+                      |  TRAIT TraitDef
+                      ;
+
+Modifier          ::=  LocalModifier
+                      |  AccessModifier
+                      |  OVERRIDE
+                      ;
+
+Annotation        ::=  AT SimpleType | Annotation ArgumentExprs
+                    ;
+
+ImportExpr        ::=  StableId DOT ID
+                    |  StableId DOT UNDERSCORE
+                    |  StableId DOT ImportSelectors
+                    ;
+
+ObjectDef         ::=  ID ClassTemplateOpt;
+
+ClassDef          ::=  ID  A_M_ClassParamClauses ClassTemplateOpt
+                    |   ID TypeParamClause A_M_ClassParamClauses ClassTemplateOpt;
+
+M_ClassParamClauses ::= ClassParamClauses | AccessModifier ClassParamClauses;
+
+A_M_ClassParamClauses   ::= M_ClassParamClauses | ConstrAnnotation A_M_ClassParamClauses;
+
+TraitDef          ::=  ID TraitTemplateOpt
+                    | ID TypeParamClause TraitTemplateOpt;
+
+LocalModifier     ::=  ABSTRACT |  FINAL |  SEALED |  IMPLICIT |  LAZY ;
+
+AccessModifier    ::=  PRIVATE
+                    |  PRIVATE AccessQualifier
+                    |  PROTECTED
+                    |  PROTECTED AccessQualifier
+                    ;
+
+SimpleType        ::=  SimpleType TypeArgs
+                      |  SimpleType HASH ID
+                      |  StableId
+                      |  Path DOT TYPE
+                      |  LPAREN Types RPAREN
+                      ;
+
+
+
+
+
+
+
+
+
+
 
