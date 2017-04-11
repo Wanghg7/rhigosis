@@ -28,9 +28,10 @@ terminal HASH;
 terminal TYPE;
 terminal LPAREN;
 terminal RPAREN;
+terminal COLON;
+terminal ASTERISK;
+terminal SUPER;
 //
-terminal ArgumentExprs;
-terminal StableId;
 terminal ImportSelectors;
 terminal ClassTemplateOpt;
 terminal TypeParamClause;
@@ -40,6 +41,10 @@ terminal TraitTemplateOpt;
 terminal TypeArgs;
 terminal Path;
 terminal Types;
+terminal Exprs;
+terminal PostfixExpr;
+terminal BlockExpr;
+terminal ClassQualifier;
 //
 nonterminal CompilationUnit;
 nonterminal QualId;
@@ -62,6 +67,8 @@ nonterminal TraitDef;
 nonterminal LocalModifier;
 nonterminal AccessModifier;
 nonterminal SimpleType;
+nonterminal ArgumentExprs;
+nonterminal StableId;
 
 CompilationUnit  ::=  PACKAGE QualId SEMI CompilationUnit
                     | TopStatSeq;
@@ -137,10 +144,21 @@ SimpleType        ::=  SimpleType TypeArgs
                       |  LPAREN Types RPAREN
                       ;
 
+ArgumentExprs     ::=  LPAREN RPAREN
+                      | LPAREN Exprs RPAREN
+                      |  LPAREN PostfixExpr COLON UNDERSCORE ASTERISK RPAREN
+                      |  LPAREN Exprs COMMA PostfixExpr COLON UNDERSCORE ASTERISK RPAREN
+                      |  BlockExpr
+                      |  NL BlockExpr
+                      ;
 
-
-
-
+StableId          ::=  ID
+                      |  Path DOT ID
+                      |  SUPER DOT ID
+                      |  SUPER ClassQualifier DOT ID
+                      |  ID DOT SUPER DOT ID
+                      |  ID DOT SUPER ClassQualifier DOT ID
+                      ;
 
 
 
