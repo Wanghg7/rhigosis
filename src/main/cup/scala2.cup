@@ -151,12 +151,11 @@ nonterminal _Bindings;
 nonterminal Expr1;
 nonterminal N_Expr;
 nonterminal N_Y_Expr;
+nonterminal Expr1_return;
 //
-precedence left UNDERSCORE, IMPLICIT, Expr1;
+precedence left UNDERSCORE, IMPLICIT;
 //
-precedence left RDARROW;
-precedence left NL;
-precedence left ID;
+precedence left FINALLY, RDARROW, NL, ID, CATCH, SEMI, ELSE;
 precedence left DOT;
 
 CompilationUnit  ::=  PACKAGE QualId SEMI CompilationUnit
@@ -499,7 +498,7 @@ Expr1             ::=    IF LPAREN Expr RPAREN N_Expr
                       |  FOR LBRACE Enumerators RBRACE N_Y_Expr
                       |  FOR LPAREN Enumerators RPAREN N_Y_Expr
                       |  THROW Expr
-                      |  RETURN
+                      |  Expr1_return
                       |  RETURN Expr
                       |  ID EQ Expr
                       |  SimpleExpr DOT ID EQ Expr
@@ -508,6 +507,8 @@ Expr1             ::=    IF LPAREN Expr RPAREN N_Expr
                       |  PostfixExpr Ascription
                       |  PostfixExpr MATCH LBRACE CaseClauses RBRACE
                       ;
+
+Expr1_return        ::= RETURN %prec NL;
 
 N_Y_Expr            ::= Expr
                       | YIELD Expr
