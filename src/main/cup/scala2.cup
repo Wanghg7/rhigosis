@@ -63,7 +63,6 @@ terminal EXCLAM;
 terminal UNARY;
 terminal DEF;
 // TODO
-terminal Constr;
 terminal AnnotType;
 terminal EarlyDef;
 terminal ParamType;
@@ -171,10 +170,12 @@ nonterminal TypeDef;
 nonterminal Def_withoutTmplDef;
 nonterminal Dcl;
 nonterminal N_TypeDcl;
+nonterminal Constr;
 //
 precedence left UNDERSCORE, IMPLICIT, SimpleExpr1, SimpleExpr;
 //
-precedence left FINALLY, RDARROW, NL, ID, CATCH, SEMI, ELSE, WHILE, TRY, DO, IF, FOR, THROW, RETURN;
+precedence left FINALLY, RDARROW, NL, ID, CATCH, SEMI, ELSE, WHILE, TRY, DO, IF, FOR, THROW, RETURN,
+    LBRACE;
 precedence left PLUS, MINUS;
 precedence left UNARY, EXCLAM, TILDE, LPAREN;
 precedence left DOT;
@@ -601,7 +602,7 @@ Dcl               ::=    VAL ValDcl
 
 N_TypeDcl       ::= TypeDcl | NL N_TypeDcl;
 
-
+Constr            ::=  AnnotType | Constr ArgumentExprs;
 
 
 
