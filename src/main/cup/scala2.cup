@@ -36,20 +36,27 @@ terminal LBRACK;
 terminal RBRACK;
 terminal THIS;
 terminal RDARROW;
-//
-terminal ClassTemplate;
-terminal VariantTypeParam;
-terminal ClassParams;
-terminal ClassParamClause;
-terminal TraitTemplate;
-terminal Type;
-terminal Expr;
-terminal InfixExpr;
-terminal CaseClauses;
-terminal Block;
-terminal TemplateStat;
-terminal SelfType;
-//
+terminal PLUS;
+terminal MINUS;
+// TODO
+terminal ClassParents;
+terminal TemplateBody;
+terminal EarlyDefs;
+terminal TypeParam;
+terminal ClassParam;
+terminal TraitParents;
+terminal FunctionArgTypes;
+terminal InfixType;
+terminal ExistentialClause;
+terminal Bindings;
+terminal Expr1;
+terminal PrefixExpr;
+terminal CaseClause;
+terminal ResultExpr;
+terminal BlockStat;
+terminal Def;
+terminal Dcl;
+// DONE
 nonterminal CompilationUnit;
 nonterminal QualId;
 nonterminal TopStatSeq;
@@ -88,8 +95,25 @@ nonterminal BlockExpr;
 nonterminal ClassQualifier;
 nonterminal ImportSelector;
 nonterminal _TemplateBody;
+nonterminal ClassTemplate;
+nonterminal VariantTypeParam;
+nonterminal ClassParams;
+nonterminal ClassParamClause;
+nonterminal TraitTemplate;
+nonterminal Type;
+nonterminal Expr;
+nonterminal InfixExpr;
+nonterminal CaseClauses;
+nonterminal _Block;
+nonterminal TemplateStat;
+nonterminal M_Dcl;
+nonterminal A_M_Dcl;
+nonterminal M_Def;
+nonterminal A_M_Def;
+nonterminal SelfType;
 
 precedence left NL;
+precedence left ID;
 precedence left DOT;
 
 CompilationUnit  ::=  PACKAGE QualId SEMI CompilationUnit
@@ -229,7 +253,10 @@ PostfixExpr       ::=  InfixExpr
                     |  InfixExpr ID NL
                     ;
 
-BlockExpr         ::=  LBRACE CaseClauses RBRACE |  LBRACE Block RBRACE;
+BlockExpr         ::=  LBRACE CaseClauses RBRACE
+                    |  LBRACE _Block RBRACE
+                    |  LBRACE _Block ResultExpr RBRACE
+                    ;
 
 ClassQualifier    ::=  LBRACK ID RBRACK;
 
@@ -239,6 +266,86 @@ ImportSelector    ::=  ID
                     ;
 
 _TemplateBody      ::=  TemplateStat | SelfType TemplateStat | _TemplateBody SEMI TemplateStat;
+
+ClassTemplate     ::=  ClassParents
+                    |  ClassParents TemplateBody
+                    |  EarlyDefs ClassParents
+                    |  EarlyDefs ClassParents TemplateBody
+                    ;
+
+VariantTypeParam  ::=  TypeParam
+                    |  PLUS TypeParam
+                    |  MINUS TypeParam
+                    |  Annotation VariantTypeParam
+                    ;
+
+ClassParams       ::=  ClassParam | ClassParams COMMA ClassParam;
+
+ClassParamClause  ::=  LPAREN RPAREN
+                    |  LPAREN ClassParams RPAREN
+                    |  NL LPAREN RPAREN
+                    |  NL LPAREN ClassParams RPAREN
+                    ;
+
+TraitTemplate     ::=  TraitParents
+                    |  TraitParents TemplateBody
+                    |  EarlyDefs TraitParents
+                    |  EarlyDefs TraitParents TemplateBody
+                    ;
+
+Type              ::=  FunctionArgTypes RDARROW Type
+                      |  InfixType
+                      |  InfixType ExistentialClause
+                      ;
+
+Expr              ::=  Bindings RDARROW Expr
+                    |  ID RDARROW Expr
+                    |  IMPLICIT ID RDARROW Expr
+                    |  UNDERSCORE RDARROW Expr
+                    |  Expr1
+                    ;
+
+InfixExpr         ::=  PrefixExpr
+                      |  InfixExpr ID InfixExpr
+                      |  InfixExpr ID NL InfixExpr
+                      ;
+
+CaseClauses       ::=  CaseClause | CaseClauses CaseClause
+                    ;
+
+_Block             ::=  BlockStat | _Block SEMI BlockStat
+                    ;
+
+TemplateStat      ::=
+                      |  Import
+                      |  A_M_Def
+                      |  A_M_Dcl
+                      |  Expr
+                      ;
+
+M_Def               ::= Def
+                      | Modifier M_Def
+                      ;
+
+A_M_Def             ::= M_Def
+                      | Annotation A_M_Def
+                      | Annotation NL A_M_Def
+                      ;
+
+M_Dcl               ::= Dcl
+                      | Modifier M_Dcl
+                      ;
+
+A_M_Dcl             ::= M_Dcl
+                      | Annotation A_M_Dcl
+                      | Annotation NL A_M_Dcl
+                      ;
+
+SelfType          ::=  ID RDARROW
+                      | ID COLON Type RDARROW
+                      |  THIS COLON Type RDARROW
+                      ;
+
 
 
 
