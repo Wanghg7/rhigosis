@@ -130,6 +130,7 @@ nonterminal _ParamTypes;
 //
 precedence left UNDERSCORE, IMPLICIT, Bindings, Expr1;
 //
+precedence left RDARROW;
 precedence left NL;
 precedence left ID;
 precedence left DOT;
@@ -346,7 +347,7 @@ TraitTemplate     ::=  TraitParents
                     |  LBRACE _EarlyDefs RBRACE WITH TraitParents NL LBRACE  RBRACE
                     ;
 
-Type              ::=  FunctionArgTypes RDARROW Type
+Type              ::=  FunctionArgTypes Type
                       |  InfixType
                       |  InfixType ExistentialClause
                       ;
@@ -440,9 +441,9 @@ A_M_ClassParam      ::= M_ClassParam | Annotation A_M_ClassParam;
 
 TraitParents      ::=  AnnotType | TraitParents WITH AnnotType;
 
-FunctionArgTypes  ::= InfixType
-                    | LPAREN RPAREN
-                    | LPAREN _ParamTypes RPAREN
+FunctionArgTypes  ::= InfixType RDARROW
+                    | LPAREN RPAREN RDARROW
+                    | LPAREN _ParamTypes RPAREN RDARROW
                     ;
 
 _ParamTypes         ::= ParamType | _ParamTypes COMMA ParamType;
