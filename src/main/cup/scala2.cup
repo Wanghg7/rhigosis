@@ -63,7 +63,6 @@ terminal EXCLAM;
 terminal UNARY;
 terminal DEF;
 // TODO
-terminal Dcl;
 terminal Constr;
 terminal AnnotType;
 terminal EarlyDef;
@@ -79,6 +78,10 @@ terminal Pattern;
 terminal Guard;
 terminal PatVarDef;
 terminal FunDef;
+terminal ValDcl;
+terminal VarDcl;
+terminal FunDcl;
+terminal TypeDcl;
 // DONE
 nonterminal CompilationUnit;
 nonterminal QualId;
@@ -166,6 +169,8 @@ nonterminal Def;
 nonterminal N_TypeDef;
 nonterminal TypeDef;
 nonterminal Def_withoutTmplDef;
+nonterminal Dcl;
+nonterminal N_TypeDcl;
 //
 precedence left UNDERSCORE, IMPLICIT, SimpleExpr1, SimpleExpr;
 //
@@ -588,8 +593,13 @@ Def_withoutTmplDef  ::=  PatVarDef
 
 N_TypeDef       ::= TypeDef | NL N_TypeDef;
 
+Dcl               ::=    VAL ValDcl
+                      |  VAR VarDcl
+                      |  DEF FunDcl
+                      |  TYPE N_TypeDcl
+                      ;
 
-
+N_TypeDcl       ::= TypeDcl | NL N_TypeDcl;
 
 
 
