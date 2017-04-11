@@ -34,20 +34,21 @@ terminal SUPER;
 terminal EXTENDS;
 terminal LBRACK;
 terminal RBRACK;
+terminal THIS;
+terminal RDARROW;
 //
-terminal Path;
-terminal Types;
-terminal Exprs;
-terminal PostfixExpr;
-terminal BlockExpr;
-terminal ClassQualifier;
-terminal ImportSelector;
-terminal TemplateBody;
 terminal ClassTemplate;
 terminal VariantTypeParam;
 terminal ClassParams;
 terminal ClassParamClause;
 terminal TraitTemplate;
+terminal Type;
+terminal Expr;
+terminal InfixExpr;
+terminal CaseClauses;
+terminal Block;
+terminal TemplateStat;
+terminal SelfType;
 //
 nonterminal CompilationUnit;
 nonterminal QualId;
@@ -75,11 +76,20 @@ nonterminal StableId;
 nonterminal _ImportSelectors;
 nonterminal ClassTemplateOpt;
 nonterminal _TypeParamClause;
-nonterminal ClassParamClauses;
+nonterminal _ClassParamClauses;
 nonterminal ConstrAnnotation;
 nonterminal TraitTemplateOpt;
 nonterminal TypeArgs;
+nonterminal Path;
+nonterminal Types;
+nonterminal Exprs;
+nonterminal PostfixExpr;
+nonterminal BlockExpr;
+nonterminal ClassQualifier;
+nonterminal ImportSelector;
+nonterminal _TemplateBody;
 
+precedence left NL;
 precedence left DOT;
 
 CompilationUnit  ::=  PACKAGE QualId SEMI CompilationUnit
@@ -131,10 +141,19 @@ ImportExpr        ::=  StableId DOT ID
 
 ObjectDef         ::=  ID ClassTemplateOpt;
 
-ClassDef          ::=  ID  A_M_ClassParamClauses ClassTemplateOpt
-                    |   ID LBRACK _TypeParamClause RBRACK A_M_ClassParamClauses ClassTemplateOpt;
+ClassDef          ::=  ID  ClassTemplateOpt
+                    |  ID  A_M_ClassParamClauses ClassTemplateOpt
+                    |   ID LBRACK _TypeParamClause RBRACK ClassTemplateOpt
+                    |   ID LBRACK _TypeParamClause RBRACK A_M_ClassParamClauses ClassTemplateOpt
+                    ;
 
-M_ClassParamClauses ::= ClassParamClauses | AccessModifier ClassParamClauses;
+_ClassParamClauses ::= LPAREN IMPLICIT ClassParams RPAREN
+                    | NL LPAREN IMPLICIT ClassParams RPAREN
+                    | ClassParamClause
+                    | ClassParamClause _ClassParamClauses
+                    ;
+
+M_ClassParamClauses ::= _ClassParamClauses | AccessModifier _ClassParamClauses;
 
 A_M_ClassParamClauses   ::= M_ClassParamClauses | ConstrAnnotation A_M_ClassParamClauses;
 
@@ -175,28 +194,68 @@ StableId          ::=  ID
 _ImportSelectors   ::=  ImportSelector | UNDERSCORE | ImportSelector COMMA _ImportSelectors;
 
 ClassTemplateOpt  ::=
-                    | TemplateBody
-                    | EXTENDS TemplateBody
+                    | LBRACE _TemplateBody RBRACE
+                    | NL LBRACE _TemplateBody RBRACE
+                    | EXTENDS LBRACE _TemplateBody RBRACE
+                    | EXTENDS NL LBRACE _TemplateBody RBRACE
                     | EXTENDS ClassTemplate
                     ;
 
 _TypeParamClause   ::=  VariantTypeParam | _TypeParamClause COMMA VariantTypeParam;
 
-ClassParamClauses ::=
-                    | LPAREN IMPLICIT ClassParams RPAREN
-                    | NL LPAREN IMPLICIT ClassParams RPAREN
-                    | ClassParamClause ClassParamClauses
-                    ;
-
 ConstrAnnotation  ::=  AT SimpleType ArgumentExprs;
 
 TraitTemplateOpt  ::=
-                    | TemplateBody
-                    | EXTENDS TemplateBody
+                    | LBRACE _TemplateBody RBRACE
+                    | NL LBRACE _TemplateBody RBRACE
+                    | EXTENDS LBRACE _TemplateBody RBRACE
+                    | EXTENDS NL LBRACE _TemplateBody RBRACE
                     | EXTENDS TraitTemplate
                     ;
 
 TypeArgs          ::=  LBRACK Types RBRACK;
+
+Path              ::=  StableId
+                      |  THIS
+                      |  ID DOT THIS
+                      ;
+
+Types             ::=  Type | Types COMMA Type;
+
+Exprs             ::=  Expr | Exprs COMMA Expr;
+
+PostfixExpr       ::=  InfixExpr
+                    |  InfixExpr ID
+                    |  InfixExpr ID NL
+                    ;
+
+BlockExpr         ::=  LBRACE CaseClauses RBRACE |  LBRACE Block RBRACE;
+
+ClassQualifier    ::=  LBRACK ID RBRACK;
+
+ImportSelector    ::=  ID
+                    |  ID RDARROW ID
+                    |  ID RDARROW UNDERSCORE
+                    ;
+
+_TemplateBody      ::=  TemplateStat | SelfType TemplateStat | _TemplateBody SEMI TemplateStat;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
