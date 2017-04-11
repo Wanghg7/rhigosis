@@ -63,7 +63,6 @@ terminal EXCLAM;
 terminal UNARY;
 terminal DEF;
 // TODO
-terminal AnnotType;
 terminal EarlyDef;
 terminal ParamType;
 terminal CompoundType;
@@ -171,6 +170,7 @@ nonterminal Def_withoutTmplDef;
 nonterminal Dcl;
 nonterminal N_TypeDcl;
 nonterminal Constr;
+nonterminal AnnotType;
 //
 precedence left UNDERSCORE, IMPLICIT, SimpleExpr1, SimpleExpr;
 //
@@ -604,7 +604,7 @@ N_TypeDcl       ::= TypeDcl | NL N_TypeDcl;
 
 Constr            ::=  AnnotType | Constr ArgumentExprs;
 
-
+AnnotType         ::=  SimpleType | AnnotType Annotation;
 
 
 
