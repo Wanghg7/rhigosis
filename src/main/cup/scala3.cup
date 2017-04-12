@@ -36,7 +36,6 @@ terminal LBRACK;
 terminal RBRACK;
 terminal THIS;
 // TODO
-terminal TypeArgs;
 terminal Path;
 terminal Types;
 terminal Exprs;
@@ -82,6 +81,7 @@ nonterminal ClassParamClauses;
 nonterminal ConstrAnnotation;
 nonterminal TraitTemplateOpt;
 nonterminal AccessQualifier;
+nonterminal TypeArgs;
 // Precedence
 precedence left DOT/*used in StableId*/;
 // Rules
@@ -206,7 +206,7 @@ TraitTemplateOpt  ::=  EXTENDS TraitTemplate;
 AccessQualifier   ::=  LBRACK ID RBRACK;
 AccessQualifier   ::=  LBRACK THIS RBRACK;
 
-
+TypeArgs          ::=  LBRACK Types RBRACK;
 
 
 
