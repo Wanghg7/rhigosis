@@ -32,7 +32,6 @@ terminal COLON;
 terminal ASTERISK;
 terminal SUPER;
 // TODO
-terminal ImportSelectors;
 terminal ClassTemplateOpt;
 terminal TypeParamClause;
 terminal ClassParamClauses;
@@ -46,6 +45,7 @@ terminal Exprs;
 terminal PostfixExpr;
 terminal BlockExpr;
 terminal ClassQualifier;
+terminal ImportSelector;
 // DONE
 nonterminal CompilationUnit;
 nonterminal TopStatSeq;
@@ -69,6 +69,8 @@ nonterminal AccessModifier;
 nonterminal SimpleType;
 nonterminal ArgumentExprs;
 nonterminal StableId;
+nonterminal ImportSelectors;
+nonterminal _ImportSelectors;
 // Precedence
 precedence left DOT/*used in StableId*/;
 // Rules
@@ -163,9 +165,11 @@ StableId          ::=  SUPER ClassQualifier DOT ID;
 StableId          ::=  ID DOT SUPER DOT ID;
 StableId          ::=  ID DOT SUPER ClassQualifier DOT ID;
 
+ImportSelectors   ::=  LBRACE _ImportSelectors RBRACE;
 
-
-
+_ImportSelectors    ::= ImportSelector;
+_ImportSelectors    ::= UNDERSCORE;
+_ImportSelectors    ::= ImportSelector COMMA _ImportSelectors;
 
 
 
