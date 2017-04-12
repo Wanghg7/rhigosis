@@ -35,8 +35,8 @@ terminal EXTENDS;
 terminal LBRACK;
 terminal RBRACK;
 terminal THIS;
+terminal RDARROW;
 // TODO
-terminal ImportSelector;
 terminal ClassTemplate;
 terminal TemplateBody;
 terminal VariantTypeParam;
@@ -87,6 +87,7 @@ nonterminal Exprs;
 nonterminal PostfixExpr;
 nonterminal BlockExpr;
 nonterminal ClassQualifier;
+nonterminal ImportSelector;
 // Precedence
 precedence left DOT/*used in StableId*/;
 // Rules
@@ -232,7 +233,9 @@ BlockExpr         ::=  LBRACE Block RBRACE;
 
 ClassQualifier    ::=  LBRACK ID RBRACK;
 
-
+ImportSelector    ::=  ID;
+ImportSelector    ::=  ID RDARROW ID;
+ImportSelector    ::=  ID RDARROW UNDERSCORE;
 
 
 
