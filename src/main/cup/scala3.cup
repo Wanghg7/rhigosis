@@ -36,7 +36,6 @@ terminal LBRACK;
 terminal RBRACK;
 terminal THIS;
 // TODO
-terminal Exprs;
 terminal PostfixExpr;
 terminal BlockExpr;
 terminal ClassQualifier;
@@ -83,6 +82,8 @@ nonterminal AccessQualifier;
 nonterminal TypeArgs;
 nonterminal Path;
 nonterminal Types;
+nonterminal Exprs;
+nonterminal Expr;
 // Precedence
 precedence left DOT/*used in StableId*/;
 // Rules
@@ -216,7 +217,8 @@ Path              ::=  ID DOT THIS;
 Types             ::=  Type;
 Types             ::=  Types COMMA Type;
 
-
+Exprs             ::=  Expr;
+Exprs             ::=  Exprs COMMA Expr;
 
 
 
