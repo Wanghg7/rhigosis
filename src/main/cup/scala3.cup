@@ -14,13 +14,15 @@ terminal OBJECT;
 terminal CLASS;
 terminal CASE;
 terminal TRAIT;
+terminal OVERRIDE;
 // TODO
-terminal Modifier;
 terminal Annotation;
 terminal ImportExpr;
 terminal ObjectDef;
 terminal ClassDef;
 terminal TraitDef;
+terminal LocalModifier;
+terminal AccessModifier;
 // DONE
 nonterminal CompilationUnit;
 nonterminal TopStatSeq;
@@ -32,6 +34,7 @@ nonterminal Import;
 nonterminal Packaging;
 nonterminal PackageObject;
 nonterminal TmplDef;
+nonterminal Modifier;
 // Precedence
 // Rules
 
@@ -71,7 +74,9 @@ TmplDef           ::=  OBJECT ObjectDef;
 TmplDef           ::=  CASE OBJECT ObjectDef;
 TmplDef           ::=  TRAIT TraitDef;
 
-
+Modifier          ::=  LocalModifier;
+Modifier          ::=  AccessModifier;
+Modifier          ::=  OVERRIDE;
 
 
 
