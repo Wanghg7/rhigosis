@@ -42,7 +42,6 @@ terminal PLUS;
 terminal MINUS;
 terminal WITH;
 // TODO
-terminal TemplateStat;
 terminal TypeParam;
 terminal ClassParam;
 terminal TraitParents;
@@ -57,6 +56,8 @@ terminal BlockStat;
 terminal Constr;
 terminal AnnotType;
 terminal EarlyDef;
+terminal Def;
+terminal Dcl;
 // DONE
 nonterminal CompilationUnit;
 nonterminal TopStatSeq;
@@ -114,6 +115,11 @@ nonterminal ClassParents;
 nonterminal EarlyDefs;
 nonterminal _EarlyDefs;
 nonterminal SelfType;
+nonterminal TemplateStat;
+nonterminal _AN_M_Def;
+nonterminal _M_Def;
+nonterminal _AN_M_Dcl;
+nonterminal _M_Dcl;
 // Precedence
 precedence left ID/*used in InfixExpr*/;
 precedence left DOT/*used in StableId*/;
@@ -329,4 +335,32 @@ _EarlyDefs        ::= _EarlyDefs SEMI EarlyDef;
 SelfType          ::=  ID RDARROW;
 SelfType          ::=  ID COLON Type RDARROW;
 SelfType          ::=  THIS COLON Type RDARROW;
+
+TemplateStat      ::=  Import;
+TemplateStat      ::=  _AN_M_Def;
+TemplateStat      ::=  _AN_M_Dcl;
+TemplateStat      ::=  Expr;
+TemplateStat      ::=  ;
+
+_AN_M_Def         ::=  _M_Def;
+_AN_M_Def         ::=  Annotation _AN_M_Def;
+_AN_M_Def         ::=  Annotation NL _AN_M_Def;
+
+_M_Def            ::=  Def;
+_M_Def            ::=  Modifier _M_Def;
+
+_AN_M_Dcl         ::=  _M_Dcl;
+_AN_M_Dcl         ::=  Annotation _AN_M_Dcl;
+_AN_M_Dcl         ::=  Annotation NL _AN_M_Dcl;
+
+_M_Dcl            ::=  Dcl;
+_M_Dcl            ::=  Modifier _M_Dcl;
+
+
+
+
+
+
+
+
 
