@@ -70,6 +70,7 @@ nonterminal SimpleType;
 nonterminal ArgumentExprs;
 nonterminal StableId;
 // Precedence
+precedence left DOT/*used in StableId*/;
 // Rules
 
 CompilationUnit ::=  TopStatSeq;
