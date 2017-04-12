@@ -37,7 +37,6 @@ terminal RBRACK;
 terminal THIS;
 terminal RDARROW;
 // TODO
-terminal TemplateBody;
 terminal VariantTypeParam;
 terminal ClassParams;
 terminal ClassParamClause;
@@ -49,6 +48,8 @@ terminal CaseClauses;
 terminal Block;
 terminal ClassParents;
 terminal EarlyDefs;
+terminal SelfType;
+terminal TemplateStat;
 // DONE
 nonterminal CompilationUnit;
 nonterminal TopStatSeq;
@@ -90,6 +91,8 @@ nonterminal BlockExpr;
 nonterminal ClassQualifier;
 nonterminal ImportSelector;
 nonterminal ClassTemplate;
+nonterminal TemplateBody;
+nonterminal _TemplateBody;
 // Precedence
 precedence left DOT/*used in StableId*/;
 // Rules
@@ -244,9 +247,13 @@ ClassTemplate     ::=  ClassParents TemplateBody;
 ClassTemplate     ::=  EarlyDefs ClassParents;
 ClassTemplate     ::=  EarlyDefs ClassParents TemplateBody;
 
+TemplateBody      ::=  LBRACE _TemplateBody RBRACE;
+TemplateBody      ::=  LBRACE SelfType _TemplateBody RBRACE;
+TemplateBody      ::=  NL LBRACE _TemplateBody RBRACE;
+TemplateBody      ::=  NL LBRACE SelfType _TemplateBody RBRACE;
 
-
-
+_TemplateBody       ::= TemplateStat;
+_TemplateBody       ::= _TemplateBody SEMI TemplateStat;
 
 
 
