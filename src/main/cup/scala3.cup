@@ -41,7 +41,6 @@ terminal NL_LBRACE;
 terminal PLUS;
 terminal MINUS;
 // TODO
-terminal Block;
 terminal ClassParents;
 terminal EarlyDefs;
 terminal SelfType;
@@ -55,6 +54,8 @@ terminal ExistentialClause;
 terminal Bindings;
 terminal PrefixExpr;
 terminal CaseClause;
+terminal ResultExpr;
+terminal BlockStat;
 // DONE
 nonterminal CompilationUnit;
 nonterminal TopStatSeq;
@@ -106,6 +107,8 @@ nonterminal Type;
 nonterminal Expr;
 nonterminal InfixExpr;
 nonterminal CaseClauses;
+nonterminal Block;
+nonterminal _Block;
 // Precedence
 precedence left ID/*used in InfixExpr*/;
 precedence left DOT/*used in StableId*/;
@@ -303,7 +306,11 @@ InfixExpr         ::=  InfixExpr ID NL InfixExpr;
 CaseClauses       ::=  CaseClause;
 CaseClauses       ::=  CaseClauses CaseClause;
 
+Block             ::=  _Block;
+Block             ::=  _Block ResultExpr;
 
+_Block            ::=  BlockStat;
+_Block            ::=  _Block SEMI BlockStat;
 
 
 
