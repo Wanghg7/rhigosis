@@ -34,8 +34,8 @@ terminal SUPER;
 terminal EXTENDS;
 terminal LBRACK;
 terminal RBRACK;
+terminal THIS;
 // TODO
-terminal AccessQualifier;
 terminal TypeArgs;
 terminal Path;
 terminal Types;
@@ -81,6 +81,7 @@ nonterminal _TypeParamClause;
 nonterminal ClassParamClauses;
 nonterminal ConstrAnnotation;
 nonterminal TraitTemplateOpt;
+nonterminal AccessQualifier;
 // Precedence
 precedence left DOT/*used in StableId*/;
 // Rules
@@ -202,7 +203,8 @@ TraitTemplateOpt  ::=  TemplateBody;
 TraitTemplateOpt  ::=  EXTENDS TemplateBody;
 TraitTemplateOpt  ::=  EXTENDS TraitTemplate;
 
-
+AccessQualifier   ::=  LBRACK ID RBRACK;
+AccessQualifier   ::=  LBRACK THIS RBRACK;
 
 
 
