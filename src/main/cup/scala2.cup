@@ -63,7 +63,6 @@ terminal EXCLAM;
 terminal UNARY;
 terminal DEF;
 // TODO
-terminal Enumerators;
 terminal SimpleExpr;
 terminal SimpleExpr1;
 terminal Ascription;
@@ -76,6 +75,7 @@ terminal VarDcl;
 terminal FunDcl;
 terminal TypeDcl;
 terminal Refinement;
+terminal Generator;
 // DONE
 nonterminal CompilationUnit;
 nonterminal QualId;
@@ -169,6 +169,7 @@ nonterminal CompoundType;
 nonterminal _AnnotTypes;
 nonterminal ExistentialDcl;
 nonterminal Binding;
+nonterminal Enumerators;
 //
 precedence left UNDERSCORE, IMPLICIT, SimpleExpr1, SimpleExpr;
 //
@@ -615,6 +616,34 @@ Binding           ::=  ID
                     |  UNDERSCORE
                     |  UNDERSCORE COLON Type
                     ;
+
+Enumerators       ::=  Generator | Enumerators SEMI Generator;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
