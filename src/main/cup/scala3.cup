@@ -36,7 +36,6 @@ terminal LBRACK;
 terminal RBRACK;
 terminal THIS;
 // TODO
-terminal BlockExpr;
 terminal ClassQualifier;
 terminal ImportSelector;
 terminal ClassTemplate;
@@ -48,6 +47,8 @@ terminal TraitTemplate;
 terminal Type;
 terminal Expr;
 terminal InfixExpr;
+terminal CaseClauses;
+terminal Block;
 // DONE
 nonterminal CompilationUnit;
 nonterminal TopStatSeq;
@@ -85,6 +86,7 @@ nonterminal Path;
 nonterminal Types;
 nonterminal Exprs;
 nonterminal PostfixExpr;
+nonterminal BlockExpr;
 // Precedence
 precedence left DOT/*used in StableId*/;
 // Rules
@@ -225,7 +227,8 @@ PostfixExpr       ::=  InfixExpr;
 PostfixExpr       ::=  InfixExpr ID;
 PostfixExpr       ::=  InfixExpr ID NL;
 
-
+BlockExpr         ::=  LBRACE CaseClauses RBRACE;
+BlockExpr         ::=  LBRACE Block RBRACE;
 
 
 
