@@ -28,8 +28,9 @@ terminal HASH;
 terminal TYPE;
 terminal LPAREN;
 terminal RPAREN;
+terminal COLON;
+terminal ASTERISK;
 // TODO
-terminal ArgumentExprs;
 terminal StableId;
 terminal ImportSelectors;
 terminal ClassTemplateOpt;
@@ -41,6 +42,9 @@ terminal AccessQualifier;
 terminal TypeArgs;
 terminal Path;
 terminal Types;
+terminal Exprs;
+terminal PostfixExpr;
+terminal BlockExpr;
 // DONE
 nonterminal CompilationUnit;
 nonterminal TopStatSeq;
@@ -62,6 +66,7 @@ nonterminal TraitDef;
 nonterminal LocalModifier;
 nonterminal AccessModifier;
 nonterminal SimpleType;
+nonterminal ArgumentExprs;
 // Precedence
 // Rules
 
@@ -141,7 +146,12 @@ SimpleType        ::=  StableId;
 SimpleType        ::=  Path DOT TYPE;
 SimpleType        ::=  LPAREN Types RPAREN;
 
-
+ArgumentExprs     ::=  LPAREN RPAREN;
+ArgumentExprs     ::=  LPAREN Exprs RPAREN;
+ArgumentExprs     ::=  LPAREN PostfixExpr COLON UNDERSCORE ASTERISK RPAREN;
+ArgumentExprs     ::=  LPAREN Exprs COMMA PostfixExpr COLON UNDERSCORE ASTERISK RPAREN;
+ArgumentExprs     ::=  BlockExpr;
+ArgumentExprs     ::=  NL BlockExpr;
 
 
 
