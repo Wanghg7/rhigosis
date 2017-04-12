@@ -35,7 +35,6 @@ terminal EXTENDS;
 terminal LBRACK;
 terminal RBRACK;
 // TODO
-terminal TraitTemplateOpt;
 terminal AccessQualifier;
 terminal TypeArgs;
 terminal Path;
@@ -50,6 +49,7 @@ terminal TemplateBody;
 terminal VariantTypeParam;
 terminal ClassParams;
 terminal ClassParamClause;
+terminal TraitTemplate;
 // DONE
 nonterminal CompilationUnit;
 nonterminal TopStatSeq;
@@ -80,6 +80,7 @@ nonterminal TypeParamClause;
 nonterminal _TypeParamClause;
 nonterminal ClassParamClauses;
 nonterminal ConstrAnnotation;
+nonterminal TraitTemplateOpt;
 // Precedence
 precedence left DOT/*used in StableId*/;
 // Rules
@@ -196,7 +197,10 @@ ClassParamClauses ::=  ClassParamClause ClassParamClauses;
 
 ConstrAnnotation  ::=  AT SimpleType ArgumentExprs;
 
-
+TraitTemplateOpt  ::=  ;
+TraitTemplateOpt  ::=  TemplateBody;
+TraitTemplateOpt  ::=  EXTENDS TemplateBody;
+TraitTemplateOpt  ::=  EXTENDS TraitTemplate;
 
 
 
