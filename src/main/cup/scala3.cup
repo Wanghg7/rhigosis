@@ -22,8 +22,9 @@ terminal FINAL;
 terminal SEALED;
 terminal IMPLICIT;
 terminal LAZY;
+terminal PRIVATE;
+terminal PROTECTED;
 // TODO
-terminal AccessModifier;
 terminal SimpleType;
 terminal ArgumentExprs;
 terminal StableId;
@@ -33,6 +34,7 @@ terminal TypeParamClause;
 terminal ClassParamClauses;
 terminal ConstrAnnotation;
 terminal TraitTemplateOpt;
+terminal AccessQualifier;
 // DONE
 nonterminal CompilationUnit;
 nonterminal TopStatSeq;
@@ -52,6 +54,7 @@ nonterminal ClassDef;
 nonterminal _A_ClassParamClauses;
 nonterminal TraitDef;
 nonterminal LocalModifier;
+nonterminal AccessModifier;
 // Precedence
 // Rules
 
@@ -120,7 +123,10 @@ LocalModifier     ::=  SEALED;
 LocalModifier     ::=  IMPLICIT;
 LocalModifier     ::=  LAZY;
 
-
+AccessModifier    ::=  PRIVATE;
+AccessModifier    ::=  PRIVATE AccessQualifier;
+AccessModifier    ::=  PROTECTED;
+AccessModifier    ::=  PROTECTED AccessQualifier;
 
 
 
