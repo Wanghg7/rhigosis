@@ -1,0 +1,45 @@
+================================================================================
+Warning : *** Shift/Reduce conflict found in state #85
+  between ClassParamClauses ::= (*)
+  and     ClassParamClauses ::= (*) NL LPAREN IMPLICIT ClassParams RPAREN
+  under symbol NL
+  Resolved in favor of shifting.
+
+Warning : *** Shift/Reduce conflict found in state #81
+  between ClassParamClauses ::= (*)
+  and     ClassParamClauses ::= (*) NL LPAREN IMPLICIT ClassParams RPAREN
+  under symbol NL
+  Resolved in favor of shifting.
+
+Warning : *** Shift/Reduce conflict found in state #79
+  between ClassParamClauses ::= (*)
+  and     ClassParamClauses ::= (*) NL LPAREN IMPLICIT ClassParams RPAREN
+  under symbol NL
+  Resolved in favor of shifting.
+
+Warning : *** Shift/Reduce conflict found in state #77
+  between ClassParamClauses ::= (*)
+  and     ClassParamClauses ::= (*) NL LPAREN IMPLICIT ClassParams RPAREN
+  under symbol NL
+  Resolved in favor of shifting.
+
+Warning : *** Shift/Reduce conflict found in state #82
+  between ClassParamClauses ::= (*)
+  and     ClassParamClauses ::= (*) NL LPAREN IMPLICIT ClassParams RPAREN
+  under symbol NL
+  Resolved in favor of shifting.
+================================================================================
+ClassDef          ::=  id [TypeParamClause] {ConstrAnnotation} [AccessModifier]
+                         ClassParamClauses ClassTemplateOpt
+ClassParamClauses ::=  {ClassParamClause}
+                         [[nl] ‘(’ ‘implicit’ ClassParams ‘)’]
+ClassTemplateOpt  ::=  ‘extends’ ClassTemplate | [[‘extends’] TemplateBody]
+TemplateBody      ::=  [nl] ‘{’ [SelfType] TemplateStat {semi TemplateStat} ‘}’
+================================================================================
+SOLUTION:
+the problem is that ClassParamClauses is optional,
+the parser can not select between NL '(' and NL '{'
+so the possible solution is to define the following terminals:
+    NL_LPAREN, NL_LBRACE
+================================================================================
+

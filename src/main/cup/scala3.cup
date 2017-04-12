@@ -36,6 +36,8 @@ terminal LBRACK;
 terminal RBRACK;
 terminal THIS;
 terminal RDARROW;
+terminal NL_LPAREN;
+terminal NL_LBRACE;
 // TODO
 terminal VariantTypeParam;
 terminal ClassParams;
@@ -204,7 +206,7 @@ _TypeParamClause    ::= _TypeParamClause COMMA VariantTypeParam;
 
 ClassParamClauses ::=  ;
 ClassParamClauses ::=  LPAREN IMPLICIT ClassParams RPAREN;
-ClassParamClauses ::=  NL LPAREN IMPLICIT ClassParams RPAREN;
+ClassParamClauses ::=  NL_LPAREN IMPLICIT ClassParams RPAREN;
 ClassParamClauses ::=  ClassParamClause ClassParamClauses;
 
 ConstrAnnotation  ::=  AT SimpleType ArgumentExprs;
@@ -249,8 +251,8 @@ ClassTemplate     ::=  EarlyDefs ClassParents TemplateBody;
 
 TemplateBody      ::=  LBRACE _TemplateBody RBRACE;
 TemplateBody      ::=  LBRACE SelfType _TemplateBody RBRACE;
-TemplateBody      ::=  NL LBRACE _TemplateBody RBRACE;
-TemplateBody      ::=  NL LBRACE SelfType _TemplateBody RBRACE;
+TemplateBody      ::=  NL_LBRACE _TemplateBody RBRACE;
+TemplateBody      ::=  NL_LBRACE SelfType _TemplateBody RBRACE;
 
 _TemplateBody       ::= TemplateStat;
 _TemplateBody       ::= _TemplateBody SEMI TemplateStat;
