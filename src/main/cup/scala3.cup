@@ -40,8 +40,8 @@ terminal NL_LPAREN;
 terminal NL_LBRACE;
 terminal PLUS;
 terminal MINUS;
+terminal WITH;
 // TODO
-terminal ClassParents;
 terminal EarlyDefs;
 terminal SelfType;
 terminal TemplateStat;
@@ -56,6 +56,8 @@ terminal PrefixExpr;
 terminal CaseClause;
 terminal ResultExpr;
 terminal BlockStat;
+terminal Constr;
+terminal AnnotType;
 // DONE
 nonterminal CompilationUnit;
 nonterminal TopStatSeq;
@@ -109,6 +111,7 @@ nonterminal InfixExpr;
 nonterminal CaseClauses;
 nonterminal Block;
 nonterminal _Block;
+nonterminal ClassParents;
 // Precedence
 precedence left ID/*used in InfixExpr*/;
 precedence left DOT/*used in StableId*/;
@@ -312,7 +315,8 @@ Block             ::=  _Block ResultExpr;
 _Block            ::=  BlockStat;
 _Block            ::=  _Block SEMI BlockStat;
 
-
+ClassParents      ::=  Constr;
+ClassParents      ::=  ClassParents WITH AnnotType;
 
 
 
