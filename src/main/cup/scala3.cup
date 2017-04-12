@@ -18,7 +18,6 @@ terminal OVERRIDE;
 terminal AT;
 terminal UNDERSCORE;
 // TODO
-terminal ObjectDef;
 terminal ClassDef;
 terminal TraitDef;
 terminal LocalModifier;
@@ -27,6 +26,7 @@ terminal SimpleType;
 terminal ArgumentExprs;
 terminal StableId;
 terminal ImportSelectors;
+terminal ClassTemplateOpt;
 // DONE
 nonterminal CompilationUnit;
 nonterminal TopStatSeq;
@@ -41,6 +41,7 @@ nonterminal TmplDef;
 nonterminal Modifier;
 nonterminal Annotation;
 nonterminal ImportExpr;
+nonterminal ObjectDef;
 // Precedence
 // Rules
 
@@ -91,7 +92,7 @@ ImportExpr        ::=  StableId DOT ID;
 ImportExpr        ::=  StableId DOT UNDERSCORE;
 ImportExpr        ::=  StableId DOT ImportSelectors;
 
-
+ObjectDef         ::=  ID ClassTemplateOpt;
 
 
 
