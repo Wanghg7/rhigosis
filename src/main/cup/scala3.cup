@@ -18,7 +18,6 @@ terminal OVERRIDE;
 terminal AT;
 terminal UNDERSCORE;
 // TODO
-terminal TraitDef;
 terminal LocalModifier;
 terminal AccessModifier;
 terminal SimpleType;
@@ -29,6 +28,7 @@ terminal ClassTemplateOpt;
 terminal TypeParamClause;
 terminal ClassParamClauses;
 terminal ConstrAnnotation;
+terminal TraitTemplateOpt;
 // DONE
 nonterminal CompilationUnit;
 nonterminal TopStatSeq;
@@ -46,6 +46,7 @@ nonterminal ImportExpr;
 nonterminal ObjectDef;
 nonterminal ClassDef;
 nonterminal _A_ClassParamClauses;
+nonterminal TraitDef;
 // Precedence
 // Rules
 
@@ -105,7 +106,8 @@ _A_ClassParamClauses    ::= ClassParamClauses;
 _A_ClassParamClauses    ::= AccessModifier ClassParamClauses;
 _A_ClassParamClauses    ::= ConstrAnnotation _A_ClassParamClauses;
 
-
+TraitDef          ::=  ID TraitTemplateOpt;
+TraitDef          ::=  ID TypeParamClause TraitTemplateOpt;
 
 
 
