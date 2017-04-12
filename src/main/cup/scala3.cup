@@ -41,7 +41,6 @@ terminal NL_LBRACE;
 terminal PLUS;
 terminal MINUS;
 // TODO
-terminal Type;
 terminal Expr;
 terminal InfixExpr;
 terminal CaseClauses;
@@ -53,6 +52,9 @@ terminal TemplateStat;
 terminal TypeParam;
 terminal ClassParam;
 terminal TraitParents;
+terminal FunctionArgTypes;
+terminal InfixType;
+terminal ExistentialClause;
 // DONE
 nonterminal CompilationUnit;
 nonterminal TopStatSeq;
@@ -100,6 +102,7 @@ nonterminal VariantTypeParam;
 nonterminal ClassParams;
 nonterminal ClassParamClause;
 nonterminal TraitTemplate;
+nonterminal Type;
 // Precedence
 precedence left DOT/*used in StableId*/;
 // Rules
@@ -280,7 +283,9 @@ TraitTemplate     ::=  TraitParents TemplateBody;
 TraitTemplate     ::=  EarlyDefs TraitParents;
 TraitTemplate     ::=  EarlyDefs TraitParents TemplateBody;
 
-
+Type              ::=  FunctionArgTypes RDARROW Type;
+Type              ::=  InfixType;
+Type              ::=  InfixType ExistentialClause;
 
 
 
