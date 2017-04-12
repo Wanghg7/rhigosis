@@ -35,7 +35,6 @@ terminal EXTENDS;
 terminal LBRACK;
 terminal RBRACK;
 // TODO
-terminal ClassParamClauses;
 terminal ConstrAnnotation;
 terminal TraitTemplateOpt;
 terminal AccessQualifier;
@@ -50,6 +49,8 @@ terminal ImportSelector;
 terminal ClassTemplate;
 terminal TemplateBody;
 terminal VariantTypeParam;
+terminal ClassParams;
+terminal ClassParamClause;
 // DONE
 nonterminal CompilationUnit;
 nonterminal TopStatSeq;
@@ -78,6 +79,7 @@ nonterminal _ImportSelectors;
 nonterminal ClassTemplateOpt;
 nonterminal TypeParamClause;
 nonterminal _TypeParamClause;
+nonterminal ClassParamClauses;
 // Precedence
 precedence left DOT/*used in StableId*/;
 // Rules
@@ -187,7 +189,10 @@ TypeParamClause   ::=  LBRACK _TypeParamClause RBRACK;
 _TypeParamClause    ::= VariantTypeParam;
 _TypeParamClause    ::= _TypeParamClause COMMA VariantTypeParam;
 
-
+ClassParamClauses ::=  ;
+ClassParamClauses ::=  LPAREN IMPLICIT ClassParams RPAREN;
+ClassParamClauses ::=  NL LPAREN IMPLICIT ClassParams RPAREN;
+ClassParamClauses ::=  ClassParamClause ClassParamClauses;
 
 
 
