@@ -24,8 +24,11 @@ terminal IMPLICIT;
 terminal LAZY;
 terminal PRIVATE;
 terminal PROTECTED;
+terminal HASH;
+terminal TYPE;
+terminal LPAREN;
+terminal RPAREN;
 // TODO
-terminal SimpleType;
 terminal ArgumentExprs;
 terminal StableId;
 terminal ImportSelectors;
@@ -35,6 +38,9 @@ terminal ClassParamClauses;
 terminal ConstrAnnotation;
 terminal TraitTemplateOpt;
 terminal AccessQualifier;
+terminal TypeArgs;
+terminal Path;
+terminal Types;
 // DONE
 nonterminal CompilationUnit;
 nonterminal TopStatSeq;
@@ -55,6 +61,7 @@ nonterminal _A_ClassParamClauses;
 nonterminal TraitDef;
 nonterminal LocalModifier;
 nonterminal AccessModifier;
+nonterminal SimpleType;
 // Precedence
 // Rules
 
@@ -128,7 +135,11 @@ AccessModifier    ::=  PRIVATE AccessQualifier;
 AccessModifier    ::=  PROTECTED;
 AccessModifier    ::=  PROTECTED AccessQualifier;
 
-
+SimpleType        ::=  SimpleType TypeArgs;
+SimpleType        ::=  SimpleType HASH ID;
+SimpleType        ::=  StableId;
+SimpleType        ::=  Path DOT TYPE;
+SimpleType        ::=  LPAREN Types RPAREN;
 
 
 
