@@ -36,7 +36,6 @@ terminal LBRACK;
 terminal RBRACK;
 terminal THIS;
 // TODO
-terminal Types;
 terminal Exprs;
 terminal PostfixExpr;
 terminal BlockExpr;
@@ -48,6 +47,7 @@ terminal VariantTypeParam;
 terminal ClassParams;
 terminal ClassParamClause;
 terminal TraitTemplate;
+terminal Type;
 // DONE
 nonterminal CompilationUnit;
 nonterminal TopStatSeq;
@@ -82,6 +82,7 @@ nonterminal TraitTemplateOpt;
 nonterminal AccessQualifier;
 nonterminal TypeArgs;
 nonterminal Path;
+nonterminal Types;
 // Precedence
 precedence left DOT/*used in StableId*/;
 // Rules
@@ -212,7 +213,8 @@ Path              ::=  StableId;
 Path              ::=  THIS;
 Path              ::=  ID DOT THIS;
 
-
+Types             ::=  Type;
+Types             ::=  Types COMMA Type;
 
 
 
