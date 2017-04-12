@@ -32,8 +32,9 @@ terminal COLON;
 terminal ASTERISK;
 terminal SUPER;
 terminal EXTENDS;
+terminal LBRACK;
+terminal RBRACK;
 // TODO
-terminal TypeParamClause;
 terminal ClassParamClauses;
 terminal ConstrAnnotation;
 terminal TraitTemplateOpt;
@@ -48,6 +49,7 @@ terminal ClassQualifier;
 terminal ImportSelector;
 terminal ClassTemplate;
 terminal TemplateBody;
+terminal VariantTypeParam;
 // DONE
 nonterminal CompilationUnit;
 nonterminal TopStatSeq;
@@ -74,6 +76,8 @@ nonterminal StableId;
 nonterminal ImportSelectors;
 nonterminal _ImportSelectors;
 nonterminal ClassTemplateOpt;
+nonterminal TypeParamClause;
+nonterminal _TypeParamClause;
 // Precedence
 precedence left DOT/*used in StableId*/;
 // Rules
@@ -178,9 +182,10 @@ ClassTemplateOpt  ::= EXTENDS ClassTemplate;
 ClassTemplateOpt  ::= TemplateBody;
 ClassTemplateOpt  ::= EXTENDS TemplateBody;
 
+TypeParamClause   ::=  LBRACK _TypeParamClause RBRACK;
 
-
-
+_TypeParamClause    ::= VariantTypeParam;
+_TypeParamClause    ::= _TypeParamClause COMMA VariantTypeParam;
 
 
 
