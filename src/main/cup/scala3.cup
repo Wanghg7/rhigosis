@@ -106,6 +106,7 @@ nonterminal Type;
 nonterminal Expr;
 nonterminal InfixExpr;
 // Precedence
+precedence left ID/*used in InfixExpr*/;
 precedence left DOT/*used in StableId*/;
 // Rules
 

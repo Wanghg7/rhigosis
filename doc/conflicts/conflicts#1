@@ -36,9 +36,9 @@ ClassParamClauses ::=  {ClassParamClause}
 ClassTemplateOpt  ::=  ‘extends’ ClassTemplate | [[‘extends’] TemplateBody]
 TemplateBody      ::=  [nl] ‘{’ [SelfType] TemplateStat {semi TemplateStat} ‘}’
 ================================================================================
-SOLUTION:
 the problem is that ClassParamClauses is optional,
 the parser can not select between NL '(' and NL '{'
+SOLUTION:
 so the possible solution is to define the following terminals:
     NL_LPAREN, NL_LBRACE
 ================================================================================

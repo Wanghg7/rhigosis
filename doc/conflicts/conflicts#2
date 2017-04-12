@@ -1,0 +1,25 @@
+================================================================================
+Warning : *** Shift/Reduce conflict found in state #140
+  between InfixExpr ::= InfixExpr ID InfixExpr (*)
+  and     InfixExpr ::= InfixExpr (*) ID InfixExpr
+  and     InfixExpr ::= InfixExpr (*) ID NL InfixExpr
+  under symbol ID
+  Resolved in favor of shifting.
+
+Warning : *** Shift/Reduce conflict found in state #143
+  between InfixExpr ::= InfixExpr ID NL InfixExpr (*)
+  and     InfixExpr ::= InfixExpr (*) ID InfixExpr
+  and     InfixExpr ::= InfixExpr (*) ID NL InfixExpr
+  under symbol ID
+  Resolved in favor of shifting.
+================================================================================
+InfixExpr         ::=  PrefixExpr
+                      |  InfixExpr id [nl] InfixExpr
+================================================================================
+the parser have no idea of the assciativity of ID operator
+giving ID precedence and associativity should resolve the problem(left or right)
+SOLUTION:
+    precedence left ID;
+reference: "scala spec/2.12/6.12.3 Infix Operations"
+================================================================================
+
