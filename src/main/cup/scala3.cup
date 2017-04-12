@@ -41,6 +41,8 @@ terminal NL_LBRACE;
 terminal PLUS;
 terminal MINUS;
 terminal WITH;
+terminal _SelfType;
+terminal RBRACE_WITH;
 // TODO
 terminal TypeParam;
 terminal ClassParam;
@@ -122,7 +124,7 @@ nonterminal _AN_M_Dcl;
 nonterminal _M_Dcl;
 // Precedence
 precedence left ID/*used in InfixExpr*/;
-precedence left DOT/*used in StableId*/;
+precedence left DOT/*used in StableId*/, _SelfType/*used in SelfType*/;
 // Rules
 
 CompilationUnit ::=  TopStatSeq;
@@ -326,13 +328,13 @@ _Block            ::=  _Block SEMI BlockStat;
 ClassParents      ::=  Constr;
 ClassParents      ::=  ClassParents WITH AnnotType;
 
-EarlyDefs         ::= LBRACE RBRACE WITH;
-EarlyDefs         ::= LBRACE _EarlyDefs RBRACE WITH;
+EarlyDefs         ::= LBRACE RBRACE_WITH;
+EarlyDefs         ::= LBRACE _EarlyDefs RBRACE_WITH;
 
 _EarlyDefs        ::= EarlyDef;
 _EarlyDefs        ::= _EarlyDefs SEMI EarlyDef;
 
-SelfType          ::=  ID RDARROW;
+SelfType          ::=  ID RDARROW %prec _SelfType;
 SelfType          ::=  ID COLON Type RDARROW;
 SelfType          ::=  THIS COLON Type RDARROW;
 

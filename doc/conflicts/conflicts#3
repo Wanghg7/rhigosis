@@ -1,0 +1,62 @@
+================================================================================
+Warning : *** Shift/Reduce conflict found in state #183
+  between SelfType ::= ID RDARROW (*)
+  and     Expr ::= (*) UNDERSCORE RDARROW Expr
+  under symbol UNDERSCORE
+  Resolved in favor of shifting.
+
+Warning : *** Shift/Reduce conflict found in state #183
+  between SelfType ::= ID RDARROW (*)
+  and     Expr ::= (*) IMPLICIT ID RDARROW Expr
+  under symbol IMPLICIT
+  Resolved in favor of shifting.
+
+Warning : *** Shift/Reduce conflict found in state #183
+  between SelfType ::= ID RDARROW (*)
+  and     Expr ::= (*) Bindings RDARROW Expr
+  under symbol Bindings
+  Resolved in favor of shifting.
+================================================================================
+TemplateBody      ::=  [nl] ‘{’ [SelfType] TemplateStat {semi TemplateStat} ‘}’
+SelfType          ::=  id [‘:’ Type] ‘=>’
+                      |  ‘this’ ‘:’ Type ‘=>’
+TemplateStat      ::=  Import
+                      |  {Annotation [nl]} {Modifier} Def
+                      |  {Annotation [nl]} {Modifier} Dcl
+                      |  Expr
+                      |
+Expr              ::=  (Bindings | [‘implicit’] id | ‘_’) ‘=>’ Expr
+                      |  Expr1
+================================================================================
+in TemplateBody, when encoutering ID RDARROW, the parser have to choice between
+as a whole SelfType or a half Expr, we should give SelfType higher precedence
+SOLUTION:
+    SelfType ::= ... %prec _SelfType;
+================================================================================
+Warning : *** Shift/Reduce conflict found in state #39
+  between TemplateStat ::= (*)
+  and     EarlyDefs ::= LBRACE (*) RBRACE WITH
+  under symbol RBRACE
+  Resolved in favor of shifting.
+================================================================================
+ClassTemplateOpt  ::=  ‘extends’ ClassTemplate | [[‘extends’] TemplateBody]
+TraitTemplateOpt  ::=  ‘extends’ TraitTemplate | [[‘extends’] TemplateBody]
+SimpleExpr        ::=  ‘new’ (ClassTemplate | TemplateBody)
+ClassTemplate     ::=  [EarlyDefs] ClassParents [TemplateBody]
+TraitTemplate     ::=  [EarlyDefs] TraitParents [TemplateBody]
+TemplateBody      ::=  [nl] ‘{’ [SelfType] TemplateStat {semi TemplateStat} ‘}’
+TemplateStat      ::=  Import
+                    |  {Annotation [nl]} {Modifier} Def
+                    |  {Annotation [nl]} {Modifier} Dcl
+                    |  Expr
+                    |
+ClassTemplate     ::=  [EarlyDefs] ClassParents [TemplateBody]
+TraitTemplate     ::=  [EarlyDefs] TraitParents [TemplateBody]
+EarlyDefs         ::= ‘{’ [EarlyDef {semi EarlyDef}] ‘}’ ‘with’
+================================================================================
+when the parser see "{}" in the context of ClassTemplateOpt, there are two
+possibilities: empty TemplateBody or empty EarlyDefs, defining an extra
+terminal RBRACE_WITH should resolve the problem:
+SOLUTION:
+    defining an extra terminal RBRACE_WITH
+================================================================================
