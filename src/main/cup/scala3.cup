@@ -35,7 +35,6 @@ terminal EXTENDS;
 terminal LBRACK;
 terminal RBRACK;
 // TODO
-terminal ConstrAnnotation;
 terminal TraitTemplateOpt;
 terminal AccessQualifier;
 terminal TypeArgs;
@@ -80,6 +79,7 @@ nonterminal ClassTemplateOpt;
 nonterminal TypeParamClause;
 nonterminal _TypeParamClause;
 nonterminal ClassParamClauses;
+nonterminal ConstrAnnotation;
 // Precedence
 precedence left DOT/*used in StableId*/;
 // Rules
@@ -194,7 +194,7 @@ ClassParamClauses ::=  LPAREN IMPLICIT ClassParams RPAREN;
 ClassParamClauses ::=  NL LPAREN IMPLICIT ClassParams RPAREN;
 ClassParamClauses ::=  ClassParamClause ClassParamClauses;
 
-
+ConstrAnnotation  ::=  AT SimpleType ArgumentExprs;
 
 
 
