@@ -15,14 +15,16 @@ terminal CLASS;
 terminal CASE;
 terminal TRAIT;
 terminal OVERRIDE;
+terminal AT;
 // TODO
-terminal Annotation;
 terminal ImportExpr;
 terminal ObjectDef;
 terminal ClassDef;
 terminal TraitDef;
 terminal LocalModifier;
 terminal AccessModifier;
+terminal SimpleType;
+terminal ArgumentExprs;
 // DONE
 nonterminal CompilationUnit;
 nonterminal TopStatSeq;
@@ -35,6 +37,7 @@ nonterminal Packaging;
 nonterminal PackageObject;
 nonterminal TmplDef;
 nonterminal Modifier;
+nonterminal Annotation;
 // Precedence
 // Rules
 
@@ -78,7 +81,8 @@ Modifier          ::=  LocalModifier;
 Modifier          ::=  AccessModifier;
 Modifier          ::=  OVERRIDE;
 
-
+Annotation        ::=  AT SimpleType;
+Annotation        ::=  Annotation ArgumentExprs;
 
 
 
