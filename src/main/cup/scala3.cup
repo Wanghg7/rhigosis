@@ -11,12 +11,16 @@ terminal COMMA;
 terminal LBRACE;
 terminal RBRACE;
 terminal OBJECT;
+terminal CLASS;
+terminal CASE;
+terminal TRAIT;
 // TODO
-terminal TmplDef;
 terminal Modifier;
 terminal Annotation;
 terminal ImportExpr;
 terminal ObjectDef;
+terminal ClassDef;
+terminal TraitDef;
 // DONE
 nonterminal CompilationUnit;
 nonterminal TopStatSeq;
@@ -27,6 +31,7 @@ nonterminal _M_TmplDef;
 nonterminal Import;
 nonterminal Packaging;
 nonterminal PackageObject;
+nonterminal TmplDef;
 // Precedence
 // Rules
 
@@ -60,7 +65,11 @@ Packaging         ::=  PACKAGE QualId NL LBRACE TopStatSeq RBRACE;
 
 PackageObject     ::=  PACKAGE OBJECT ObjectDef;
 
-
+TmplDef           ::=  CLASS ClassDef;
+TmplDef           ::=  CASE CLASS ClassDef;
+TmplDef           ::=  OBJECT ObjectDef;
+TmplDef           ::=  CASE OBJECT ObjectDef;
+TmplDef           ::=  TRAIT TraitDef;
 
 
 
