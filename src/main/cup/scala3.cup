@@ -10,12 +10,13 @@ terminal IMPORT;
 terminal COMMA;
 terminal LBRACE;
 terminal RBRACE;
+terminal OBJECT;
 // TODO
-terminal PackageObject;
 terminal TmplDef;
 terminal Modifier;
 terminal Annotation;
 terminal ImportExpr;
+terminal ObjectDef;
 // DONE
 nonterminal CompilationUnit;
 nonterminal TopStatSeq;
@@ -25,6 +26,7 @@ nonterminal _AN_M_TmplDef;
 nonterminal _M_TmplDef;
 nonterminal Import;
 nonterminal Packaging;
+nonterminal PackageObject;
 // Precedence
 // Rules
 
@@ -56,7 +58,7 @@ Import            ::=  Import COMMA ImportExpr;
 Packaging         ::=  PACKAGE QualId LBRACE TopStatSeq RBRACE;
 Packaging         ::=  PACKAGE QualId NL LBRACE TopStatSeq RBRACE;
 
-
+PackageObject     ::=  PACKAGE OBJECT ObjectDef;
 
 
 
