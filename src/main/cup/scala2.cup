@@ -228,8 +228,8 @@ ImportExpr        ::=  StableId DOT ID
 
 ObjectDef         ::=  ID ClassTemplateOpt;
 
-ClassDef          ::=  ID  ClassTemplateOpt
-                    |  ID  A_M_ClassParamClauses ClassTemplateOpt
+ClassDef          ::=  ID  ClassTemplateOpt;
+ClassDef          ::=   ID  A_M_ClassParamClauses ClassTemplateOpt
                     |   ID LBRACK _TypeParamClause RBRACK ClassTemplateOpt
                     |   ID LBRACK _TypeParamClause RBRACK A_M_ClassParamClauses ClassTemplateOpt
                     ;

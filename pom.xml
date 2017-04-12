@@ -66,6 +66,19 @@
                 <version>11b-20160615</version>
                 <executions>
                     <execution>
+                        <id>cup:scala3</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <nontermsToSymbols>true</nontermsToSymbols>
+                            <cupDefinition>${basedir}/src/main/cup/scala3.cup</cupDefinition>
+                            <className>Parser3</className>
+                            <symbolsName>Sym3</symbolsName>
+                        </configuration>
+                    </execution>
+                    <!--execution>
                         <id>cup:scala2</id>
                         <phase>generate-sources</phase>
                         <goals>
@@ -114,7 +127,7 @@
                             <className>Parser</className>
                             <symbolsName>Sym</symbolsName>
                         </configuration>
-                    </execution>
+                    </execution-->
                 </executions>
             </plugin>
             <plugin>

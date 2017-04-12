@@ -1,0 +1,16 @@
+package wanghg.rhigosis;
+
+// TERMINAL
+terminal PACKAGE;
+terminal SEMI;
+// TODO
+terminal TopStatSeq;
+terminal QualId;
+// DONE
+nonterminal CompilationUnit;
+// Precedence
+// Rules
+
+CompilationUnit ::=  TopStatSeq;
+CompilationUnit ::=  PACKAGE QualId SEMI CompilationUnit;
+
