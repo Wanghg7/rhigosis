@@ -36,7 +36,6 @@ terminal LBRACK;
 terminal RBRACK;
 terminal THIS;
 // TODO
-terminal Path;
 terminal Types;
 terminal Exprs;
 terminal PostfixExpr;
@@ -82,6 +81,7 @@ nonterminal ConstrAnnotation;
 nonterminal TraitTemplateOpt;
 nonterminal AccessQualifier;
 nonterminal TypeArgs;
+nonterminal Path;
 // Precedence
 precedence left DOT/*used in StableId*/;
 // Rules
@@ -208,7 +208,9 @@ AccessQualifier   ::=  LBRACK THIS RBRACK;
 
 TypeArgs          ::=  LBRACK Types RBRACK;
 
-
+Path              ::=  StableId;
+Path              ::=  THIS;
+Path              ::=  ID DOT THIS;
 
 
 
