@@ -8,8 +8,9 @@ terminal DOT;
 terminal NL;
 terminal IMPORT;
 terminal COMMA;
+terminal LBRACE;
+terminal RBRACE;
 // TODO
-terminal Packaging;
 terminal PackageObject;
 terminal TmplDef;
 terminal Modifier;
@@ -23,6 +24,7 @@ nonterminal TopStat;
 nonterminal _AN_M_TmplDef;
 nonterminal _M_TmplDef;
 nonterminal Import;
+nonterminal Packaging;
 // Precedence
 // Rules
 
@@ -51,7 +53,8 @@ _AN_M_TmplDef       ::= Annotation NL _AN_M_TmplDef;
 Import            ::=  IMPORT ImportExpr;
 Import            ::=  Import COMMA ImportExpr;
 
-
+Packaging         ::=  PACKAGE QualId LBRACE TopStatSeq RBRACE;
+Packaging         ::=  PACKAGE QualId NL LBRACE TopStatSeq RBRACE;
 
 
 
