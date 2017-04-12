@@ -31,8 +31,8 @@ terminal RPAREN;
 terminal COLON;
 terminal ASTERISK;
 terminal SUPER;
+terminal EXTENDS;
 // TODO
-terminal ClassTemplateOpt;
 terminal TypeParamClause;
 terminal ClassParamClauses;
 terminal ConstrAnnotation;
@@ -46,6 +46,8 @@ terminal PostfixExpr;
 terminal BlockExpr;
 terminal ClassQualifier;
 terminal ImportSelector;
+terminal ClassTemplate;
+terminal TemplateBody;
 // DONE
 nonterminal CompilationUnit;
 nonterminal TopStatSeq;
@@ -71,6 +73,7 @@ nonterminal ArgumentExprs;
 nonterminal StableId;
 nonterminal ImportSelectors;
 nonterminal _ImportSelectors;
+nonterminal ClassTemplateOpt;
 // Precedence
 precedence left DOT/*used in StableId*/;
 // Rules
@@ -170,6 +173,44 @@ ImportSelectors   ::=  LBRACE _ImportSelectors RBRACE;
 _ImportSelectors    ::= ImportSelector;
 _ImportSelectors    ::= UNDERSCORE;
 _ImportSelectors    ::= ImportSelector COMMA _ImportSelectors;
+
+ClassTemplateOpt  ::= EXTENDS ClassTemplate;
+ClassTemplateOpt  ::= TemplateBody;
+ClassTemplateOpt  ::= EXTENDS TemplateBody;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
