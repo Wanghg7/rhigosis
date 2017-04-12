@@ -41,7 +41,6 @@ terminal NL_LBRACE;
 terminal PLUS;
 terminal MINUS;
 // TODO
-terminal ClassParamClause;
 terminal TraitTemplate;
 terminal Type;
 terminal Expr;
@@ -99,6 +98,7 @@ nonterminal TemplateBody;
 nonterminal _TemplateBody;
 nonterminal VariantTypeParam;
 nonterminal ClassParams;
+nonterminal ClassParamClause;
 // Precedence
 precedence left DOT/*used in StableId*/;
 // Rules
@@ -269,7 +269,10 @@ VariantTypeParam  ::=  Annotation VariantTypeParam;
 ClassParams       ::=  ClassParam;
 ClassParams       ::=  ClassParams COMMA ClassParam;
 
-
+ClassParamClause  ::=  LPAREN RPAREN;
+ClassParamClause  ::=  LPAREN ClassParams RPAREN;
+ClassParamClause  ::=  NL LPAREN RPAREN;
+ClassParamClause  ::=  NL LPAREN ClassParams RPAREN;
 
 
 
