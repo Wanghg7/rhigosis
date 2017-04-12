@@ -143,7 +143,6 @@ nonterminal A_M_ClassParam;
 nonterminal M_ClassParam;
 nonterminal TraitParents;
 nonterminal FunctionArgTypes;
-nonterminal _ParamTypes;
 nonterminal InfixType;
 nonterminal ExistentialClause;
 nonterminal _ExistentialDcls;
@@ -168,14 +167,13 @@ nonterminal Dcl;
 nonterminal N_TypeDcl;
 nonterminal Constr;
 nonterminal AnnotType;
-nonterminal ParamType;
 nonterminal CompoundType;
 nonterminal _AnnotTypes;
 //
 precedence left UNDERSCORE, IMPLICIT, SimpleExpr1, SimpleExpr;
 //
 precedence left FINALLY, RDARROW, NL, ID, CATCH, SEMI, ELSE, WHILE, TRY, DO, IF, FOR, THROW, RETURN,
-    LBRACE;
+    LBRACE, ASTERISK;
 precedence left PLUS, MINUS;
 precedence left UNARY, EXCLAM, TILDE, LPAREN;
 precedence left DOT;
@@ -395,6 +393,8 @@ TraitTemplate     ::=  TraitParents
 Type              ::=  FunctionArgTypes Type
                       |  InfixType
                       |  InfixType ExistentialClause
+                      |  RDARROW Type
+                      |  Type ASTERISK
                       ;
 
 Expr              ::=  Bindings RDARROW Expr
@@ -468,12 +468,12 @@ TypeParam_V         ::= _TypeParam | TypeParam_V VBOUNDS Type;
 
 TypeParam_V_C       ::= TypeParam_V | TypeParam_V_C COLON Type;
 
-_ClassParam         ::=   ID COLON ParamType
-                        | ID COLON ParamType EQ Expr
-                        | VAR ID COLON ParamType
-                        | VAR ID COLON ParamType EQ Expr
-                        | VAL ID COLON ParamType
-                        | VAL ID COLON ParamType EQ Expr
+_ClassParam         ::=   ID COLON Type
+                        | ID COLON Type EQ Expr
+                        | VAR ID COLON Type
+                        | VAR ID COLON Type EQ Expr
+                        | VAL ID COLON Type
+                        | VAL ID COLON Type EQ Expr
                         ;
 
 M_ClassParam        ::= _ClassParam | Modifier M_ClassParam;
@@ -484,10 +484,8 @@ TraitParents      ::=  AnnotType | TraitParents WITH AnnotType;
 
 FunctionArgTypes  ::= InfixType RDARROW
                     | LPAREN RPAREN RDARROW
-                    | LPAREN _ParamTypes RPAREN RDARROW
                     ;
 
-_ParamTypes         ::= ParamType | _ParamTypes COMMA ParamType;
 
 InfixType         ::=  CompoundType | InfixType ID CompoundType | InfixType ID NL CompoundType;
 
@@ -601,11 +599,6 @@ N_TypeDcl       ::= TypeDcl | NL N_TypeDcl;
 Constr            ::=  AnnotType | Constr ArgumentExprs;
 
 AnnotType         ::=  SimpleType | AnnotType Annotation;
-
-ParamType         ::=  Type
-                      |  RDARROW Type
-                      |  Type ASTERISK
-                      ;
 
 CompoundType      ::=    _AnnotTypes
                       |  _AnnotTypes Refinement
