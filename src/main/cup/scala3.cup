@@ -41,7 +41,6 @@ terminal NL_LBRACE;
 terminal PLUS;
 terminal MINUS;
 // TODO
-terminal TraitTemplate;
 terminal Type;
 terminal Expr;
 terminal InfixExpr;
@@ -53,6 +52,7 @@ terminal SelfType;
 terminal TemplateStat;
 terminal TypeParam;
 terminal ClassParam;
+terminal TraitParents;
 // DONE
 nonterminal CompilationUnit;
 nonterminal TopStatSeq;
@@ -99,6 +99,7 @@ nonterminal _TemplateBody;
 nonterminal VariantTypeParam;
 nonterminal ClassParams;
 nonterminal ClassParamClause;
+nonterminal TraitTemplate;
 // Precedence
 precedence left DOT/*used in StableId*/;
 // Rules
@@ -274,7 +275,10 @@ ClassParamClause  ::=  LPAREN ClassParams RPAREN;
 ClassParamClause  ::=  NL LPAREN RPAREN;
 ClassParamClause  ::=  NL LPAREN ClassParams RPAREN;
 
-
+TraitTemplate     ::=  TraitParents;
+TraitTemplate     ::=  TraitParents TemplateBody;
+TraitTemplate     ::=  EarlyDefs TraitParents;
+TraitTemplate     ::=  EarlyDefs TraitParents TemplateBody;
 
 
 
