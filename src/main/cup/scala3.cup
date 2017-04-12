@@ -37,7 +37,6 @@ terminal RBRACK;
 terminal THIS;
 terminal RDARROW;
 // TODO
-terminal ClassTemplate;
 terminal TemplateBody;
 terminal VariantTypeParam;
 terminal ClassParams;
@@ -48,6 +47,8 @@ terminal Expr;
 terminal InfixExpr;
 terminal CaseClauses;
 terminal Block;
+terminal ClassParents;
+terminal EarlyDefs;
 // DONE
 nonterminal CompilationUnit;
 nonterminal TopStatSeq;
@@ -88,6 +89,7 @@ nonterminal PostfixExpr;
 nonterminal BlockExpr;
 nonterminal ClassQualifier;
 nonterminal ImportSelector;
+nonterminal ClassTemplate;
 // Precedence
 precedence left DOT/*used in StableId*/;
 // Rules
@@ -237,7 +239,10 @@ ImportSelector    ::=  ID;
 ImportSelector    ::=  ID RDARROW ID;
 ImportSelector    ::=  ID RDARROW UNDERSCORE;
 
-
+ClassTemplate     ::=  ClassParents;
+ClassTemplate     ::=  ClassParents TemplateBody;
+ClassTemplate     ::=  EarlyDefs ClassParents;
+ClassTemplate     ::=  EarlyDefs ClassParents TemplateBody;
 
 
 
