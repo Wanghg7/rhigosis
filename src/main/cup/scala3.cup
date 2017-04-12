@@ -17,8 +17,12 @@ terminal TRAIT;
 terminal OVERRIDE;
 terminal AT;
 terminal UNDERSCORE;
+terminal ABSTRACT;
+terminal FINAL;
+terminal SEALED;
+terminal IMPLICIT;
+terminal LAZY;
 // TODO
-terminal LocalModifier;
 terminal AccessModifier;
 terminal SimpleType;
 terminal ArgumentExprs;
@@ -47,6 +51,7 @@ nonterminal ObjectDef;
 nonterminal ClassDef;
 nonterminal _A_ClassParamClauses;
 nonterminal TraitDef;
+nonterminal LocalModifier;
 // Precedence
 // Rules
 
@@ -109,7 +114,11 @@ _A_ClassParamClauses    ::= ConstrAnnotation _A_ClassParamClauses;
 TraitDef          ::=  ID TraitTemplateOpt;
 TraitDef          ::=  ID TypeParamClause TraitTemplateOpt;
 
-
+LocalModifier     ::=  ABSTRACT;
+LocalModifier     ::=  FINAL;
+LocalModifier     ::=  SEALED;
+LocalModifier     ::=  IMPLICIT;
+LocalModifier     ::=  LAZY;
 
 
 
