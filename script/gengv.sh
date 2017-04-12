@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cat <(echo "digraph {") <(cat "$1" |
+cat <(echo "strict digraph {layout=neato;overlap=false;splines=true;") <(cat "$1" |
 grep "::=" |
 sed 's/;.*$/}/' |
 sed -E 's/^ */	/' |

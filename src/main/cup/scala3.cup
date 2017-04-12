@@ -30,8 +30,8 @@ terminal LPAREN;
 terminal RPAREN;
 terminal COLON;
 terminal ASTERISK;
+terminal SUPER;
 // TODO
-terminal StableId;
 terminal ImportSelectors;
 terminal ClassTemplateOpt;
 terminal TypeParamClause;
@@ -45,6 +45,7 @@ terminal Types;
 terminal Exprs;
 terminal PostfixExpr;
 terminal BlockExpr;
+terminal ClassQualifier;
 // DONE
 nonterminal CompilationUnit;
 nonterminal TopStatSeq;
@@ -67,6 +68,7 @@ nonterminal LocalModifier;
 nonterminal AccessModifier;
 nonterminal SimpleType;
 nonterminal ArgumentExprs;
+nonterminal StableId;
 // Precedence
 // Rules
 
@@ -153,7 +155,12 @@ ArgumentExprs     ::=  LPAREN Exprs COMMA PostfixExpr COLON UNDERSCORE ASTERISK 
 ArgumentExprs     ::=  BlockExpr;
 ArgumentExprs     ::=  NL BlockExpr;
 
-
+StableId          ::=  ID;
+StableId          ::=  Path DOT ID;
+StableId          ::=  SUPER DOT ID;
+StableId          ::=  SUPER ClassQualifier DOT ID;
+StableId          ::=  ID DOT SUPER DOT ID;
+StableId          ::=  ID DOT SUPER ClassQualifier DOT ID;
 
 
 
