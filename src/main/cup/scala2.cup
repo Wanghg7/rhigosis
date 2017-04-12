@@ -63,8 +63,6 @@ terminal EXCLAM;
 terminal UNARY;
 terminal DEF;
 // TODO
-terminal ExistentialDcl;
-terminal Binding;
 terminal Enumerators;
 terminal SimpleExpr;
 terminal SimpleExpr1;
@@ -169,6 +167,8 @@ nonterminal Constr;
 nonterminal AnnotType;
 nonterminal CompoundType;
 nonterminal _AnnotTypes;
+nonterminal ExistentialDcl;
+nonterminal Binding;
 //
 precedence left UNDERSCORE, IMPLICIT, SimpleExpr1, SimpleExpr;
 //
@@ -606,9 +606,15 @@ CompoundType      ::=    _AnnotTypes
 
 _AnnotTypes     ::= AnnotType | _AnnotTypes WITH AnnotType;
 
+ExistentialDcl    ::=  TYPE TypeDcl
+                      |  VAL ValDcl
+                      ;
 
-
-
+Binding           ::=  ID
+                    |  ID COLON Type
+                    |  UNDERSCORE
+                    |  UNDERSCORE COLON Type
+                    ;
 
 
 
