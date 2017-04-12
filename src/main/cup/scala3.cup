@@ -16,8 +16,8 @@ terminal CASE;
 terminal TRAIT;
 terminal OVERRIDE;
 terminal AT;
+terminal UNDERSCORE;
 // TODO
-terminal ImportExpr;
 terminal ObjectDef;
 terminal ClassDef;
 terminal TraitDef;
@@ -25,6 +25,8 @@ terminal LocalModifier;
 terminal AccessModifier;
 terminal SimpleType;
 terminal ArgumentExprs;
+terminal StableId;
+terminal ImportSelectors;
 // DONE
 nonterminal CompilationUnit;
 nonterminal TopStatSeq;
@@ -38,6 +40,7 @@ nonterminal PackageObject;
 nonterminal TmplDef;
 nonterminal Modifier;
 nonterminal Annotation;
+nonterminal ImportExpr;
 // Precedence
 // Rules
 
@@ -84,7 +87,9 @@ Modifier          ::=  OVERRIDE;
 Annotation        ::=  AT SimpleType;
 Annotation        ::=  Annotation ArgumentExprs;
 
-
+ImportExpr        ::=  StableId DOT ID;
+ImportExpr        ::=  StableId DOT UNDERSCORE;
+ImportExpr        ::=  StableId DOT ImportSelectors;
 
 
 
