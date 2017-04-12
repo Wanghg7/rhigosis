@@ -63,7 +63,6 @@ terminal EXCLAM;
 terminal UNARY;
 terminal DEF;
 // TODO
-terminal CompoundType;
 terminal ExistentialDcl;
 terminal Binding;
 terminal Enumerators;
@@ -78,6 +77,7 @@ terminal ValDcl;
 terminal VarDcl;
 terminal FunDcl;
 terminal TypeDcl;
+terminal Refinement;
 // DONE
 nonterminal CompilationUnit;
 nonterminal QualId;
@@ -169,6 +169,8 @@ nonterminal N_TypeDcl;
 nonterminal Constr;
 nonterminal AnnotType;
 nonterminal ParamType;
+nonterminal CompoundType;
+nonterminal _AnnotTypes;
 //
 precedence left UNDERSCORE, IMPLICIT, SimpleExpr1, SimpleExpr;
 //
@@ -605,7 +607,11 @@ ParamType         ::=  Type
                       |  Type ASTERISK
                       ;
 
+CompoundType      ::=    _AnnotTypes
+                      |  _AnnotTypes Refinement
+                      |  Refinement;
 
+_AnnotTypes     ::= AnnotType | _AnnotTypes WITH AnnotType;
 
 
 
