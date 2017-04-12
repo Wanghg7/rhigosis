@@ -42,7 +42,6 @@ terminal PLUS;
 terminal MINUS;
 terminal WITH;
 // TODO
-terminal SelfType;
 terminal TemplateStat;
 terminal TypeParam;
 terminal ClassParam;
@@ -114,6 +113,7 @@ nonterminal _Block;
 nonterminal ClassParents;
 nonterminal EarlyDefs;
 nonterminal _EarlyDefs;
+nonterminal SelfType;
 // Precedence
 precedence left ID/*used in InfixExpr*/;
 precedence left DOT/*used in StableId*/;
@@ -326,5 +326,7 @@ EarlyDefs         ::= LBRACE _EarlyDefs RBRACE WITH;
 _EarlyDefs        ::= EarlyDef;
 _EarlyDefs        ::= _EarlyDefs SEMI EarlyDef;
 
-
+SelfType          ::=  ID RDARROW;
+SelfType          ::=  ID COLON Type RDARROW;
+SelfType          ::=  THIS COLON Type RDARROW;
 
