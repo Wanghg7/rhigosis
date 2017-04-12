@@ -36,7 +36,6 @@ terminal LBRACK;
 terminal RBRACK;
 terminal THIS;
 // TODO
-terminal ClassQualifier;
 terminal ImportSelector;
 terminal ClassTemplate;
 terminal TemplateBody;
@@ -87,6 +86,7 @@ nonterminal Types;
 nonterminal Exprs;
 nonterminal PostfixExpr;
 nonterminal BlockExpr;
+nonterminal ClassQualifier;
 // Precedence
 precedence left DOT/*used in StableId*/;
 // Rules
@@ -230,7 +230,7 @@ PostfixExpr       ::=  InfixExpr ID NL;
 BlockExpr         ::=  LBRACE CaseClauses RBRACE;
 BlockExpr         ::=  LBRACE Block RBRACE;
 
-
+ClassQualifier    ::=  LBRACK ID RBRACK;
 
 
 
