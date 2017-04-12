@@ -42,7 +42,6 @@ terminal PLUS;
 terminal MINUS;
 terminal WITH;
 // TODO
-terminal EarlyDefs;
 terminal SelfType;
 terminal TemplateStat;
 terminal TypeParam;
@@ -58,6 +57,7 @@ terminal ResultExpr;
 terminal BlockStat;
 terminal Constr;
 terminal AnnotType;
+terminal EarlyDef;
 // DONE
 nonterminal CompilationUnit;
 nonterminal TopStatSeq;
@@ -112,6 +112,8 @@ nonterminal CaseClauses;
 nonterminal Block;
 nonterminal _Block;
 nonterminal ClassParents;
+nonterminal EarlyDefs;
+nonterminal _EarlyDefs;
 // Precedence
 precedence left ID/*used in InfixExpr*/;
 precedence left DOT/*used in StableId*/;
@@ -318,9 +320,11 @@ _Block            ::=  _Block SEMI BlockStat;
 ClassParents      ::=  Constr;
 ClassParents      ::=  ClassParents WITH AnnotType;
 
+EarlyDefs         ::= LBRACE RBRACE WITH;
+EarlyDefs         ::= LBRACE _EarlyDefs RBRACE WITH;
 
-
-
+_EarlyDefs        ::= EarlyDef;
+_EarlyDefs        ::= _EarlyDefs SEMI EarlyDef;
 
 
 
