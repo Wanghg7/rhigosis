@@ -6,13 +6,15 @@ terminal SEMI;
 terminal ID;
 terminal DOT;
 terminal NL;
+terminal IMPORT;
+terminal COMMA;
 // TODO
-terminal Import;
 terminal Packaging;
 terminal PackageObject;
 terminal TmplDef;
 terminal Modifier;
 terminal Annotation;
+terminal ImportExpr;
 // DONE
 nonterminal CompilationUnit;
 nonterminal TopStatSeq;
@@ -20,6 +22,7 @@ nonterminal QualId;
 nonterminal TopStat;
 nonterminal _AN_M_TmplDef;
 nonterminal _M_TmplDef;
+nonterminal Import;
 // Precedence
 // Rules
 
@@ -45,7 +48,8 @@ _AN_M_TmplDef       ::= _M_TmplDef;
 _AN_M_TmplDef       ::= Annotation _AN_M_TmplDef;
 _AN_M_TmplDef       ::= Annotation NL _AN_M_TmplDef;
 
-
+Import            ::=  IMPORT ImportExpr;
+Import            ::=  Import COMMA ImportExpr;
 
 
 
