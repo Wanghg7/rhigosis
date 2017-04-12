@@ -41,7 +41,6 @@ terminal NL_LBRACE;
 terminal PLUS;
 terminal MINUS;
 // TODO
-terminal CaseClauses;
 terminal Block;
 terminal ClassParents;
 terminal EarlyDefs;
@@ -55,6 +54,7 @@ terminal InfixType;
 terminal ExistentialClause;
 terminal Bindings;
 terminal PrefixExpr;
+terminal CaseClause;
 // DONE
 nonterminal CompilationUnit;
 nonterminal TopStatSeq;
@@ -105,6 +105,7 @@ nonterminal TraitTemplate;
 nonterminal Type;
 nonterminal Expr;
 nonterminal InfixExpr;
+nonterminal CaseClauses;
 // Precedence
 precedence left ID/*used in InfixExpr*/;
 precedence left DOT/*used in StableId*/;
@@ -298,5 +299,17 @@ Expr              ::=  UNDERSCORE RDARROW Expr;
 InfixExpr         ::=  PrefixExpr;
 InfixExpr         ::=  InfixExpr ID InfixExpr;
 InfixExpr         ::=  InfixExpr ID NL InfixExpr;
+
+CaseClauses       ::=  CaseClause;
+CaseClauses       ::=  CaseClauses CaseClause;
+
+
+
+
+
+
+
+
+
 
 
