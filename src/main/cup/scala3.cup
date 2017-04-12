@@ -38,8 +38,9 @@ terminal THIS;
 terminal RDARROW;
 terminal NL_LPAREN;
 terminal NL_LBRACE;
+terminal PLUS;
+terminal MINUS;
 // TODO
-terminal VariantTypeParam;
 terminal ClassParams;
 terminal ClassParamClause;
 terminal TraitTemplate;
@@ -52,6 +53,7 @@ terminal ClassParents;
 terminal EarlyDefs;
 terminal SelfType;
 terminal TemplateStat;
+terminal TypeParam;
 // DONE
 nonterminal CompilationUnit;
 nonterminal TopStatSeq;
@@ -95,6 +97,7 @@ nonterminal ImportSelector;
 nonterminal ClassTemplate;
 nonterminal TemplateBody;
 nonterminal _TemplateBody;
+nonterminal VariantTypeParam;
 // Precedence
 precedence left DOT/*used in StableId*/;
 // Rules
@@ -257,7 +260,10 @@ TemplateBody      ::=  NL_LBRACE SelfType _TemplateBody RBRACE;
 _TemplateBody       ::= TemplateStat;
 _TemplateBody       ::= _TemplateBody SEMI TemplateStat;
 
-
+VariantTypeParam  ::=  TypeParam;
+VariantTypeParam  ::=  PLUS TypeParam;
+VariantTypeParam  ::=  MINUS TypeParam;
+VariantTypeParam  ::=  Annotation VariantTypeParam;
 
 
 
