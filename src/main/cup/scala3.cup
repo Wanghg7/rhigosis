@@ -52,7 +52,6 @@ terminal _LPAREN_IMPLICIT;
 terminal _NL_LPAREN_IMPLICIT;
 terminal FORSOME;
 // TODO
-terminal Bindings;
 terminal PrefixExpr;
 terminal CaseClause;
 terminal ResultExpr;
@@ -65,6 +64,7 @@ terminal Dcl;
 terminal ParamType;
 terminal CompoundType;
 terminal ExistentialDcl;
+terminal Binding;
 // DONE
 nonterminal CompilationUnit;
 nonterminal TopStatSeq;
@@ -137,6 +137,8 @@ nonterminal _FunctionArgTypes;
 nonterminal InfixType;
 nonterminal ExistentialClause;
 nonterminal _ExistentialClause;
+nonterminal Bindings;
+nonterminal _Bindings;
 // Precedence
 precedence left ID/*used in InfixExpr*/;
 precedence left DOT/*used in StableId*/, _SelfType/*used in SelfType*/, RDARROW/*_FunctionArgTypes_withRDARROW*/;
@@ -424,7 +426,10 @@ ExistentialClause ::=  FORSOME LBRACE _ExistentialClause RBRACE;
 _ExistentialClause ::=  ExistentialDcl;
 _ExistentialClause ::=  _ExistentialClause SEMI ExistentialDcl;
 
+Bindings          ::=  LPAREN _Bindings RPAREN;
 
+_Bindings         ::=  Binding;
+_Bindings         ::=  _Bindings COMMA Binding;
 
 
 
