@@ -50,8 +50,8 @@ terminal VAR;
 terminal VAL;
 terminal _LPAREN_IMPLICIT;
 terminal _NL_LPAREN_IMPLICIT;
+terminal FORSOME;
 // TODO
-terminal ExistentialClause;
 terminal Bindings;
 terminal PrefixExpr;
 terminal CaseClause;
@@ -64,6 +64,7 @@ terminal Def;
 terminal Dcl;
 terminal ParamType;
 terminal CompoundType;
+terminal ExistentialDcl;
 // DONE
 nonterminal CompilationUnit;
 nonterminal TopStatSeq;
@@ -134,6 +135,8 @@ nonterminal TraitParents;
 nonterminal _FunctionArgTypes_withRDARROW;
 nonterminal _FunctionArgTypes;
 nonterminal InfixType;
+nonterminal ExistentialClause;
+nonterminal _ExistentialClause;
 // Precedence
 precedence left ID/*used in InfixExpr*/;
 precedence left DOT/*used in StableId*/, _SelfType/*used in SelfType*/, RDARROW/*_FunctionArgTypes_withRDARROW*/;
@@ -416,7 +419,10 @@ InfixType         ::=  CompoundType;
 InfixType         ::=  InfixType ID CompoundType;
 InfixType         ::=  InfixType ID NL CompoundType;
 
+ExistentialClause ::=  FORSOME LBRACE _ExistentialClause RBRACE;
 
+_ExistentialClause ::=  ExistentialDcl;
+_ExistentialClause ::=  _ExistentialClause SEMI ExistentialDcl;
 
 
 
