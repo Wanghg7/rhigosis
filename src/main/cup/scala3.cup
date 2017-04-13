@@ -54,7 +54,6 @@ terminal FORSOME;
 terminal TILDE;
 terminal EXCLAM;
 // TODO
-terminal BlockStat;
 terminal Constr;
 terminal AnnotType;
 terminal EarlyDef;
@@ -145,6 +144,10 @@ nonterminal _Bindings;
 nonterminal PrefixExpr;
 nonterminal CaseClause;
 nonterminal ResultExpr;
+nonterminal BlockStat;
+nonterminal _A_Def;
+nonterminal _A_LM_TmplDef;
+nonterminal _LM_TmplDef;
 // Precedence
 precedence left ID/*used in InfixExpr*/;
 precedence left DOT/*used in StableId*/, _SelfType/*used in SelfType*/, RDARROW/*_FunctionArgTypes_withRDARROW*/;
@@ -451,9 +454,22 @@ ResultExpr        ::=  UNDERSCORE COLON CompoundType RDARROW Block;
 ResultExpr        ::=  ID COLON CompoundType RDARROW Block;
 ResultExpr        ::=  IMPLICIT ID COLON CompoundType RDARROW Block;
 
+BlockStat         ::=  Import;
+BlockStat         ::=  _A_Def;
+BlockStat         ::=  _A_LM_TmplDef;
+BlockStat         ::=  Expr1;
+BlockStat         ::=  ;
 
+_A_Def            ::=  Def;
+_A_Def            ::=  IMPLICIT Def;
+_A_Def            ::=  LAZY Def;
+_A_Def            ::=  Annotation _A_Def;
 
+_A_LM_TmplDef     ::=  _LM_TmplDef;
+_A_LM_TmplDef     ::=  Annotation _A_LM_TmplDef;
 
+_LM_TmplDef       ::=  TmplDef;
+_LM_TmplDef       ::=  LocalModifier _LM_TmplDef;
 
 
 
