@@ -51,7 +51,6 @@ terminal VAL;
 terminal _LPAREN_IMPLICIT;
 terminal _NL_LPAREN_IMPLICIT;
 // TODO
-terminal FunctionArgTypes;
 terminal InfixType;
 terminal ExistentialClause;
 terminal Bindings;
@@ -132,6 +131,8 @@ nonterminal _TypeParam;
 nonterminal ClassParam;
 nonterminal _ClassParam;
 nonterminal TraitParents;
+nonterminal FunctionArgTypes;
+nonterminal _FunctionArgTypes;
 // Precedence
 precedence left ID/*used in InfixExpr*/;
 precedence left DOT/*used in StableId*/, _SelfType/*used in SelfType*/;
@@ -403,7 +404,12 @@ _ClassParam       ::=  Modifier _ClassParam;
 TraitParents      ::=  AnnotType;
 TraitParents      ::=  TraitParents WITH AnnotType;
 
+FunctionArgTypes  ::=  InfixType;
+FunctionArgTypes  ::=  LPAREN RPAREN;
+FunctionArgTypes  ::=  LPAREN _FunctionArgTypes RPAREN;
 
+_FunctionArgTypes ::=  ParamType;
+_FunctionArgTypes ::=  _FunctionArgTypes COMMA ParamType;
 
 
 
