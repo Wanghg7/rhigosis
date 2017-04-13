@@ -1,0 +1,28 @@
+================================================================================
+Warning : *** Reduce/Reduce conflict found in state #174
+  between FunctionArgTypes ::= InfixType (*)
+  and     Type ::= InfixType (*)
+  under symbols: {RDARROW}
+  Resolved in favor of the second production.
+================================================================================
+Type              ::=  FunctionArgTypes ‘=>’ Type
+                      |  InfixType [ExistentialClause]
+FunctionArgTypes  ::= InfixType
+                      | ‘(’ [ ParamType {‘,’ ParamType } ] ‘)’
+================================================================================
+this is a reduce/reduce conflicts, can not be resoved by simply do precedencing,
+SOLUTION:
+    move RDARROW one level down
+and then another Warning popsup:
+================================================================================
+Warning : *** Shift/Reduce conflict found in state #174
+  between Type ::= InfixType (*)
+  and     _FunctionArgTypes_withRDARROW ::= InfixType (*) RDARROW
+  under symbol RDARROW
+  Resolved in favor of shifting.
+================================================================================
+this is a shift/reduce conflict, let's do precedencing
+SOLUTION:
+    precedence RDARROW;
+================================================================================
+

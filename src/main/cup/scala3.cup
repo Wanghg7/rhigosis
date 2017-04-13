@@ -131,11 +131,11 @@ nonterminal _TypeParam;
 nonterminal ClassParam;
 nonterminal _ClassParam;
 nonterminal TraitParents;
-nonterminal FunctionArgTypes;
+nonterminal _FunctionArgTypes_withRDARROW;
 nonterminal _FunctionArgTypes;
 // Precedence
 precedence left ID/*used in InfixExpr*/;
-precedence left DOT/*used in StableId*/, _SelfType/*used in SelfType*/;
+precedence left DOT/*used in StableId*/, _SelfType/*used in SelfType*/, RDARROW/*_FunctionArgTypes_withRDARROW*/;
 // Rules
 
 CompilationUnit ::=  TopStatSeq;
@@ -314,7 +314,7 @@ TraitTemplate     ::=  TraitParents TemplateBody;
 TraitTemplate     ::=  EarlyDefs TraitParents;
 TraitTemplate     ::=  EarlyDefs TraitParents TemplateBody;
 
-Type              ::=  FunctionArgTypes RDARROW Type;
+Type              ::=  _FunctionArgTypes_withRDARROW Type;
 Type              ::=  InfixType;
 Type              ::=  InfixType ExistentialClause;
 
@@ -404,9 +404,9 @@ _ClassParam       ::=  Modifier _ClassParam;
 TraitParents      ::=  AnnotType;
 TraitParents      ::=  TraitParents WITH AnnotType;
 
-FunctionArgTypes  ::=  InfixType;
-FunctionArgTypes  ::=  LPAREN RPAREN;
-FunctionArgTypes  ::=  LPAREN _FunctionArgTypes RPAREN;
+_FunctionArgTypes_withRDARROW  ::=  InfixType RDARROW;
+_FunctionArgTypes_withRDARROW  ::=  LPAREN RPAREN RDARROW;
+_FunctionArgTypes_withRDARROW  ::=  LPAREN _FunctionArgTypes RPAREN RDARROW;
 
 _FunctionArgTypes ::=  ParamType;
 _FunctionArgTypes ::=  _FunctionArgTypes COMMA ParamType;
