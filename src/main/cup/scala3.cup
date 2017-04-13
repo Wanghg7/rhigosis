@@ -36,19 +36,20 @@ terminal LBRACK;
 terminal RBRACK;
 terminal THIS;
 terminal RDARROW;
-terminal NL_LPAREN;
-terminal NL_LBRACE;
+terminal _NL_LBRACE;
 terminal PLUS;
 terminal MINUS;
 terminal WITH;
 terminal _SelfType;
-terminal RBRACE_WITH;
+terminal _RBRACE_WITH;
 terminal UBOUNDS;
 terminal LBOUNDS;
 terminal VBOUNDS;
 terminal EQ;
 terminal VAR;
 terminal VAL;
+terminal _LPAREN_IMPLICIT;
+terminal _NL_LPAREN_IMPLICIT;
 // TODO
 terminal TraitParents;
 terminal FunctionArgTypes;
@@ -242,8 +243,8 @@ _TypeParamClause    ::= VariantTypeParam;
 _TypeParamClause    ::= _TypeParamClause COMMA VariantTypeParam;
 
 ClassParamClauses ::=  ;
-ClassParamClauses ::=  LPAREN IMPLICIT ClassParams RPAREN;
-ClassParamClauses ::=  NL_LPAREN IMPLICIT ClassParams RPAREN;
+ClassParamClauses ::=  _LPAREN_IMPLICIT ClassParams RPAREN;
+ClassParamClauses ::=  _NL_LPAREN_IMPLICIT ClassParams RPAREN;
 ClassParamClauses ::=  ClassParamClause ClassParamClauses;
 
 ConstrAnnotation  ::=  AT SimpleType ArgumentExprs;
@@ -288,8 +289,8 @@ ClassTemplate     ::=  EarlyDefs ClassParents TemplateBody;
 
 TemplateBody      ::=  LBRACE _TemplateBody RBRACE;
 TemplateBody      ::=  LBRACE SelfType _TemplateBody RBRACE;
-TemplateBody      ::=  NL_LBRACE _TemplateBody RBRACE;
-TemplateBody      ::=  NL_LBRACE SelfType _TemplateBody RBRACE;
+TemplateBody      ::=  _NL_LBRACE _TemplateBody RBRACE;
+TemplateBody      ::=  _NL_LBRACE SelfType _TemplateBody RBRACE;
 
 _TemplateBody       ::= TemplateStat;
 _TemplateBody       ::= _TemplateBody SEMI TemplateStat;
@@ -337,8 +338,8 @@ _Block            ::=  _Block SEMI BlockStat;
 ClassParents      ::=  Constr;
 ClassParents      ::=  ClassParents WITH AnnotType;
 
-EarlyDefs         ::= LBRACE RBRACE_WITH;
-EarlyDefs         ::= LBRACE _EarlyDefs RBRACE_WITH;
+EarlyDefs         ::= LBRACE _RBRACE_WITH;
+EarlyDefs         ::= LBRACE _EarlyDefs _RBRACE_WITH;
 
 _EarlyDefs        ::= EarlyDef;
 _EarlyDefs        ::= _EarlyDefs SEMI EarlyDef;

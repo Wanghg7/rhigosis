@@ -1,0 +1,85 @@
+================================================================================
+Warning : *** Shift/Reduce conflict found in state #225
+  between LocalModifier ::= IMPLICIT (*)
+  and     Modifier ::= (*) OVERRIDE
+  under symbol OVERRIDE
+  Resolved in favor of shifting.
+
+Warning : *** Shift/Reduce conflict found in state #225
+  between LocalModifier ::= IMPLICIT (*)
+  and     LocalModifier ::= (*) ABSTRACT
+  under symbol ABSTRACT
+  Resolved in favor of shifting.
+
+Warning : *** Shift/Reduce conflict found in state #225
+  between LocalModifier ::= IMPLICIT (*)
+  and     LocalModifier ::= (*) FINAL
+  under symbol FINAL
+  Resolved in favor of shifting.
+
+Warning : *** Shift/Reduce conflict found in state #225
+  between LocalModifier ::= IMPLICIT (*)
+  and     LocalModifier ::= (*) SEALED
+  under symbol SEALED
+  Resolved in favor of shifting.
+
+Warning : *** Shift/Reduce conflict found in state #225
+  between LocalModifier ::= IMPLICIT (*)
+  and     LocalModifier ::= (*) IMPLICIT
+  under symbol IMPLICIT
+  Resolved in favor of shifting.
+
+Warning : *** Shift/Reduce conflict found in state #225
+  between LocalModifier ::= IMPLICIT (*)
+  and     LocalModifier ::= (*) LAZY
+  under symbol LAZY
+  Resolved in favor of shifting.
+
+Warning : *** Shift/Reduce conflict found in state #225
+  between LocalModifier ::= IMPLICIT (*)
+  and     AccessModifier ::= (*) PRIVATE
+  and     AccessModifier ::= (*) PRIVATE AccessQualifier
+  under symbol PRIVATE
+  Resolved in favor of shifting.
+
+Warning : *** Shift/Reduce conflict found in state #225
+  between LocalModifier ::= IMPLICIT (*)
+  and     AccessModifier ::= (*) PROTECTED
+  and     AccessModifier ::= (*) PROTECTED AccessQualifier
+  under symbol PROTECTED
+  Resolved in favor of shifting.
+
+Warning : *** Shift/Reduce conflict found in state #225
+  between LocalModifier ::= IMPLICIT (*)
+  and     _ClassParam ::= (*) VAR ID COLON ParamType
+  and     _ClassParam ::= (*) VAR ID COLON ParamType EQ Expr
+  under symbol VAR
+  Resolved in favor of shifting.
+
+Warning : *** Shift/Reduce conflict found in state #225
+  between LocalModifier ::= IMPLICIT (*)
+  and     _ClassParam ::= (*) VAL ID COLON ParamType
+  and     _ClassParam ::= (*) VAL ID COLON ParamType EQ Expr
+  under symbol VAL
+  Resolved in favor of shifting.
+================================================================================
+ClassParamClauses ::=  {ClassParamClause}
+                         [[nl] ‘(’ ‘implicit’ ClassParams ‘)’]
+ClassParams       ::=  ClassParam {‘,’ ClassParam}
+ClassParam        ::=  {Annotation} {Modifier} [(‘val’ | ‘var’)]
+                         id ‘:’ ParamType [‘=’ Expr]
+Modifier          ::=  LocalModifier
+                      |  AccessModifier
+                      |  ‘override’
+LocalModifier     ::=  ‘abstract’
+                      |  ‘final’
+                      |  ‘sealed’
+                      |  ‘implicit’
+                      |  ‘lazy’
+================================================================================
+when the parser see IMPLICIT, it can not tell it's a implicit param,
+or it's normal param
+SOLUTION:
+    defining terminals LPAREN_IMPLICIT & NL_LPAREN_IMPLICIT
+================================================================================
+
