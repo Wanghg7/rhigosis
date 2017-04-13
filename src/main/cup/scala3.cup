@@ -46,8 +46,10 @@ terminal RBRACE_WITH;
 terminal UBOUNDS;
 terminal LBOUNDS;
 terminal VBOUNDS;
+terminal EQ;
+terminal VAR;
+terminal VAL;
 // TODO
-terminal ClassParam;
 terminal TraitParents;
 terminal FunctionArgTypes;
 terminal InfixType;
@@ -62,6 +64,7 @@ terminal AnnotType;
 terminal EarlyDef;
 terminal Def;
 terminal Dcl;
+terminal ParamType;
 // DONE
 nonterminal CompilationUnit;
 nonterminal TopStatSeq;
@@ -126,6 +129,8 @@ nonterminal _AN_M_Dcl;
 nonterminal _M_Dcl;
 nonterminal TypeParam;
 nonterminal _TypeParam;
+nonterminal ClassParam;
+nonterminal _ClassParam;
 // Precedence
 precedence left ID/*used in InfixExpr*/;
 precedence left DOT/*used in StableId*/, _SelfType/*used in SelfType*/;
@@ -383,7 +388,16 @@ _TypeParam        ::=  ID TypeParamClause LBOUNDS Type;
 _TypeParam        ::=  ID TypeParamClause LBOUNDS Type UBOUNDS Type;
 _TypeParam        ::=  _TypeParam VBOUNDS Type;
 
+ClassParam        ::=  _ClassParam;
+ClassParam        ::=  Annotation ClassParam;
 
+_ClassParam       ::=  ID COLON ParamType;
+_ClassParam       ::=  ID COLON ParamType EQ Expr;
+_ClassParam       ::=  VAR ID COLON ParamType;
+_ClassParam       ::=  VAR ID COLON ParamType EQ Expr;
+_ClassParam       ::=  VAL ID COLON ParamType;
+_ClassParam       ::=  VAL ID COLON ParamType EQ Expr;
+_ClassParam       ::=  Modifier _ClassParam;
 
 
 
