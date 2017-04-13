@@ -54,7 +54,6 @@ terminal FORSOME;
 terminal TILDE;
 terminal EXCLAM;
 // TODO
-terminal CaseClause;
 terminal ResultExpr;
 terminal BlockStat;
 terminal Constr;
@@ -67,6 +66,8 @@ terminal CompoundType;
 terminal ExistentialDcl;
 terminal Binding;
 terminal SimpleExpr;
+terminal Pattern;
+terminal Guard;
 // DONE
 nonterminal CompilationUnit;
 nonterminal TopStatSeq;
@@ -142,6 +143,7 @@ nonterminal _ExistentialClause;
 nonterminal Bindings;
 nonterminal _Bindings;
 nonterminal PrefixExpr;
+nonterminal CaseClause;
 // Precedence
 precedence left ID/*used in InfixExpr*/;
 precedence left DOT/*used in StableId*/, _SelfType/*used in SelfType*/, RDARROW/*_FunctionArgTypes_withRDARROW*/;
@@ -439,5 +441,6 @@ PrefixExpr        ::=  PLUS SimpleExpr;
 PrefixExpr        ::=  TILDE SimpleExpr;
 PrefixExpr        ::=  EXCLAM SimpleExpr;
 
-
+CaseClause        ::=  CASE Pattern RDARROW Block;
+CaseClause        ::=  CASE Pattern Guard RDARROW Block;
 
