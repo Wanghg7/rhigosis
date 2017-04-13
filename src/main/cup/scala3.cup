@@ -43,8 +43,10 @@ terminal MINUS;
 terminal WITH;
 terminal _SelfType;
 terminal RBRACE_WITH;
+terminal UBOUNDS;
+terminal LBOUNDS;
+terminal VBOUNDS;
 // TODO
-terminal TypeParam;
 terminal ClassParam;
 terminal TraitParents;
 terminal FunctionArgTypes;
@@ -122,6 +124,8 @@ nonterminal _AN_M_Def;
 nonterminal _M_Def;
 nonterminal _AN_M_Dcl;
 nonterminal _M_Dcl;
+nonterminal TypeParam;
+nonterminal _TypeParam;
 // Precedence
 precedence left ID/*used in InfixExpr*/;
 precedence left DOT/*used in StableId*/, _SelfType/*used in SelfType*/;
@@ -358,7 +362,26 @@ _AN_M_Dcl         ::=  Annotation NL _AN_M_Dcl;
 _M_Dcl            ::=  Dcl;
 _M_Dcl            ::=  Modifier _M_Dcl;
 
+TypeParam         ::=  _TypeParam;
+TypeParam         ::=  TypeParam COLON Type;
 
+_TypeParam        ::=  UNDERSCORE;
+_TypeParam        ::=  UNDERSCORE UBOUNDS Type;
+_TypeParam        ::=  UNDERSCORE LBOUNDS Type;
+_TypeParam        ::=  UNDERSCORE LBOUNDS Type UBOUNDS Type;
+_TypeParam        ::=  UNDERSCORE TypeParamClause;
+_TypeParam        ::=  UNDERSCORE TypeParamClause UBOUNDS Type;
+_TypeParam        ::=  UNDERSCORE TypeParamClause LBOUNDS Type;
+_TypeParam        ::=  UNDERSCORE TypeParamClause LBOUNDS Type UBOUNDS Type;
+_TypeParam        ::=  ID;
+_TypeParam        ::=  ID UBOUNDS Type;
+_TypeParam        ::=  ID LBOUNDS Type;
+_TypeParam        ::=  ID LBOUNDS Type UBOUNDS Type;
+_TypeParam        ::=  ID TypeParamClause;
+_TypeParam        ::=  ID TypeParamClause UBOUNDS Type;
+_TypeParam        ::=  ID TypeParamClause LBOUNDS Type;
+_TypeParam        ::=  ID TypeParamClause LBOUNDS Type UBOUNDS Type;
+_TypeParam        ::=  _TypeParam VBOUNDS Type;
 
 
 
