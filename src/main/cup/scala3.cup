@@ -57,7 +57,6 @@ terminal CASE_OBJECT;
 terminal CASE_CLASS;
 terminal DEF;
 // TODO
-terminal Dcl;
 terminal ParamType;
 terminal CompoundType;
 terminal ExistentialDcl;
@@ -154,6 +153,11 @@ nonterminal AnnotType;
 nonterminal EarlyDef;
 nonterminal _M_PatVarDef;
 nonterminal Def;
+nonterminal Dcl;
+nonterminal ValDcl;
+nonterminal VarDcl;
+nonterminal FunDcl;
+nonterminal TypeDcl;
 // Precedence
 precedence left ID/*used in InfixExpr*/;
 precedence left DOT/*used in StableId*/, _SelfType/*used in SelfType*/, RDARROW/*_FunctionArgTypes_withRDARROW*/;
@@ -487,7 +491,11 @@ Def               ::=  TYPE TypeDef;
 Def               ::=  TYPE NL TypeDef;
 Def               ::=  TmplDef;
 
-
+Dcl               ::=  VAL ValDcl;
+Dcl               ::=  VAR VarDcl;
+Dcl               ::=  DEF FunDcl;
+Dcl               ::=  TYPE TypeDcl;
+Dcl               ::=  TYPE NL TypeDcl;
 
 
 
