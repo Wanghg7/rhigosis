@@ -1,0 +1,31 @@
+================================================================================
+Warning : *** Reduce/Reduce conflict found in state #91
+  between Types ::= Type (*)
+  and     ParamType ::= Type (*)
+  under symbols: {COMMA, RPAREN}
+  Resolved in favor of the first production.
+================================================================================
+FunctionArgTypes  ::= InfixType
+                      | ‘(’ [ ParamType {‘,’ ParamType } ] ‘)’
+InfixType         ::=  CompoundType {id [nl] CompoundType}
+CompoundType      ::=  AnnotType {‘with’ AnnotType} [Refinement]
+                      |  Refinement
+AnnotType         ::=  SimpleType {Annotation}
+SimpleType        ::=  SimpleType TypeArgs
+                      |  SimpleType ‘#’ id
+                      |  StableId
+                      |  Path ‘.’ ‘type’
+                      |  ‘(’ Types ‘)’
+ParamType         ::=  Type
+                      |  ‘=>’ Type
+                      |  Type ‘*’
+================================================================================
+conflicting situations:
+(1) '(' Types  is the start of a FunctionArgTypes
+(2) '(' ParamType is the start of a FunctionArgTypes
+SOLUTION:
+    (1) replace ParamType by Type
+    (2) enlarge Type, by adding => Type and Type *, and
+    (3) make => have higher precedence than *
+================================================================================
+
