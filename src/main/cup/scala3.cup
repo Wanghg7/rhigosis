@@ -53,6 +53,8 @@ terminal _NL_LPAREN_IMPLICIT;
 terminal FORSOME;
 terminal TILDE;
 terminal EXCLAM;
+terminal CASE_OBJECT;
+terminal CASE_CLASS;
 // TODO
 terminal Constr;
 terminal AnnotType;
@@ -143,7 +145,6 @@ nonterminal Bindings;
 nonterminal _Bindings;
 nonterminal PrefixExpr;
 nonterminal CaseClause;
-nonterminal ResultExpr;
 nonterminal BlockStat;
 nonterminal _A_Def;
 nonterminal _A_LM_TmplDef;
@@ -184,9 +185,9 @@ Packaging         ::=  PACKAGE QualId NL LBRACE TopStatSeq RBRACE;
 PackageObject     ::=  PACKAGE OBJECT ObjectDef;
 
 TmplDef           ::=  CLASS ClassDef;
-TmplDef           ::=  CASE CLASS ClassDef;
+TmplDef           ::=  CASE_CLASS ClassDef;
 TmplDef           ::=  OBJECT ObjectDef;
-TmplDef           ::=  CASE OBJECT ObjectDef;
+TmplDef           ::=  CASE_OBJECT ObjectDef;
 TmplDef           ::=  TRAIT TraitDef;
 
 Modifier          ::=  LocalModifier;
@@ -346,7 +347,6 @@ CaseClauses       ::=  CaseClause;
 CaseClauses       ::=  CaseClauses CaseClause;
 
 Block             ::=  _Block;
-Block             ::=  _Block ResultExpr;
 
 _Block            ::=  BlockStat;
 _Block            ::=  _Block SEMI BlockStat;
@@ -447,12 +447,6 @@ PrefixExpr        ::=  EXCLAM SimpleExpr;
 
 CaseClause        ::=  CASE Pattern RDARROW Block;
 CaseClause        ::=  CASE Pattern Guard RDARROW Block;
-
-ResultExpr        ::=  Expr1;
-ResultExpr        ::=  Bindings RDARROW Block;
-ResultExpr        ::=  UNDERSCORE COLON CompoundType RDARROW Block;
-ResultExpr        ::=  ID COLON CompoundType RDARROW Block;
-ResultExpr        ::=  IMPLICIT ID COLON CompoundType RDARROW Block;
 
 BlockStat         ::=  Import;
 BlockStat         ::=  _A_Def;

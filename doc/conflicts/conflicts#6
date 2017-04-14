@@ -1,0 +1,210 @@
+================================================================================
+Warning : *** Shift/Reduce conflict found in state #321
+  between BlockStat ::= (*)
+  and     TmplDef ::= (*) CASE OBJECT ObjectDef
+  and     TmplDef ::= (*) CASE CLASS ClassDef
+  under symbol CASE
+  Resolved in favor of shifting.
+
+Warning : *** Shift/Reduce conflict found in state #321
+  between BlockStat ::= (*)
+  and     LocalModifier ::= (*) IMPLICIT
+  and     _A_Def ::= (*) IMPLICIT Def
+  under symbol IMPLICIT
+  Resolved in favor of shifting.
+
+Warning : *** Shift/Reduce conflict found in state #321
+  between BlockStat ::= (*)
+  and     BlockStat ::= (*) Expr1
+  under symbol Expr1
+  Resolved in favor of shifting.
+
+Warning : *** Shift/Reduce conflict found in state #337
+  between BlockStat ::= (*)
+  and     TmplDef ::= (*) CASE OBJECT ObjectDef
+  and     TmplDef ::= (*) CASE CLASS ClassDef
+  under symbol CASE
+  Resolved in favor of shifting.
+
+Warning : *** Shift/Reduce conflict found in state #337
+  between BlockStat ::= (*)
+  and     LocalModifier ::= (*) IMPLICIT
+  and     _A_Def ::= (*) IMPLICIT Def
+  under symbol IMPLICIT
+  Resolved in favor of shifting.
+
+Warning : *** Shift/Reduce conflict found in state #337
+  between BlockStat ::= (*)
+  and     BlockStat ::= (*) Expr1
+  under symbol Expr1
+  Resolved in favor of shifting.
+
+Warning : *** Shift/Reduce conflict found in state #121
+  between BlockStat ::= (*)
+  and     TmplDef ::= (*) CASE OBJECT ObjectDef
+  and     TmplDef ::= (*) CASE CLASS ClassDef
+  under symbol CASE
+  Resolved in favor of shifting.
+
+Warning : *** Shift/Reduce conflict found in state #121
+  between BlockStat ::= (*)
+  and     LocalModifier ::= (*) IMPLICIT
+  and     _A_Def ::= (*) IMPLICIT Def
+  under symbol IMPLICIT
+  Resolved in favor of shifting.
+
+Warning : *** Shift/Reduce conflict found in state #121
+  between BlockStat ::= (*)
+  and     BlockStat ::= (*) Expr1
+  under symbol Expr1
+  Resolved in favor of shifting.
+
+Warning : *** Shift/Reduce conflict found in state #119
+  between BlockStat ::= (*)
+  and     TmplDef ::= (*) CASE OBJECT ObjectDef
+  and     TmplDef ::= (*) CASE CLASS ClassDef
+  under symbol CASE
+  Resolved in favor of shifting.
+
+Warning : *** Shift/Reduce conflict found in state #119
+  between BlockStat ::= (*)
+  and     LocalModifier ::= (*) IMPLICIT
+  and     _A_Def ::= (*) IMPLICIT Def
+  under symbol IMPLICIT
+  Resolved in favor of shifting.
+
+Warning : *** Shift/Reduce conflict found in state #119
+  between BlockStat ::= (*)
+  and     BlockStat ::= (*) Expr1
+  under symbol Expr1
+  Resolved in favor of shifting.
+
+Warning : *** Shift/Reduce conflict found in state #89
+  between BlockStat ::= (*)
+  and     LocalModifier ::= (*) IMPLICIT
+  and     _A_Def ::= (*) IMPLICIT Def
+  under symbol IMPLICIT
+  Resolved in favor of shifting.
+
+Warning : *** Shift/Reduce conflict found in state #89
+  between BlockStat ::= (*)
+  and     BlockStat ::= (*) Expr1
+  under symbol Expr1
+  Resolved in favor of shifting.
+
+Warning : *** Shift/Reduce conflict found in state #326
+  between BlockStat ::= (*)
+  and     TmplDef ::= (*) CASE OBJECT ObjectDef
+  and     TmplDef ::= (*) CASE CLASS ClassDef
+  under symbol CASE
+  Resolved in favor of shifting.
+
+Warning : *** Shift/Reduce conflict found in state #326
+  between BlockStat ::= (*)
+  and     LocalModifier ::= (*) IMPLICIT
+  and     _A_Def ::= (*) IMPLICIT Def
+  under symbol IMPLICIT
+  Resolved in favor of shifting.
+
+Warning : *** Shift/Reduce conflict found in state #326
+  between BlockStat ::= (*)
+  and     BlockStat ::= (*) Expr1
+  under symbol Expr1
+  Resolved in favor of shifting.
+
+Warning : *** Shift/Reduce conflict found in state #335
+  between BlockStat ::= (*)
+  and     TmplDef ::= (*) CASE OBJECT ObjectDef
+  and     TmplDef ::= (*) CASE CLASS ClassDef
+  under symbol CASE
+  Resolved in favor of shifting.
+
+Warning : *** Shift/Reduce conflict found in state #335
+  between BlockStat ::= (*)
+  and     LocalModifier ::= (*) IMPLICIT
+  and     _A_Def ::= (*) IMPLICIT Def
+  under symbol IMPLICIT
+  Resolved in favor of shifting.
+
+Warning : *** Shift/Reduce conflict found in state #335
+  between BlockStat ::= (*)
+  and     BlockStat ::= (*) Expr1
+  under symbol Expr1
+  Resolved in favor of shifting.
+
+Warning : *** Shift/Reduce conflict found in state #331
+  between BlockStat ::= (*)
+  and     TmplDef ::= (*) CASE OBJECT ObjectDef
+  and     TmplDef ::= (*) CASE CLASS ClassDef
+  under symbol CASE
+  Resolved in favor of shifting.
+
+Warning : *** Shift/Reduce conflict found in state #331
+  between BlockStat ::= (*)
+  and     LocalModifier ::= (*) IMPLICIT
+  and     _A_Def ::= (*) IMPLICIT Def
+  under symbol IMPLICIT
+  Resolved in favor of shifting.
+
+Warning : *** Shift/Reduce conflict found in state #331
+  between BlockStat ::= (*)
+  and     BlockStat ::= (*) Expr1
+  under symbol Expr1
+  Resolved in favor of shifting.
+================================================================================
+Block             ::=  BlockStat {semi BlockStat} [ResultExpr]
+BlockStat         ::=  Import
+                      |  {Annotation} [‘implicit’ | ‘lazy’] Def
+                      |  {Annotation} {LocalModifier} TmplDef
+                      |  Expr1
+                      |
+ResultExpr        ::=  Expr1
+                      |  (Bindings | ([‘implicit’] id | ‘_’) ‘:’ CompoundType) ‘=>’ Block
+TmplDef           ::=  [‘case’] ‘class’ ClassDef
+                      |  [‘case’] ‘object’ ObjectDef
+                      |  ‘trait’ TraitDef
+Expr1             ::=  ‘if’ ‘(’ Expr ‘)’ {nl} Expr [[semi] ‘else’ Expr]
+                      |  ‘while’ ‘(’ Expr ‘)’ {nl} Expr
+                      |  ‘try’ (‘{’ Block ‘}’ | Expr) [‘catch’ ‘{’ CaseClauses ‘}’] [‘finally’ Expr]
+                      |  ‘do’ Expr [semi] ‘while’ ‘(’ Expr ‘)’
+                      |  ‘for’ (‘(’ Enumerators ‘)’ | ‘{’ Enumerators ‘}’) {nl} [‘yield’] Expr
+                      |  ‘throw’ Expr
+                      |  ‘return’ [Expr]
+                      |  [SimpleExpr ‘.’] id ‘=’ Expr
+                      |  SimpleExpr1 ArgumentExprs ‘=’ Expr
+                      |  PostfixExpr
+                      |  PostfixExpr Ascription
+                      |  PostfixExpr ‘match’ ‘{’ CaseClauses ‘}’
+SimpleExpr        ::=  ‘new’ (ClassTemplate | TemplateBody)
+                      |  BlockExpr
+                      |  SimpleExpr1 [‘_’]
+================================================================================
+conflicting situations:
+(1) empty-BlockStat ResultExpr
+(2) BlockStat ResultExpr
+it means BlockStat and ResultExpr have common start, or even the same
+SOLUTION:
+    remove ResultExpr temporarily
+================================================================================
+BlockExpr         ::=  ‘{’ CaseClauses ‘}’
+                      |  ‘{’ Block ‘}’
+CaseClauses       ::=  CaseClause { CaseClause }
+CaseClause        ::=  ‘case’ Pattern [Guard] ‘=>’ Block
+Block             ::=  BlockStat {semi BlockStat} [ResultExpr]
+BlockStat         ::=  Import
+                      |  {Annotation} [‘implicit’ | ‘lazy’] Def
+                      |  {Annotation} {LocalModifier} TmplDef
+                      |  Expr1
+                      |
+TmplDef           ::=  [‘case’] ‘class’ ClassDef
+                      |  [‘case’] ‘object’ ObjectDef
+                      |  ‘trait’ TraitDef
+================================================================================
+conflicting situations:
+(1) { CASE Pattern
+(2) { CASE OJBJECT
+(2) { CASE CLASS
+SOLUTION:
+    defining terminals CASE_OBJECT & CASE_CLASS
+================================================================================
+
