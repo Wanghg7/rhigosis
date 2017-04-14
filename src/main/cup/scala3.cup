@@ -57,7 +57,6 @@ terminal CASE_OBJECT;
 terminal CASE_CLASS;
 terminal DEF;
 // TODO
-terminal ParamType;
 terminal CompoundType;
 terminal ExistentialDcl;
 terminal Binding;
@@ -158,6 +157,7 @@ nonterminal ValDcl;
 nonterminal VarDcl;
 nonterminal FunDcl;
 nonterminal TypeDcl;
+nonterminal ParamType;
 // Precedence
 precedence left ID/*used in InfixExpr*/;
 precedence left DOT/*used in StableId*/, _SelfType/*used in SelfType*/, RDARROW/*_FunctionArgTypes_withRDARROW*/;
@@ -497,7 +497,9 @@ Dcl               ::=  DEF FunDcl;
 Dcl               ::=  TYPE TypeDcl;
 Dcl               ::=  TYPE NL TypeDcl;
 
-
+ParamType         ::=  Type;
+ParamType         ::=  RDARROW Type;
+ParamType         ::=  Type ASTERISK;
 
 
 
