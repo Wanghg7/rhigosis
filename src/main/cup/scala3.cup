@@ -55,8 +55,8 @@ terminal TILDE;
 terminal EXCLAM;
 terminal CASE_OBJECT;
 terminal CASE_CLASS;
+terminal DEF;
 // TODO
-terminal Def;
 terminal Dcl;
 terminal ParamType;
 terminal CompoundType;
@@ -67,6 +67,8 @@ terminal Pattern;
 terminal Guard;
 terminal Expr1;
 terminal PatVarDef;
+terminal FunDef;
+terminal TypeDef;
 // DONE
 nonterminal CompilationUnit;
 nonterminal TopStatSeq;
@@ -151,6 +153,7 @@ nonterminal Constr;
 nonterminal AnnotType;
 nonterminal EarlyDef;
 nonterminal _M_PatVarDef;
+nonterminal Def;
 // Precedence
 precedence left ID/*used in InfixExpr*/;
 precedence left DOT/*used in StableId*/, _SelfType/*used in SelfType*/, RDARROW/*_FunctionArgTypes_withRDARROW*/;
@@ -477,6 +480,30 @@ EarlyDef          ::=  Annotation NL EarlyDef;
 
 _M_PatVarDef        ::= PatVarDef;
 _M_PatVarDef        ::= Modifier _M_PatVarDef;
+
+Def               ::=  PatVarDef;
+Def               ::=  DEF FunDef;
+Def               ::=  TYPE TypeDef;
+Def               ::=  TYPE NL TypeDef;
+Def               ::=  TmplDef;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

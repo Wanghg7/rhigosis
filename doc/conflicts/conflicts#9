@@ -1,0 +1,5 @@
+Warning : *** Reduce/Reduce conflict found in state #283
+  between _M_PatVarDef ::= PatVarDef (*)
+  and     Def ::= PatVarDef (*)
+  under symbols: {SEMI}
+  Resolved in favor of the first production.
