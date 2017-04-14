@@ -66,6 +66,20 @@
                 <version>11b-20160615</version>
                 <executions>
                     <execution>
+                        <id>cup:scala-grammar</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <expectedConflicts>0</expectedConflicts>
+                            <nontermsToSymbols>true</nontermsToSymbols>
+                            <cupDefinition>${basedir}/src/main/cup/scala_grammar.cup</cupDefinition>
+                            <className>SGParser</className>
+                            <symbolsName>SGSym</symbolsName>
+                        </configuration>
+                    </execution>
+                    <!--execution>
                         <id>cup:scala3</id>
                         <phase>generate-sources</phase>
                         <goals>
@@ -79,7 +93,7 @@
                             <symbolsName>Sym3</symbolsName>
                         </configuration>
                     </execution>
-                    <!--execution>
+                    <execution>
                         <id>cup:scala2</id>
                         <phase>generate-sources</phase>
                         <goals>
@@ -91,7 +105,7 @@
                             <className>Parser2</className>
                             <symbolsName>Sym2</symbolsName>
                         </configuration>
-                    </execution>
+                    </execution-->
                     <execution>
                         <id>cup:scala</id>
                         <phase>generate-sources</phase>
@@ -105,7 +119,7 @@
                             <symbolsName>Sym</symbolsName>
                         </configuration>
                     </execution>
-                    <execution>
+                    <!--execution>
                         <id>cup:test</id>
                         <phase>generate-sources</phase>
                         <goals>
