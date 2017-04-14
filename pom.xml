@@ -72,7 +72,7 @@
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <expectedConflicts>1</expectedConflicts>
+                            <expectedConflicts>2</expectedConflicts>
                             <nontermsToSymbols>true</nontermsToSymbols>
                             <cupDefinition>${basedir}/src/main/cup/scala3.cup</cupDefinition>
                             <className>Parser3</className>

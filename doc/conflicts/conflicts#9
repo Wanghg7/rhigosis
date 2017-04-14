@@ -1,5 +1,25 @@
+================================================================================
 Warning : *** Reduce/Reduce conflict found in state #283
   between _M_PatVarDef ::= PatVarDef (*)
   and     Def ::= PatVarDef (*)
   under symbols: {SEMI}
   Resolved in favor of the first production.
+================================================================================
+ClassTemplateOpt  ::=  ‘extends’ ClassTemplate | [[‘extends’] TemplateBody]
+ClassTemplate     ::=  [EarlyDefs] ClassParents [TemplateBody]
+EarlyDefs         ::= ‘{’ [EarlyDef {semi EarlyDef}] ‘}’ ‘with’
+EarlyDef          ::=  {Annotation [nl]} {Modifier} PatVarDef
+TemplateBody      ::=  [nl] ‘{’ [SelfType] TemplateStat {semi TemplateStat} ‘}’
+TemplateStat      ::=  Import
+                      |  {Annotation [nl]} {Modifier} Def
+                      |  {Annotation [nl]} {Modifier} Dcl
+                      |  Expr
+                      |
+================================================================================
+conflicting situations:
+(1) extends { PartVarDef } with Super
+(2) extends { Def }
+SOLUTION:
+    inc expected conflicts
+================================================================================
+
