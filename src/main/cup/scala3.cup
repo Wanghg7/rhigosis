@@ -234,8 +234,6 @@ ArgumentExprs     ::=  LPAREN RPAREN;
 ArgumentExprs     ::=  LPAREN Exprs RPAREN;
 ArgumentExprs     ::=  LPAREN PostfixExpr COLON UNDERSCORE ASTERISK RPAREN;
 ArgumentExprs     ::=  LPAREN Exprs COMMA PostfixExpr COLON UNDERSCORE ASTERISK RPAREN;
-ArgumentExprs     ::=  BlockExpr;
-ArgumentExprs     ::=  NL BlockExpr;
 
 StableId          ::=  ID;
 StableId          ::=  Path DOT ID;

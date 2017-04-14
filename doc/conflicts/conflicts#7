@@ -6,5 +6,21 @@ Warning : *** Shift/Reduce conflict found in state #308
   under symbol LBRACE
   Resolved in favor of shifting.
 ================================================================================
+ClassTemplate     ::=  [EarlyDefs] ClassParents [TemplateBody]
+ClassParents      ::=  Constr {‘with’ AnnotType}
+Constr            ::=  AnnotType {ArgumentExprs}
+ArgumentExprs     ::=  ‘(’ [Exprs] ‘)’
+                      |  ‘(’ [Exprs ‘,’] PostfixExpr ‘:’ ‘_’ ‘*’ ‘)’
+                      |  [nl] BlockExpr
+BlockExpr         ::=  ‘{’ CaseClauses ‘}’
+                      |  ‘{’ Block ‘}’
+TemplateBody      ::=  [nl] ‘{’ [SelfType] TemplateStat {semi TemplateStat} ‘}’
 ================================================================================
+conflicting situations:
+(1) MyClass BlockExpr
+(2) MyClass TemplateBody
+I have no idea what's BlockExpr in ArgumentExprs
+SOLUTION:
+    remove BlockExpr temporarily
 ================================================================================
+
