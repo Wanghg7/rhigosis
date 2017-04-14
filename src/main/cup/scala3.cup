@@ -56,7 +56,6 @@ terminal EXCLAM;
 terminal CASE_OBJECT;
 terminal CASE_CLASS;
 // TODO
-terminal EarlyDef;
 terminal Def;
 terminal Dcl;
 terminal ParamType;
@@ -67,6 +66,7 @@ terminal SimpleExpr;
 terminal Pattern;
 terminal Guard;
 terminal Expr1;
+terminal PatVarDef;
 // DONE
 nonterminal CompilationUnit;
 nonterminal TopStatSeq;
@@ -149,6 +149,8 @@ nonterminal _A_LM_TmplDef;
 nonterminal _LM_TmplDef;
 nonterminal Constr;
 nonterminal AnnotType;
+nonterminal EarlyDef;
+nonterminal _M_PatVarDef;
 // Precedence
 precedence left ID/*used in InfixExpr*/;
 precedence left DOT/*used in StableId*/, _SelfType/*used in SelfType*/, RDARROW/*_FunctionArgTypes_withRDARROW*/;
@@ -469,9 +471,12 @@ Constr            ::=  Constr ArgumentExprs;
 AnnotType         ::=  SimpleType;
 AnnotType         ::=  AnnotType Annotation;
 
+EarlyDef          ::=  _M_PatVarDef;
+EarlyDef          ::=  Annotation EarlyDef;
+EarlyDef          ::=  Annotation NL EarlyDef;
 
-
-
+_M_PatVarDef        ::= PatVarDef;
+_M_PatVarDef        ::= Modifier _M_PatVarDef;
 
 
 
