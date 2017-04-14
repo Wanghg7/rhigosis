@@ -56,7 +56,6 @@ terminal EXCLAM;
 terminal CASE_OBJECT;
 terminal CASE_CLASS;
 // TODO
-terminal AnnotType;
 terminal EarlyDef;
 terminal Def;
 terminal Dcl;
@@ -149,6 +148,7 @@ nonterminal _A_Def;
 nonterminal _A_LM_TmplDef;
 nonterminal _LM_TmplDef;
 nonterminal Constr;
+nonterminal AnnotType;
 // Precedence
 precedence left ID/*used in InfixExpr*/;
 precedence left DOT/*used in StableId*/, _SelfType/*used in SelfType*/, RDARROW/*_FunctionArgTypes_withRDARROW*/;
@@ -466,7 +466,8 @@ _LM_TmplDef       ::=  LocalModifier _LM_TmplDef;
 Constr            ::=  AnnotType;
 Constr            ::=  Constr ArgumentExprs;
 
-
+AnnotType         ::=  SimpleType;
+AnnotType         ::=  AnnotType Annotation;
 
 
 
