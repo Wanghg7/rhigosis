@@ -1,3 +1,11 @@
+// README: top down start from CompilationUnit
+// (1) move a nonterminal from the TODO list to the DONE list
+// (2) add productions for the nonterminal
+// (3) add terminals
+// (4) append extra nonterminals to the TODO list
+// (5) resolve conflicts & commit
+// (6) goto step-1
+
 package wanghg.rhigosis;
 
 // TERMINAL
