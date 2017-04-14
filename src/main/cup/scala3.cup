@@ -57,7 +57,6 @@ terminal CASE_OBJECT;
 terminal CASE_CLASS;
 terminal DEF;
 // TODO
-terminal ExistentialDcl;
 terminal Binding;
 terminal SimpleExpr;
 terminal Pattern;
@@ -158,6 +157,7 @@ nonterminal FunDcl;
 nonterminal TypeDcl;
 nonterminal CompoundType;
 nonterminal _CompoundType;
+nonterminal ExistentialDcl;
 // Precedence
 precedence left ASTERISK/*used in Type*/;
 precedence left ID/*used in InfixExpr*/;
@@ -503,7 +503,8 @@ CompoundType      ::=  Refinement;
 _CompoundType        ::= AnnotType;
 _CompoundType        ::= _CompoundType WITH AnnotType;
 
-
+ExistentialDcl    ::=  TYPE TypeDcl;
+ExistentialDcl    ::=  VAL ValDcl;
 
 
 
