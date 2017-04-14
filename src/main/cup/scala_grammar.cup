@@ -1,7 +1,7 @@
 package wanghg.rhigosis;
 
 terminal ID;
-terminal CCE;
+terminal LHS;
 terminal BAR;
 terminal LBRACK;
 terminal RBRACK;
@@ -10,7 +10,6 @@ terminal RBRACE;
 terminal LPAREN;
 terminal RPAREN;
 terminal LITERAL;
-terminal NL;
 
 nonterminal grammar;
 nonterminal prod;
@@ -21,12 +20,11 @@ nonterminal options;
 start with grammar;
 
 grammar     ::= prod:p {: System.out.println(p); :};
-grammar     ::= prod:p BAR NL {: System.out.println(p); :};
 grammar     ::= grammar prod:p {: System.out.println(p); :};
-grammar     ::= grammar prod:p BAR NL{: System.out.println(p); :};
 
-prod        ::= ID:id CCE rhs NL {: RESULT = id; :};
-prod        ::= prod:p BAR rhs NL {: RESULT = p; :};
+prod        ::= LHS:id rhs  {: RESULT = id; :};
+prod        ::= prod:p BAR rhs  {: RESULT = p; :};
+prod        ::= prod:p BAR   {: RESULT = p; :};
 
 rhs         ::= term;
 rhs         ::= rhs term;

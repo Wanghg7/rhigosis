@@ -34,13 +34,11 @@ import java_cup.runtime.ComplexSymbolFactory.ComplexSymbol;
 
 %%
 
-[ ]+ {}
+[ \n]+ {}
 
-[\n]+ { return symbol(SGSym.NL); }
+[a-zA-Z_][a-zA-Z0-9_]+ { return symbol(SGSym.ID); }
 
- [a-zA-Z_][a-zA-Z0-9_]+ { return symbol(SGSym.ID); }
-
-"::=" { return symbol(SGSym.CCE); }
+[a-zA-Z_][a-zA-Z0-9_]+ [ ]* "::=" { return symbol(SGSym.LHS); }
 
 "|" { return symbol(SGSym.BAR); }
 
