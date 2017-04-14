@@ -1,0 +1,10 @@
+================================================================================
+Warning : *** Shift/Reduce conflict found in state #308
+  between ClassParents ::= Constr (*)
+  and     BlockExpr ::= (*) LBRACE Block RBRACE
+  and     BlockExpr ::= (*) LBRACE CaseClauses RBRACE
+  under symbol LBRACE
+  Resolved in favor of shifting.
+================================================================================
+================================================================================
+================================================================================
