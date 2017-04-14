@@ -57,7 +57,6 @@ terminal CASE_OBJECT;
 terminal CASE_CLASS;
 terminal DEF;
 // TODO
-terminal CompoundType;
 terminal ExistentialDcl;
 terminal Binding;
 terminal SimpleExpr;
@@ -67,6 +66,7 @@ terminal Expr1;
 terminal PatVarDef;
 terminal FunDef;
 terminal TypeDef;
+terminal Refinement;
 // DONE
 nonterminal CompilationUnit;
 nonterminal TopStatSeq;
@@ -158,6 +158,8 @@ nonterminal VarDcl;
 nonterminal FunDcl;
 nonterminal TypeDcl;
 nonterminal ParamType;
+nonterminal CompoundType;
+nonterminal _CompoundType;
 // Precedence
 precedence left ID/*used in InfixExpr*/;
 precedence left DOT/*used in StableId*/, _SelfType/*used in SelfType*/, RDARROW/*_FunctionArgTypes_withRDARROW*/;
@@ -501,9 +503,12 @@ ParamType         ::=  Type;
 ParamType         ::=  RDARROW Type;
 ParamType         ::=  Type ASTERISK;
 
+CompoundType      ::=  _CompoundType;
+CompoundType      ::=  _CompoundType Refinement;
+CompoundType      ::=  Refinement;
 
-
-
+_CompoundType        ::= AnnotType;
+_CompoundType        ::= _CompoundType WITH AnnotType;
 
 
 
