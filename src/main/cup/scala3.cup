@@ -57,7 +57,6 @@ terminal CASE_OBJECT;
 terminal CASE_CLASS;
 terminal DEF;
 // TODO
-terminal Binding;
 terminal SimpleExpr;
 terminal Pattern;
 terminal Guard;
@@ -158,6 +157,7 @@ nonterminal TypeDcl;
 nonterminal CompoundType;
 nonterminal _CompoundType;
 nonterminal ExistentialDcl;
+nonterminal Binding;
 // Precedence
 precedence left ASTERISK/*used in Type*/;
 precedence left ID/*used in InfixExpr*/;
@@ -506,7 +506,10 @@ _CompoundType        ::= _CompoundType WITH AnnotType;
 ExistentialDcl    ::=  TYPE TypeDcl;
 ExistentialDcl    ::=  VAL ValDcl;
 
-
+Binding           ::=  ID;
+Binding           ::=  ID COLON Type;
+Binding           ::=  UNDERSCORE;
+Binding           ::=  UNDERSCORE COLON Type;
 
 
 
