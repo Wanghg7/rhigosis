@@ -1,0 +1,33 @@
+================================================================================
+Warning : *** Shift/Reduce conflict found in state #262
+  between AnnotType ::= AnnotType Annotation (*)
+  and     ArgumentExprs ::= (*) LPAREN Exprs COMMA PostfixExpr COLON UNDERSCORE ASTERISK RPAREN
+  and     ArgumentExprs ::= (*) LPAREN RPAREN
+  and     ArgumentExprs ::= (*) LPAREN PostfixExpr COLON UNDERSCORE ASTERISK RPAREN
+  and     ArgumentExprs ::= (*) LPAREN Exprs RPAREN
+  under symbol LPAREN
+  Resolved in favor of shifting.
+================================================================================
+Constr            ::=  AnnotType {ArgumentExprs}
+AnnotType         ::=  SimpleType {Annotation}
+Annotation        ::=  ‘@’ SimpleType {ArgumentExprs}
+================================================================================
+conflictings situations:
+(1) MyType @MyAnnot(This is ArgumentExprs for MyAnnot)
+(2) MyType @MyAnnot(no-annot-args) (This is ArgumentExprs for MyType)
+reference:
+[Syntax for Annotations on Constructor](http://www.scala-lang.org/old/node/1723.html)
+"""
+    Currently, the parser uses the first list as arguments to the annotation and all
+    remaining lists as parameter lists for the constructor; it requires the annotations
+    to have exactly one argument list.
+"""
+    After internal discussion, we think that the best is to fix the spec and keep the
+    current syntax (annotations on the primary constructor must have exactly
+    one argument list)
+    ...
+"""
+SOLUTION:
+    inc expectedConflicts
+================================================================================
+
