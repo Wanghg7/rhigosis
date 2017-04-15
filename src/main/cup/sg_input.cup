@@ -20,10 +20,10 @@ nonterminal options;
 start with grammar;
 
 grammar     ::= prod:p {:
-    System.out.println(p + "\n");
+    RESULT = String.format("%s\n", p);
 :};
-grammar     ::= grammar prod:p {:
-    System.out.println(p + "\n");
+grammar     ::= grammar:g prod:p {:
+    RESULT = String.format("%s\n%s\n", g, p);
 :};
 
 prod        ::= LHS:id rhs:r  {:

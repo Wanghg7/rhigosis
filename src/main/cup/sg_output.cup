@@ -20,56 +20,50 @@ nonterminal options;
 start with grammar;
 
 grammar     ::= prod:p {:
-    System.out.println(p + ";\n");
+    RESULT = String.format("%s\n", p);
 :};
-grammar     ::= grammar prod:p {:
-    System.out.println(p + ";\n");
+grammar     ::= grammar:g prod:p {:
+    RESULT = String.format("%s\n%s\n", g, p);
 :};
 
 prod        ::= LHS:id rhs:r  {:
-    String s = String.format("%24s ::= %s", id, r);
-    RESULT = s;
+    RESULT = String.format("%24s ::= %s\n", id, r);
 :};
 prod        ::= prod:p BAR rhs:r  {:
-    String s = String.format("%s \n%28s %s", p, "|", r);
-    RESULT = s;
+    RESULT = String.format("%s%28s %s\n", p, "|", r);
 :};
 prod        ::= prod:p BAR   {:
-    String s = String.format("%s \n%28s ", p, "|");
-    RESULT = s;
+    RESULT = String.format("%s%28s \n", p, "|");
 :};
 
 rhs         ::= term:t {:
-    RESULT = t;
+    RESULT = String.format("%s", t);
 :};
 rhs         ::= rhs:r term:t {:
-    RESULT = r + " " + t;
+    RESULT = String.format("%s %s", r, t);
 :};
 
 term        ::= LBRACK options:o RBRACK {:
-    String s = String.format("[%s]", o);
-    RESULT = s;
+    RESULT = String.format("[%s]", o);
 :};
 term        ::= LBRACE options:o RBRACE {:
-    String s = String.format("{%s}", o);
-    RESULT = s;
+    RESULT = String.format("{%s}", o);
 :};
 term        ::= LPAREN options:o RPAREN {:
-    String s = String.format("(%s)", o);
-    RESULT = s;
+    RESULT = String.format("(%s)", o);
 :};
 term        ::= LITERAL:lit {:
-    RESULT = lit;
+    RESULT = String.format("%s", lit);
 :};
 term        ::= ID:id {:
-    RESULT = id;
+    RESULT = String.format("%s", id);
 :};
 
 options     ::= rhs:r {:
-    RESULT = r;
+    RESULT = String.format("%s", r);
 :};
 options     ::= options:o BAR rhs:r {:
-    RESULT = o + " | " + r;
+    RESULT = String.format("%s | %s", o, r);
 :};
 
 
