@@ -4,6 +4,8 @@ import java_cup.runtime.ComplexSymbolFactory;
 import java_cup.runtime.ComplexSymbolFactory;
 import java_cup.runtime.ComplexSymbolFactory.Location;
 import java_cup.runtime.ComplexSymbolFactory.ComplexSymbol;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 %%
 
@@ -18,9 +20,11 @@ import java_cup.runtime.ComplexSymbolFactory.ComplexSymbol;
     private final String unit;
     private final ComplexSymbolFactory fact;
     private Symbol symbol(int id) {
+        return symbol(id, yytext());
+    }
+    private Symbol symbol(int id, String text) {
         int line = yyline + 1;
         int column = yycolumn + 1;
-        String text = yytext();
         Location left = new Location(unit, line, column);
         Location right = new Location(unit, line, column + text.length());
         Symbol sym = fact.newSymbol(SGSym.terminalNames[id], id, left, right, text);
@@ -38,7 +42,14 @@ import java_cup.runtime.ComplexSymbolFactory.ComplexSymbol;
 
 [a-zA-Z_][a-zA-Z0-9_]+ { return symbol(SGSym.ID); }
 
-[a-zA-Z_][a-zA-Z0-9_]+ [ ]* "::=" { return symbol(SGSym.LHS); }
+[a-zA-Z_][a-zA-Z0-9_]+ [ ]* "::=" {
+    Pattern ptn = Pattern.compile("[a-zA-Z_][a-zA-Z0-9_]+");
+    Matcher mtr = ptn.matcher(yytext());
+    if (!mtr.find())
+        throw new RuntimeException("lhs not found");
+    String lhs = mtr.group(0);
+    return symbol(SGSym.LHS, lhs);
+}
 
 "|" { return symbol(SGSym.BAR); }
 
