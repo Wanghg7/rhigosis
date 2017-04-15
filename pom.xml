@@ -66,7 +66,7 @@
                 <version>11b-20160615</version>
                 <executions>
                     <execution>
-                        <id>cup:scala-grammar</id>
+                        <id>cup:sg-output</id>
                         <phase>generate-sources</phase>
                         <goals>
                             <goal>generate</goal>
@@ -74,8 +74,22 @@
                         <configuration>
                             <expectedConflicts>0</expectedConflicts>
                             <nontermsToSymbols>true</nontermsToSymbols>
-                            <cupDefinition>${basedir}/src/main/cup/scala_grammar.cup</cupDefinition>
-                            <className>SGParser</className>
+                            <cupDefinition>src/main/cup/sg_output.cup</cupDefinition>
+                            <className>SGOutputParser</className>
+                            <symbolsName>SGOutputSym</symbolsName>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>cup:sg-input</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <expectedConflicts>0</expectedConflicts>
+                            <nontermsToSymbols>true</nontermsToSymbols>
+                            <cupDefinition>src/main/cup/sg_input.cup</cupDefinition>
+                            <className>SGInputParser</className>
                             <symbolsName>SGSym</symbolsName>
                         </configuration>
                     </execution>

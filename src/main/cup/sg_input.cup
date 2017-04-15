@@ -1,0 +1,85 @@
+package wanghg.rhigosis;
+
+terminal ID;
+terminal LHS;
+terminal BAR;
+terminal LBRACK;
+terminal RBRACK;
+terminal LBRACE;
+terminal RBRACE;
+terminal LPAREN;
+terminal RPAREN;
+terminal LITERAL;
+
+nonterminal grammar;
+nonterminal prod;
+nonterminal rhs;
+nonterminal term;
+nonterminal options;
+
+start with grammar;
+
+grammar     ::= prod:p {:
+    System.out.println(p + "\n");
+:};
+grammar     ::= grammar prod:p {:
+    System.out.println(p + "\n");
+:};
+
+prod        ::= LHS:id rhs:r  {:
+    String s = String.format("%24s ::= %s", id, r);
+    RESULT = s;
+:};
+prod        ::= prod:p BAR rhs:r  {:
+    String s = String.format("%s \n%28s %s", p, "|", r);
+    RESULT = s;
+:};
+prod        ::= prod:p BAR   {:
+    String s = String.format("%s \n%28s ", p, "|");
+    RESULT = s;
+:};
+
+rhs         ::= term:t {:
+    RESULT = t;
+:};
+rhs         ::= rhs:r term:t {:
+    RESULT = r + " " + t;
+:};
+
+term        ::= LBRACK options:o RBRACK {:
+    String s = String.format("[%s]", o);
+    RESULT = s;
+:};
+term        ::= LBRACE options:o RBRACE {:
+    String s = String.format("{%s}", o);
+    RESULT = s;
+:};
+term        ::= LPAREN options:o RPAREN {:
+    String s = String.format("(%s)", o);
+    RESULT = s;
+:};
+term        ::= LITERAL:lit {:
+    RESULT = lit;
+:};
+term        ::= ID:id {:
+    RESULT = id;
+:};
+
+options     ::= rhs:r {:
+    RESULT = r;
+:};
+options     ::= options:o BAR rhs:r {:
+    RESULT = o + " | " + r;
+:};
+
+
+
+
+
+
+
+
+
+
+
+

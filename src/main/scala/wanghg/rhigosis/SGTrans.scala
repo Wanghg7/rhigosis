@@ -15,7 +15,7 @@ object SGTrans {
     val fact = new ComplexSymbolFactory();
     Utils.withReader(file) { reader =>
       val lexer = new SGLexer(reader, file.getPath, fact)
-      val parser = new SGParser(lexer, fact)
+      val parser = new SGInputParser(lexer, fact)
       parser.parse()
     }
   }
