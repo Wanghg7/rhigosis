@@ -8,14 +8,18 @@ terminal DOT;
 terminal NL;
 terminal IMPORT;
 terminal COMMA;
+terminal LBRACE;
+terminal RBRACE;
+terminal OBJECT;
+terminal AT;
 
 // todo
-terminal Packaging;
-terminal PackageObject;
-terminal Annotation;
 terminal TmplDef;
 terminal Modifier;
 terminal ImportExpr;
+terminal ObjectDef;
+terminal SimpleType;
+terminal ArgumentExprs;
 
 // done
 nonterminal CompilationUnit;
@@ -25,6 +29,9 @@ nonterminal TopStat;
 nonterminal _ANL_M_TmplDef;
 nonterminal _M_TmplDef;
 nonterminal Import;
+nonterminal Packaging;
+nonterminal PackageObject;
+nonterminal Annotation;
 
 // precedence
 
@@ -57,11 +64,13 @@ _M_TmplDef        ::=           TmplDef
 Import            ::=  IMPORT ImportExpr
                     |  IMPORT ImportExpr COMMA ImportExpr;
 
+Packaging         ::=  PACKAGE QualId    LBRACE TopStatSeq RBRACE
+                    |  PACKAGE QualId NL LBRACE TopStatSeq RBRACE;
 
+PackageObject     ::=  PACKAGE OBJECT ObjectDef;
 
-
-
-
+Annotation        ::=  AT SimpleType
+                    |  AT SimpleType ArgumentExprs;
 
 
 
