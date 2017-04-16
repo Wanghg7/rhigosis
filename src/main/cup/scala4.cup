@@ -5,14 +5,23 @@ terminal PACKAGE;
 terminal SEMI;
 terminal ID;
 terminal DOT;
+terminal NL;
 
 // todo
-terminal TopStat;
+terminal Import;
+terminal Packaging;
+terminal PackageObject;
+terminal Annotation;
+terminal TmplDef;
+terminal Modifier;
 
 // done
 nonterminal CompilationUnit;
 nonterminal TopStatSeq;
 nonterminal QualId;
+nonterminal TopStat;
+nonterminal _ANL_M_TmplDef;
+nonterminal _M_TmplDef;
 
 // precedence
 
@@ -29,8 +38,18 @@ TopStatSeq        ::=  TopStat
 QualId            ::=  ID
                     |  QualId DOT ID;
 
+TopStat           ::=  _ANL_M_TmplDef
+                    |  Import
+                    |  Packaging
+                    |  PackageObject
+                    |  ;
 
+_ANL_M_TmplDef    ::=                _M_TmplDef
+                    |  Annotation    _M_TmplDef
+                    |  Annotation NL _M_TmplDef;
 
+_M_TmplDef        ::=           TmplDef
+                    |  Modifier TmplDef;
 
 
 
