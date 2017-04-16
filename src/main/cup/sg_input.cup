@@ -59,7 +59,7 @@ term        ::= LPAREN options:o RPAREN {:
     RESULT = s;
 :};
 term        ::= LITERAL:lit {:
-    RESULT = lit;
+    RESULT = SGUtils.createLiteral((String)lit);
 :};
 term        ::= ID:id {:
     RESULT = id;
