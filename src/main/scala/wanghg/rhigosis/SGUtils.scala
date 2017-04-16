@@ -1,5 +1,7 @@
 package wanghg.rhigosis
 
+import scala.collection.mutable.ListBuffer
+
 
 /**
   * Created by wanghg on 16/4/2017.
@@ -8,7 +10,38 @@ object SGUtils {
 
   val ptn = "‘([^’]+)’".r
 
-  def createLiteral(s: String): Terminal = s match {
+  def id(s: String): Term = s match {
+    case "id" => Terminal('ID)
+    case "nl" => Terminal('NL)
+    case "integerLiteral" => Terminal('INTEGER)
+    case "floatingPointLiteral" => Terminal('FLOAT)
+    case "booleanLiteral" => Terminal('BOOLEAN)
+    case "characterLiteral" => Terminal('CHARACTER)
+    case "stringLiteral" => Terminal('STRING)
+    case "symbolLiteral" => Terminal('SYMBOL)
+    case _ => Nonterminal(Symbol(s))
+  }
+
+  def createGrammar(s: ListBuffer[Prod]) = Grammar(s.toList)
+
+  def createProd(name: String, opt: Options, nullable: Boolean) =
+    Prod(Nonterminal(Symbol(name)), opt, nullable)
+
+  def createListBuffer[T](e: T): ListBuffer[T] = ListBuffer(e)
+
+  def createListBuffer[T](es: ListBuffer[T], e: T): ListBuffer[T] = es += e
+
+  def createOptions(s: ListBuffer[Sequence]): Options = Options(s.toList)
+
+  def createSequence(s: ListBuffer[Term]): Sequence = Sequence(s.toList)
+
+  def group(t: Options): Group = Group(t)
+
+  def zero_or_one(t: Options): ZeroOrOne = ZeroOrOne(t)
+
+  def zero_or_more(t: Options): ZeroOrMore = ZeroOrMore(t)
+
+  def literal(s: String): Terminal = s match {
     case ptn("-") => Terminal('MINUS)
     case ptn("null") => Terminal('NULL)
     case ptn(".") => Terminal('DOT)
@@ -71,5 +104,6 @@ object SGUtils {
     case ptn("extends") => Terminal('EXTENDS)
     case ptn("package") => Terminal('EXTENDS)
   }
+
 
 }

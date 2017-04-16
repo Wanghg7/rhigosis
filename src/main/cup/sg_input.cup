@@ -1,5 +1,7 @@
 package wanghg.rhigosis;
 
+import scala.collection.mutable.ListBuffer;
+
 terminal ID;
 terminal LHS;
 terminal BAR;
@@ -13,64 +15,90 @@ terminal LITERAL;
 
 nonterminal grammar;
 nonterminal prod;
-nonterminal rhs;
+nonterminal prod_list;
 nonterminal term;
+nonterminal sequence;
 nonterminal options;
+nonterminal group;
+nonterminal zero_or_one;
+nonterminal zero_or_more;
 
 start with grammar;
 
-grammar     ::= prod:p {:
-    RESULT = String.format("%s\n", p);
-:};
-grammar     ::= grammar:g prod:p {:
-    RESULT = String.format("%s\n%s\n", g, p);
+grammar         ::= prod_list:pl {:
+    RESULT = SGUtils.createGrammar((ListBuffer<Prod>)pl);
 :};
 
-prod        ::= LHS:id rhs:r  {:
-    String s = String.format("%24s ::= %s", id, r);
-    RESULT = s;
-:};
-prod        ::= prod:p BAR rhs:r  {:
-    String s = String.format("%s \n%28s %s", p, "|", r);
-    RESULT = s;
-:};
-prod        ::= prod:p BAR   {:
-    String s = String.format("%s \n%28s ", p, "|");
-    RESULT = s;
+prod_list       ::= prod:p {:
+    RESULT = SGUtils.createListBuffer(p);
+:}
+                  | prod_list:g prod:p {:
+    RESULT = SGUtils.createListBuffer((ListBuffer<Prod>)g, (Prod)p);
 :};
 
-rhs         ::= term:t {:
-    RESULT = t;
-:};
-rhs         ::= rhs:r term:t {:
-    RESULT = r + " " + t;
-:};
-
-term        ::= LBRACK options:o RBRACK {:
-    String s = String.format("[%s]", o);
-    RESULT = s;
-:};
-term        ::= LBRACE options:o RBRACE {:
-    String s = String.format("{%s}", o);
-    RESULT = s;
-:};
-term        ::= LPAREN options:o RPAREN {:
-    String s = String.format("(%s)", o);
-    RESULT = s;
-:};
-term        ::= LITERAL:lit {:
-    RESULT = SGUtils.createLiteral((String)lit);
-:};
-term        ::= ID:id {:
-    RESULT = id;
+prod            ::= LHS:id options:o {:
+    RESULT = SGUtils.createProd((String)id, SGUtils.createOptions((ListBuffer<Sequence>)o), false);
+:}
+                  | LHS:id options:o BAR {:
+    RESULT = SGUtils.createProd((String)id, SGUtils.createOptions((ListBuffer<Sequence>)o), true);
 :};
 
-options     ::= rhs:r {:
-    RESULT = r;
+options         ::= sequence:s {:
+    RESULT = SGUtils.createListBuffer(SGUtils.createSequence((ListBuffer<Term>)s));
+:}
+                  | options:o BAR sequence:s {:
+    RESULT = SGUtils.createListBuffer((ListBuffer<Sequence>)o, SGUtils.createSequence((ListBuffer<Term>)s));
 :};
-options     ::= options:o BAR rhs:r {:
-    RESULT = o + " | " + r;
+
+sequence        ::= term:t {:
+    RESULT = SGUtils.createListBuffer((Term)t);
+:}
+                  | sequence:s term:t {:
+    RESULT = SGUtils.createListBuffer((ListBuffer<Term>)s, (Term)t);
 :};
+
+term            ::= ID:id {:
+    RESULT = SGUtils.id((String)id);
+:}
+                  | LITERAL:lit {:
+    RESULT = SGUtils.literal((String)lit);
+:}
+                  | group:g {:
+    RESULT = g;
+:}
+                  | zero_or_one:zoo {:
+    RESULT = zoo;
+:}
+                  | zero_or_more:zom {:
+    RESULT = zom;
+:};
+
+group           ::= LPAREN options:o RPAREN {:
+    RESULT = SGUtils.group(SGUtils.createOptions((ListBuffer<Sequence>)o));
+:};
+
+zero_or_one     ::= LBRACK options:o RBRACK {:
+    RESULT = SGUtils.zero_or_one(SGUtils.createOptions((ListBuffer<Sequence>)o));
+:};
+
+zero_or_more    ::= LBRACE options:o RBRACE {:
+    RESULT = SGUtils.zero_or_more(SGUtils.createOptions((ListBuffer<Sequence>)o));
+:};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
