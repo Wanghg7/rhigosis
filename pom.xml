@@ -66,7 +66,7 @@
                 <version>11b-20160615</version>
                 <executions>
                     <execution>
-                        <id>cup:sg-output</id>
+                        <id>cup:scala4</id>
                         <phase>generate-sources</phase>
                         <goals>
                             <goal>generate</goal>
@@ -74,23 +74,9 @@
                         <configuration>
                             <expectedConflicts>0</expectedConflicts>
                             <nontermsToSymbols>true</nontermsToSymbols>
-                            <cupDefinition>src/main/cup/sg_output.cup</cupDefinition>
-                            <className>SGOutputParser</className>
-                            <symbolsName>SGOutputSym</symbolsName>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>cup:sg-input</id>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>generate</goal>
-                        </goals>
-                        <configuration>
-                            <expectedConflicts>0</expectedConflicts>
-                            <nontermsToSymbols>true</nontermsToSymbols>
-                            <cupDefinition>src/main/cup/sg_input.cup</cupDefinition>
-                            <className>SGInputParser</className>
-                            <symbolsName>SGSym</symbolsName>
+                            <cupDefinition>src/main/cup/scala4.cup</cupDefinition>
+                            <className>Parser4</className>
+                            <symbolsName>Sym4</symbolsName>
                         </configuration>
                     </execution>
                     <!--execution>
@@ -119,7 +105,7 @@
                             <className>Parser2</className>
                             <symbolsName>Sym2</symbolsName>
                         </configuration>
-                    </execution-->
+                    </execution>
                     <execution>
                         <id>cup:scala</id>
                         <phase>generate-sources</phase>
@@ -133,7 +119,7 @@
                             <symbolsName>Sym</symbolsName>
                         </configuration>
                     </execution>
-                    <!--execution>
+                    <execution>
                         <id>cup:test</id>
                         <phase>generate-sources</phase>
                         <goals>
