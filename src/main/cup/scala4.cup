@@ -4,12 +4,13 @@ package wanghg.rhigosis;
 terminal PACKAGE;
 terminal SEMI;
 
-// nonterminal
-nonterminal TopStatSeq;
-nonterminal QualId;
+// todo
+terminal QualId;
+terminal TopStat;
 
 // done
 nonterminal CompilationUnit;
+nonterminal TopStatSeq;
 
 // precedence
 
@@ -19,4 +20,83 @@ start with CompilationUnit;
 
 CompilationUnit   ::=                      TopStatSeq
                     |  PACKAGE QualId SEMI CompilationUnit;
+
+TopStatSeq        ::=  TopStat
+                    |  TopStatSeq SEMI TopStat;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
