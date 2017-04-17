@@ -12,6 +12,7 @@ object SGUtils {
 
   def id(s: String): Term = s match {
     case "id" => Terminal('ID)
+    case "semi" => Terminal('SEMI)
     case "nl" => Terminal('NL)
     case "integerLiteral" => Terminal('INTEGER)
     case "floatingPointLiteral" => Terminal('FLOAT)
@@ -22,27 +23,27 @@ object SGUtils {
     case _ => Nonterminal(Symbol(s))
   }
 
-  def createGrammar(s: ListBuffer[Prod]) = Grammar(s.toList)
+  def createGrammar(s: ListBuffer[Production]) = Grammar(s.toList)
 
-  def createProd(name: String, rhs: Rhs) = Prod(Nonterminal(Symbol(name)), rhs)
+  def createProd(name: String, rhs: Rhs) = Production(Nonterminal(Symbol(name)), rhs)
 
-  def createRhs(options: Options) = Rhs(options)
+  def createRhs(options: Alternation) = Rhs(options)
 
   def createListBuffer[T](e: T): ListBuffer[T] = ListBuffer(e)
 
   def createListBuffer[T](es: ListBuffer[T], e: T): ListBuffer[T] = es += e
 
-  def createOptions(s: ListBuffer[Sequence]): Options = Options(s.toList)
+  def createOptions(s: ListBuffer[Concatenation]): Alternation = Alternation(s.toList)
 
-  def createSequence(s: ListBuffer[Term]): Sequence = Sequence(s.toList)
+  def createSequence(s: ListBuffer[Term]): Concatenation = Concatenation(s.toList)
 
-  def createSequence(): Sequence = Sequence(List.empty[Term])
+  def createSequence(): Concatenation = Concatenation(List.empty[Term])
 
-  def group(t: Options): Group = Group(t)
+  def group(t: Alternation): Grouping = Grouping(t)
 
-  def zero_or_one(t: Options): ZeroOrOne = ZeroOrOne(t)
+  def zero_or_one(t: Alternation): Optional = Optional(t)
 
-  def zero_or_more(t: Options): ZeroOrMore = ZeroOrMore(t)
+  def zero_or_more(t: Alternation): Repetition = Repetition(t)
 
   def literal(s: String): Terminal = s match {
     case ptn("-") => Terminal('MINUS)

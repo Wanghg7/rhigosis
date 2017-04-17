@@ -3,55 +3,55 @@ package wanghg.rhigosis
 /**
   * Created by wanghg on 16/4/2017.
   */
-case class Grammar(prods: List[Prod]) {
+case class Grammar(productions: List[Production]) {
 
-  override def toString: String = prods.mkString("", "\n\n", "\n\n")
+  override def toString: String = productions.mkString("", "\n\n", "\n\n")
 }
 
-case class Prod(nont: Nonterminal, rhs: Rhs) {
+case class Production(nont: Nonterminal, rhs: Rhs) {
 
   override def toString: String = String.format("%24s ::= %s;", nont, rhs)
 }
 
-case class Rhs(options: Options) {
+case class Rhs(alternation: Alternation) {
 
-  override def toString: String = options.seqs.mkString(String.format("\n%28s ", "|"))
-}
-
-case class Options(seqs: List[Sequence]) extends Term {
-
-  override def toString: String = seqs.mkString(" | ")
-}
-
-case class Sequence(terms: List[Term]) extends Term {
-
-  override def toString: String = terms.mkString(" ")
+  override def toString: String = alternation.concatenations.mkString(String.format("\n%28s ", "|"))
 }
 
 sealed abstract class Term
 
-case class Terminal(sym: Symbol) extends Term {
+case class Alternation(concatenations: List[Concatenation]) extends Term {
 
-  override def toString: String = sym.name
+  override def toString: String = concatenations.mkString(" | ")
 }
 
-case class Nonterminal(sym: Symbol) extends Term {
+case class Concatenation(terms: List[Term]) extends Term {
 
-  override def toString: String = sym.name
+  override def toString: String = terms.mkString(" ")
 }
 
-case class Group(options: Options) extends Term {
+case class Grouping(alternation: Alternation) extends Term {
 
-  override def toString: String = String.format("(%s)", options)
+  override def toString: String = String.format("(%s)", alternation)
 }
 
-case class ZeroOrOne(options: Options) extends Term {
+case class Optional(alternation: Alternation) extends Term {
 
-  override def toString: String = String.format("[%s]", options)
+  override def toString: String = String.format("[%s]", alternation)
 }
 
-case class ZeroOrMore(options: Options) extends Term {
+case class Repetition(alternation: Alternation) extends Term {
 
-  override def toString: String = String.format("{%s}", options)
+  override def toString: String = String.format("{%s}", alternation)
+}
+
+case class Terminal(symbol: Symbol) extends Term {
+
+  override def toString: String = symbol.name
+}
+
+case class Nonterminal(symbol: Symbol) extends Term {
+
+  override def toString: String = symbol.name
 }
 
