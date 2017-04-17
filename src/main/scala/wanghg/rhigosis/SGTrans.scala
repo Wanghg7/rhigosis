@@ -49,7 +49,27 @@ object SGTrans {
 
   def expand(nont: Nonterminal, cin: List[Term], cout: List[Term], acc: List[Production]): List[Production] = {
     cin match {
-      case _ => Production(nont, Rhs(Alternation(List(Concatenation(cin))))) :: acc
+      case Nil =>
+        Production(nont, Rhs(Alternation(List(Concatenation(cout.reverse))))) :: acc
+      case Concatenation(terms) :: rest =>
+        expand(nont, terms ++ rest, cout, acc)
+      case Grouping(alt) :: rest =>
+        expand(nont, alt :: rest, cout, acc)
+      case Optional(alt) :: rest =>
+        var newAcc = acc
+        newAcc = expand(nont, rest, cout, newAcc)
+        newAcc = expand(nont, alt :: rest, cout, newAcc)
+        newAcc
+      case Alternation(cats) :: rest =>
+        var newAcc = acc
+        for (cat <- cats) {
+          newAcc = expand(nont, cat :: rest, cout, newAcc)
+        }
+        newAcc
+      case Repetition(alt) :: rest =>
+        expand(nont, rest, Repetition(alt) :: cout, acc)
+      case sym :: rest =>
+        expand(nont, rest, sym :: cout, acc)
     }
   }
 
