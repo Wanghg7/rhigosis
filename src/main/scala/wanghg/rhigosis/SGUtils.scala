@@ -24,8 +24,9 @@ object SGUtils {
 
   def createGrammar(s: ListBuffer[Prod]) = Grammar(s.toList)
 
-  def createProd(name: String, opt: Options, nullable: Boolean) =
-    Prod(Nonterminal(Symbol(name)), opt, nullable)
+  def createProd(name: String, rhs: Rhs) = Prod(Nonterminal(Symbol(name)), rhs)
+
+  def createRhs(options: Options) = Rhs(options)
 
   def createListBuffer[T](e: T): ListBuffer[T] = ListBuffer(e)
 
@@ -34,6 +35,8 @@ object SGUtils {
   def createOptions(s: ListBuffer[Sequence]): Options = Options(s.toList)
 
   def createSequence(s: ListBuffer[Term]): Sequence = Sequence(s.toList)
+
+  def createSequence(): Sequence = Sequence(List.empty[Term])
 
   def group(t: Options): Group = Group(t)
 

@@ -15,6 +15,7 @@ terminal LITERAL;
 
 nonterminal grammar;
 nonterminal prod;
+nonterminal rhs;
 nonterminal prod_list;
 nonterminal term;
 nonterminal sequence;
@@ -36,11 +37,18 @@ prod_list       ::= prod:p {:
     RESULT = SGUtils.createListBuffer((ListBuffer<Prod>)g, (Prod)p);
 :};
 
-prod            ::= LHS:id options:o {:
-    RESULT = SGUtils.createProd((String)id, SGUtils.createOptions((ListBuffer<Sequence>)o), false);
+prod            ::= LHS:id rhs:r {:
+    RESULT = SGUtils.createProd((String)id, (Rhs)r);
+:};
+
+rhs             ::= options:o {:
+    ListBuffer<Sequence> os = (ListBuffer<Sequence>)o;
+    RESULT = SGUtils.createRhs(SGUtils.createOptions(os));
 :}
-                  | LHS:id options:o BAR {:
-    RESULT = SGUtils.createProd((String)id, SGUtils.createOptions((ListBuffer<Sequence>)o), true);
+                  | options:o BAR {:
+    ListBuffer<Sequence> os =
+        SGUtils.createListBuffer((ListBuffer<Sequence>)o, SGUtils.createSequence());
+    RESULT = SGUtils.createRhs(SGUtils.createOptions(os));
 :};
 
 options         ::= sequence:s {:

@@ -5,32 +5,27 @@ package wanghg.rhigosis
   */
 case class Grammar(prods: List[Prod]) {
 
-  override def toString: String = {
-    val sb = new StringBuilder
-    prods.foreach(p => sb.append(p + ";\n\n"))
-    sb.toString
-  }
+  override def toString: String = prods.mkString("", "\n\n", "\n\n")
 }
 
-case class Prod(nont: Nonterminal, options: Options, nullable: Boolean) {
+case class Prod(nont: Nonterminal, rhs: Rhs) {
 
-  override def toString: String = {
-    String.format("%24s ::= ", nont.sym.name) +
-      options.opts.mkString(String.format("\n%28s ", "|")) +
-      (if (nullable) String.format("\n%28s ", "|") else "")
-  }
+  override def toString: String = String.format("%24s ::= %s;", nont, rhs)
 }
 
-case class Options(opts: List[Term]) extends Term {
+case class Rhs(options: Options) {
 
-  override def toString: String = opts.mkString(" | ")
+  override def toString: String = options.seqs.mkString(String.format("\n%28s ", "|"))
+}
+
+case class Options(seqs: List[Sequence]) extends Term {
+
+  override def toString: String = seqs.mkString(" | ")
 }
 
 case class Sequence(terms: List[Term]) extends Term {
 
-  override def toString: String = {
-    terms.mkString(" ")
-  }
+  override def toString: String = terms.mkString(" ")
 }
 
 sealed abstract class Term
@@ -45,18 +40,18 @@ case class Nonterminal(sym: Symbol) extends Term {
   override def toString: String = sym.name
 }
 
-case class Group(term: Options) extends Term {
+case class Group(options: Options) extends Term {
 
-  override def toString: String = String.format("(%s)", term)
+  override def toString: String = String.format("(%s)", options)
 }
 
-case class ZeroOrOne(term: Options) extends Term {
+case class ZeroOrOne(options: Options) extends Term {
 
-  override def toString: String = String.format("[%s]", term)
+  override def toString: String = String.format("[%s]", options)
 }
 
-case class ZeroOrMore(term: Options) extends Term {
+case class ZeroOrMore(options: Options) extends Term {
 
-  override def toString: String = String.format("{%s}", term)
+  override def toString: String = String.format("{%s}", options)
 }
 
