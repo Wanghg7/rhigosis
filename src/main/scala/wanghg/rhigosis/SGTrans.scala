@@ -15,10 +15,15 @@ object SGTrans {
   def main(args: Array[String]): Unit = {
     val file = new File(args(0))
     require(file.exists())
+    val g: Grammar = parse(file)
+    println(g)
+  }
+
+  def parse(file: File): Grammar = {
     Utils.withReader(file) { reader =>
       val lexer = new SGLexer(reader, file.getPath, fact)
       val parser = new SGInputParser(lexer, fact)
-      println(parser.parse().value)
+      parser.parse().value.asInstanceOf[Grammar]
     }
   }
 

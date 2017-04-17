@@ -21,7 +21,7 @@ object Utils {
       }
   }
 
-  def withReader(file: File)(op: Reader => Unit): Unit = {
+  def withReader[T](file: File)(op: Reader => T): T = {
     val in = new FileInputStream(file)
     try {
       val reader = new InputStreamReader(in)
