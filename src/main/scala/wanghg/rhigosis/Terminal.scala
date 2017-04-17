@@ -7,16 +7,19 @@ case class Grammar(prods: List[Prod]) {
 
   override def toString: String = {
     val sb = new StringBuilder
-    prods.foreach(p => {
-      sb.append(String.format("%24s ::= ", p.nont.sym.name))
-      sb.append(p.options.opts.mkString(String.format("\n%28s ", "|")))
-      sb.append(";\n\n")
-    })
+    prods.foreach(p => sb.append(p + ";\n\n"))
     sb.toString
   }
 }
 
-case class Prod(nont: Nonterminal, options: Options, nullable: Boolean)
+case class Prod(nont: Nonterminal, options: Options, nullable: Boolean) {
+
+  override def toString: String = {
+    String.format("%24s ::= ", nont.sym.name) +
+      options.opts.mkString(String.format("\n%28s ", "|")) +
+      (if (nullable) String.format("\n%28s ", "|") else "")
+  }
+}
 
 case class Options(opts: List[Term]) extends Term {
 
