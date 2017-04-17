@@ -43,13 +43,13 @@ object SGTrans {
       case Production(nont, Rhs(Alternation(Nil))) =>
         acc
       case Production(nont, Rhs(Alternation(c :: cs))) =>
-        expand(Production(nont, Rhs(Alternation(cs))), expand(nont, c, acc))
+        expand(Production(nont, Rhs(Alternation(cs))), expand(nont, c.terms, Nil, acc))
     }
   }
 
-  def expand(nont: Nonterminal, c: Concatenation, acc: List[Production]): List[Production] = {
-    c match {
-      case _ => Production(nont, Rhs(Alternation(List(c)))) :: acc
+  def expand(nont: Nonterminal, cin: List[Term], cout: List[Term], acc: List[Production]): List[Production] = {
+    cin match {
+      case _ => Production(nont, Rhs(Alternation(List(Concatenation(cin))))) :: acc
     }
   }
 
