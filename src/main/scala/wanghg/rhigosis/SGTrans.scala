@@ -18,7 +18,7 @@ object SGTrans {
     val file = new File(args(0))
     require(file.exists())
     val g: Grammar = parse(file)
-    println(g)
+    println(expand(g))
   }
 
   def parse(file: File): Grammar = {
@@ -26,6 +26,30 @@ object SGTrans {
       val lexer = new SGLexer(reader, file.getPath, fact)
       val parser = new SGInputParser(lexer, fact)
       parser.parse().value.asInstanceOf[Grammar]
+    }
+  }
+
+  def expand(g: Grammar): Grammar = Grammar(expand(g, Nil).reverse)
+
+  def expand(g: Grammar, acc: List[Production]): List[Production] = {
+    g match {
+      case Grammar(Nil) => acc
+      case Grammar(p :: ps) => expand(Grammar(ps), expand(p, acc))
+    }
+  }
+
+  def expand(p: Production, acc: List[Production]): List[Production] = {
+    p match {
+      case Production(nont, Rhs(Alternation(Nil))) =>
+        acc
+      case Production(nont, Rhs(Alternation(c :: cs))) =>
+        expand(Production(nont, Rhs(Alternation(cs))), expand(nont, c, acc))
+    }
+  }
+
+  def expand(nont: Nonterminal, c: Concatenation, acc: List[Production]): List[Production] = {
+    c match {
+      case _ => Production(nont, Rhs(Alternation(List(c)))) :: acc
     }
   }
 
