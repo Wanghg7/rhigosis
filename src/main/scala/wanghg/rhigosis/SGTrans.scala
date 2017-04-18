@@ -31,18 +31,18 @@ object SGTrans {
     }
   }
 
-  def expand(g: Grammar): Grammar = Grammar(expand(g.productions, Nil).reverse)
+  def expand(g: Grammar): Grammar = Grammar(expand(g, Nil).reverse)
 
-  def expand(g: List[Production], acc: List[Production]): List[Production] = {
+  def expand(g: Grammar, acc: List[Production]): List[Production] = {
     g match {
-      case Nil => acc
-      case p :: ps =>
-        val (g2, acc2) = expand(p, (ps, acc))
+      case Grammar(Nil) => acc
+      case Grammar(p :: ps) =>
+        val (g2, acc2) = expand(p, (Grammar(ps), acc))
         expand(g2, acc2)
     }
   }
 
-  def expand(p: Production, gacc: (List[Production], List[Production])): (List[Production], List[Production]) = {
+  def expand(p: Production, gacc: (Grammar, List[Production])): (Grammar, List[Production]) = {
     (p, gacc) match {
       case (Production(nont, Rhs(Alternation(Nil))), (g, acc)) =>
         (g, acc)
@@ -51,7 +51,10 @@ object SGTrans {
     }
   }
 
-  def expand(nont: Nonterminal, cin: List[Term], cout: List[Term], gacc: (List[Production], List[Production])): (List[Production], List[Production]) = {
+  def expand(nont: Nonterminal,
+             cin: List[Term],
+             cout: List[Term],
+             gacc: (Grammar, List[Production])): (Grammar, List[Production]) = {
     (cin, gacc) match {
       case (Nil, (g, acc)) =>
         (g, Production(nont, Rhs(Alternation(List(Concatenation(cout.reverse))))) :: acc)
@@ -78,7 +81,7 @@ object SGTrans {
           Concatenation(List(lhs, alt))
         ))
         val prod = Production(lhs, Rhs(rhs))
-        var newGacc = (prod :: g, acc)
+        var newGacc = (g.copy(productions = prod :: g.productions), acc)
         newGacc = expand(nont, rest, cout, newGacc)
         newGacc = expand(nont, rest, lhs :: cout, newGacc)
         newGacc
