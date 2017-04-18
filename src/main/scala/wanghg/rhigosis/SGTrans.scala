@@ -29,47 +29,60 @@ object SGTrans {
     }
   }
 
-  def expand(g: Grammar): Grammar = Grammar(expand(g, Nil).reverse)
+  def expand(g: Grammar): Grammar = Grammar(expand(g.productions, Nil).reverse)
 
-  def expand(g: Grammar, acc: List[Production]): List[Production] = {
+  def expand(g: List[Production], acc: List[Production]): List[Production] = {
     g match {
-      case Grammar(Nil) => acc
-      case Grammar(p :: ps) => expand(Grammar(ps), expand(p, acc))
+      case Nil => acc
+      case p :: ps =>
+        val (g2, acc2) = expand(p, (ps, acc))
+        expand(g2, acc2)
     }
   }
 
-  def expand(p: Production, acc: List[Production]): List[Production] = {
-    p match {
-      case Production(nont, Rhs(Alternation(Nil))) =>
-        acc
-      case Production(nont, Rhs(Alternation(c :: cs))) =>
-        expand(Production(nont, Rhs(Alternation(cs))), expand(nont, c.terms, Nil, acc))
+  def expand(p: Production, gacc: (List[Production], List[Production])): (List[Production], List[Production]) = {
+    (p, gacc) match {
+      case (Production(nont, Rhs(Alternation(Nil))), (g, acc)) =>
+        (g, acc)
+      case (Production(nont, Rhs(Alternation(c :: cs))), (g, acc)) =>
+        expand(Production(nont, Rhs(Alternation(cs))), expand(nont, c.terms, Nil, (g, acc)))
     }
   }
 
-  def expand(nont: Nonterminal, cin: List[Term], cout: List[Term], acc: List[Production]): List[Production] = {
-    cin match {
-      case Nil =>
-        Production(nont, Rhs(Alternation(List(Concatenation(cout.reverse))))) :: acc
-      case Concatenation(terms) :: rest =>
-        expand(nont, terms ++ rest, cout, acc)
-      case Grouping(alt) :: rest =>
-        expand(nont, alt :: rest, cout, acc)
-      case Optional(alt) :: rest =>
-        var newAcc = acc
-        newAcc = expand(nont, rest, cout, newAcc)
-        newAcc = expand(nont, alt :: rest, cout, newAcc)
-        newAcc
-      case Alternation(cats) :: rest =>
-        var newAcc = acc
+  def expand(nont: Nonterminal, cin: List[Term], cout: List[Term], gacc: (List[Production], List[Production])): (List[Production], List[Production]) = {
+    (cin, gacc) match {
+      case (Nil, (g, acc)) =>
+        (g, Production(nont, Rhs(Alternation(List(Concatenation(cout.reverse))))) :: acc)
+      case (Concatenation(terms) :: rest, (g, acc)) =>
+        expand(nont, terms ++ rest, cout, (g, acc))
+      case (Grouping(alt) :: rest, (g, acc)) =>
+        expand(nont, alt :: rest, cout, (g, acc))
+      case (Optional(alt) :: rest, (g, acc)) =>
+        var newGacc = (g, acc)
+        newGacc = expand(nont, rest, cout, newGacc)
+        newGacc = expand(nont, alt :: rest, cout, newGacc)
+        newGacc
+      case (Alternation(cats) :: rest, (g, acc)) =>
+        var newGacc = (g, acc)
         for (cat <- cats) {
-          newAcc = expand(nont, cat :: rest, cout, newAcc)
+          newGacc = expand(nont, cat :: rest, cout, newGacc)
         }
-        newAcc
-      case Repetition(alt) :: rest =>
-        expand(nont, rest, Repetition(alt) :: cout, acc)
-      case sym :: rest =>
-        expand(nont, rest, sym :: cout, acc)
+        newGacc
+      case (Repetition(alt) :: rest, (g, acc)) =>
+        val tag = String.format("_X%08x", Repetition(alt).hashCode.asInstanceOf[Integer])
+        val lhs = Nonterminal(Symbol(tag))
+        val rhs = Alternation(List(
+          Concatenation(List(alt)),
+          Concatenation(List(lhs, alt))
+        ))
+        printf("%s = %s\n", tag, rhs)
+        val prod = Production(lhs, Rhs(rhs))
+        var newGacc = (prod :: g, acc)
+        newGacc = expand(nont, rest, cout, newGacc)
+        newGacc = expand(nont, rest, lhs :: cout, newGacc)
+        newGacc
+      case (sym :: rest, (g, acc)) =>
+        expand(nont, rest, sym :: cout, (g, acc))
     }
   }
 

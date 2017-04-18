@@ -106,7 +106,7 @@ object SGUtils {
     case ptn("object") => Terminal('OBJECT)
     case ptn("trait") => Terminal('TRAIT)
     case ptn("extends") => Terminal('EXTENDS)
-    case ptn("package") => Terminal('EXTENDS)
+    case ptn("package") => Terminal('PACKAGE)
   }
 
 
