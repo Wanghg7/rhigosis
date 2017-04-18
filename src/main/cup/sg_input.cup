@@ -2,7 +2,7 @@ package wanghg.rhigosis;
 
 import scala.collection.mutable.ListBuffer;
 
-terminal ID;
+terminal SYMBOL;
 terminal LHS;
 terminal BAR;
 terminal LBRACK;
@@ -14,83 +14,80 @@ terminal RPAREN;
 terminal LITERAL;
 
 nonterminal grammar;
-nonterminal prod;
+nonterminal production;
 nonterminal rhs;
-nonterminal prod_list;
+nonterminal productions;
 nonterminal term;
-nonterminal sequence;
-nonterminal options;
-nonterminal group;
-nonterminal zero_or_one;
-nonterminal zero_or_more;
+nonterminal concatenation;
+nonterminal alternation;
+nonterminal grouping;
+nonterminal optional;
+nonterminal repetition;
 
 start with grammar;
 
-grammar         ::= prod_list:pl {:
-    RESULT = SGUtils.grammar((ListBuffer<Production>)pl);
+grammar         ::= productions:ps {:
+    RESULT = SGUtils.grammar((ListBuffer<Production>)ps);
 :};
 
-prod_list       ::= prod:p {:
+productions       ::= production:p {:
     RESULT = SGUtils.listBuffer(p);
 :}
-                  | prod_list:g prod:p {:
-    RESULT = SGUtils.listBuffer((ListBuffer<Production>)g, (Production)p);
+                  | productions:ps production:p {:
+    RESULT = SGUtils.listBuffer((ListBuffer<Production>)ps, (Production)p);
 :};
 
-prod            ::= LHS:id rhs:r {:
-    RESULT = SGUtils.production((String)id, (Rhs)r);
+production            ::= LHS:l rhs:r {:
+    RESULT = SGUtils.production((String)l, (Rhs)r);
 :};
 
-rhs             ::= options:o {:
-    ListBuffer<Concatenation> os = (ListBuffer<Concatenation>)o;
-    RESULT = SGUtils.rhs(SGUtils.alternation(os));
+rhs             ::= alternation:alt {:
+    RESULT = SGUtils.rhs(SGUtils.alternation((ListBuffer<Concatenation>)alt));
 :}
-                  | options:o BAR {:
-    ListBuffer<Concatenation> os =
-        SGUtils.listBuffer((ListBuffer<Concatenation>)o, SGUtils.concatenation());
-    RESULT = SGUtils.rhs(SGUtils.alternation(os));
+                  | alternation:alt BAR {:
+    RESULT = SGUtils.rhs(SGUtils.alternation(SGUtils.listBuffer((ListBuffer<Concatenation>)alt, SGUtils.concatenation())));
 :};
 
-options         ::= sequence:s {:
-    RESULT = SGUtils.listBuffer(SGUtils.concatenation((ListBuffer<Term>)s));
+alternation         ::= concatenation:cat {:
+    RESULT = SGUtils.listBuffer(SGUtils.concatenation((ListBuffer<Term>)cat));
 :}
-                  | options:o BAR sequence:s {:
-    RESULT = SGUtils.listBuffer((ListBuffer<Concatenation>)o, SGUtils.concatenation((ListBuffer<Term>)s));
+                      | alternation:alt BAR concatenation:cat {:
+    RESULT = SGUtils.listBuffer((ListBuffer<Concatenation>)alt, SGUtils.concatenation((ListBuffer<Term>)cat));
 :};
 
-sequence        ::= term:t {:
+concatenation        ::= term:t {:
     RESULT = SGUtils.listBuffer((Term)t);
 :}
-                  | sequence:s term:t {:
-    RESULT = SGUtils.listBuffer((ListBuffer<Term>)s, (Term)t);
+                  | concatenation:cat term:t {:
+    RESULT = SGUtils.listBuffer((ListBuffer<Term>)cat, (Term)t);
 :};
 
-term            ::= ID:id {:
-    RESULT = SGUtils.id((String)id);
+term            ::= SYMBOL:sym {:
+    RESULT = SGUtils.symbol((String)sym);
 :}
                   | LITERAL:lit {:
     RESULT = SGUtils.literal((String)lit);
 :}
-                  | group:g {:
-    RESULT = g;
+                  | grouping:grp {:
+    RESULT = grp;
 :}
-                  | zero_or_one:zoo {:
-    RESULT = zoo;
+                  | optional:opt {:
+    RESULT = opt;
 :}
-                  | zero_or_more:zom {:
-    RESULT = zom;
+                  | repetition:rep {:
+    RESULT = rep;
 :};
 
-group           ::= LPAREN options:o RPAREN {:
-    RESULT = SGUtils.grouping(SGUtils.alternation((ListBuffer<Concatenation>)o));
+grouping           ::= LPAREN alternation:alt RPAREN {:
+    RESULT = SGUtils.grouping(SGUtils.alternation((ListBuffer<Concatenation>)alt));
 :};
 
-zero_or_one     ::= LBRACK options:o RBRACK {:
-    RESULT = SGUtils.optional(SGUtils.alternation((ListBuffer<Concatenation>)o));
+optional     ::= LBRACK alternation:alt RBRACK {:
+    RESULT = SGUtils.optional(SGUtils.alternation((ListBuffer<Concatenation>)alt));
 :};
 
-zero_or_more    ::= LBRACE options:o RBRACE {:
-    RESULT = SGUtils.repetition(SGUtils.alternation((ListBuffer<Concatenation>)o));
+repetition    ::= LBRACE alternation:alt RBRACE {:
+    RESULT = SGUtils.repetition(SGUtils.alternation((ListBuffer<Concatenation>)alt));
 :};
 
 

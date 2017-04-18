@@ -10,7 +10,7 @@ object SGUtils {
 
   val ptn = "‘([^’]+)’".r
 
-  def id(s: String): Term = s match {
+  def symbol(s: String): Term = s match {
     case "id" => Terminal('ID)
     case "semi" => Terminal('SEMI)
     case "nl" => Terminal('NL)

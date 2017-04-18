@@ -40,7 +40,7 @@ import java.util.regex.Matcher;
 
 [ \n]+ {}
 
-[a-zA-Z_][a-zA-Z0-9_]+ { return symbol(SGSym.ID); }
+[a-zA-Z_][a-zA-Z0-9_]+ { return symbol(SGSym.SYMBOL); }
 
 [a-zA-Z_][a-zA-Z0-9_]+ [ ]* "::=" {
     Pattern ptn = Pattern.compile("[a-zA-Z_][a-zA-Z0-9_]+");
