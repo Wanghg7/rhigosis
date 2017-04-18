@@ -27,42 +27,42 @@ nonterminal zero_or_more;
 start with grammar;
 
 grammar         ::= prod_list:pl {:
-    RESULT = SGUtils.createGrammar((ListBuffer<Production>)pl);
+    RESULT = SGUtils.grammar((ListBuffer<Production>)pl);
 :};
 
 prod_list       ::= prod:p {:
-    RESULT = SGUtils.createListBuffer(p);
+    RESULT = SGUtils.listBuffer(p);
 :}
                   | prod_list:g prod:p {:
-    RESULT = SGUtils.createListBuffer((ListBuffer<Production>)g, (Production)p);
+    RESULT = SGUtils.listBuffer((ListBuffer<Production>)g, (Production)p);
 :};
 
 prod            ::= LHS:id rhs:r {:
-    RESULT = SGUtils.createProd((String)id, (Rhs)r);
+    RESULT = SGUtils.production((String)id, (Rhs)r);
 :};
 
 rhs             ::= options:o {:
     ListBuffer<Concatenation> os = (ListBuffer<Concatenation>)o;
-    RESULT = SGUtils.createRhs(SGUtils.createOptions(os));
+    RESULT = SGUtils.rhs(SGUtils.alternation(os));
 :}
                   | options:o BAR {:
     ListBuffer<Concatenation> os =
-        SGUtils.createListBuffer((ListBuffer<Concatenation>)o, SGUtils.createSequence());
-    RESULT = SGUtils.createRhs(SGUtils.createOptions(os));
+        SGUtils.listBuffer((ListBuffer<Concatenation>)o, SGUtils.concatenation());
+    RESULT = SGUtils.rhs(SGUtils.alternation(os));
 :};
 
 options         ::= sequence:s {:
-    RESULT = SGUtils.createListBuffer(SGUtils.createSequence((ListBuffer<Term>)s));
+    RESULT = SGUtils.listBuffer(SGUtils.concatenation((ListBuffer<Term>)s));
 :}
                   | options:o BAR sequence:s {:
-    RESULT = SGUtils.createListBuffer((ListBuffer<Concatenation>)o, SGUtils.createSequence((ListBuffer<Term>)s));
+    RESULT = SGUtils.listBuffer((ListBuffer<Concatenation>)o, SGUtils.concatenation((ListBuffer<Term>)s));
 :};
 
 sequence        ::= term:t {:
-    RESULT = SGUtils.createListBuffer((Term)t);
+    RESULT = SGUtils.listBuffer((Term)t);
 :}
                   | sequence:s term:t {:
-    RESULT = SGUtils.createListBuffer((ListBuffer<Term>)s, (Term)t);
+    RESULT = SGUtils.listBuffer((ListBuffer<Term>)s, (Term)t);
 :};
 
 term            ::= ID:id {:
@@ -82,15 +82,15 @@ term            ::= ID:id {:
 :};
 
 group           ::= LPAREN options:o RPAREN {:
-    RESULT = SGUtils.group(SGUtils.createOptions((ListBuffer<Concatenation>)o));
+    RESULT = SGUtils.grouping(SGUtils.alternation((ListBuffer<Concatenation>)o));
 :};
 
 zero_or_one     ::= LBRACK options:o RBRACK {:
-    RESULT = SGUtils.zero_or_one(SGUtils.createOptions((ListBuffer<Concatenation>)o));
+    RESULT = SGUtils.optional(SGUtils.alternation((ListBuffer<Concatenation>)o));
 :};
 
 zero_or_more    ::= LBRACE options:o RBRACE {:
-    RESULT = SGUtils.zero_or_more(SGUtils.createOptions((ListBuffer<Concatenation>)o));
+    RESULT = SGUtils.repetition(SGUtils.alternation((ListBuffer<Concatenation>)o));
 :};
 
 

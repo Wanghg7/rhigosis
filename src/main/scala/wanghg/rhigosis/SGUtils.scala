@@ -23,27 +23,27 @@ object SGUtils {
     case _ => Nonterminal(Symbol(s))
   }
 
-  def createGrammar(s: ListBuffer[Production]) = Grammar(s.toList)
+  def grammar(s: ListBuffer[Production]) = Grammar(s.toList)
 
-  def createProd(name: String, rhs: Rhs) = Production(Nonterminal(Symbol(name)), rhs)
+  def production(name: String, rhs: Rhs) = Production(Nonterminal(Symbol(name)), rhs)
 
-  def createRhs(options: Alternation) = Rhs(options)
+  def rhs(options: Alternation) = Rhs(options)
 
-  def createListBuffer[T](e: T): ListBuffer[T] = ListBuffer(e)
+  def listBuffer[T](e: T): ListBuffer[T] = ListBuffer(e)
 
-  def createListBuffer[T](es: ListBuffer[T], e: T): ListBuffer[T] = es += e
+  def listBuffer[T](es: ListBuffer[T], e: T): ListBuffer[T] = es += e
 
-  def createOptions(s: ListBuffer[Concatenation]): Alternation = Alternation(s.toList)
+  def alternation(s: ListBuffer[Concatenation]): Alternation = Alternation(s.toList)
 
-  def createSequence(s: ListBuffer[Term]): Concatenation = Concatenation(s.toList)
+  def concatenation(s: ListBuffer[Term]): Concatenation = Concatenation(s.toList)
 
-  def createSequence(): Concatenation = Concatenation(List.empty[Term])
+  def concatenation(): Concatenation = Concatenation(List.empty[Term])
 
-  def group(t: Alternation): Grouping = Grouping(t)
+  def grouping(t: Alternation): Grouping = Grouping(t)
 
-  def zero_or_one(t: Alternation): Optional = Optional(t)
+  def optional(t: Alternation): Optional = Optional(t)
 
-  def zero_or_more(t: Alternation): Repetition = Repetition(t)
+  def repetition(t: Alternation): Repetition = Repetition(t)
 
   def literal(s: String): Terminal = s match {
     case ptn("-") => Terminal('MINUS)
