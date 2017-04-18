@@ -18,7 +18,9 @@ object SGTrans {
     val file = new File(args(0))
     require(file.exists())
     val g: Grammar = parse(file)
-    println(expand(g))
+    val expanded = expand(g)
+    val distinct = Grammar(expanded.productions.distinct)
+    println(distinct)
   }
 
   def parse(file: File): Grammar = {
@@ -75,7 +77,6 @@ object SGTrans {
           Concatenation(List(alt)),
           Concatenation(List(lhs, alt))
         ))
-        printf("%s = %s\n", tag, rhs)
         val prod = Production(lhs, Rhs(rhs))
         var newGacc = (prod :: g, acc)
         newGacc = expand(nont, rest, cout, newGacc)

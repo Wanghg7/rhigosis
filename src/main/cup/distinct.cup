@@ -1,0 +1,1155 @@
+                 Literal ::= INTEGER;
+
+                 Literal ::= MINUS INTEGER;
+
+                 Literal ::= FLOAT;
+
+                 Literal ::= MINUS FLOAT;
+
+                 Literal ::= BOOLEAN;
+
+                 Literal ::= CHARACTER;
+
+                 Literal ::= STRING;
+
+                 Literal ::= SYMBOL;
+
+                 Literal ::= NULL;
+
+                  QualId ::= ID;
+
+                  QualId ::= ID _Xbbdcc918;
+
+              _Xbbdcc918 ::= DOT ID;
+
+              _Xbbdcc918 ::= _Xbbdcc918 DOT ID;
+
+                     ids ::= ID;
+
+                     ids ::= ID _X78ada543;
+
+              _X78ada543 ::= COMMA ID;
+
+              _X78ada543 ::= _X78ada543 COMMA ID;
+
+                    Path ::= StableId;
+
+                    Path ::= THIS;
+
+                    Path ::= ID DOT THIS;
+
+                StableId ::= ID;
+
+                StableId ::= Path DOT ID;
+
+                StableId ::= SUPER DOT ID;
+
+                StableId ::= SUPER ClassQualifier DOT ID;
+
+                StableId ::= ID DOT SUPER DOT ID;
+
+                StableId ::= ID DOT SUPER ClassQualifier DOT ID;
+
+          ClassQualifier ::= LBRACK ID RBRACK;
+
+                    Type ::= FunctionArgTypes RDARROW Type;
+
+                    Type ::= InfixType;
+
+                    Type ::= InfixType ExistentialClause;
+
+        FunctionArgTypes ::= InfixType;
+
+        FunctionArgTypes ::= LPAREN RPAREN;
+
+        FunctionArgTypes ::= LPAREN ParamType RPAREN;
+
+        FunctionArgTypes ::= LPAREN ParamType _Xb1257d38 RPAREN;
+
+              _Xb1257d38 ::= COMMA ParamType;
+
+              _Xb1257d38 ::= _Xb1257d38 COMMA ParamType;
+
+       ExistentialClause ::= FORSOME LBRACE ExistentialDcl RBRACE;
+
+       ExistentialClause ::= FORSOME LBRACE ExistentialDcl _X459d56f0 RBRACE;
+
+              _X459d56f0 ::= SEMI ExistentialDcl;
+
+              _X459d56f0 ::= _X459d56f0 SEMI ExistentialDcl;
+
+          ExistentialDcl ::= TYPE TypeDcl;
+
+          ExistentialDcl ::= VAL ValDcl;
+
+               InfixType ::= CompoundType;
+
+               InfixType ::= CompoundType _Xde712b39;
+
+              _Xde712b39 ::= ID CompoundType;
+
+              _Xde712b39 ::= ID NL CompoundType;
+
+              _Xde712b39 ::= _Xde712b39 ID CompoundType;
+
+              _Xde712b39 ::= _Xde712b39 ID NL CompoundType;
+
+            CompoundType ::= AnnotType;
+
+            CompoundType ::= AnnotType Refinement;
+
+            CompoundType ::= AnnotType _Xea837cb5;
+
+            CompoundType ::= AnnotType _Xea837cb5 Refinement;
+
+            CompoundType ::= Refinement;
+
+              _Xea837cb5 ::= WITH AnnotType;
+
+              _Xea837cb5 ::= _Xea837cb5 WITH AnnotType;
+
+               AnnotType ::= SimpleType;
+
+               AnnotType ::= SimpleType _X3f14edf4;
+
+              _X3f14edf4 ::= Annotation;
+
+              _X3f14edf4 ::= _X3f14edf4 Annotation;
+
+              SimpleType ::= SimpleType TypeArgs;
+
+              SimpleType ::= SimpleType HASH ID;
+
+              SimpleType ::= StableId;
+
+              SimpleType ::= Path DOT TYPE;
+
+              SimpleType ::= LPAREN Types RPAREN;
+
+                TypeArgs ::= LBRACK Types RBRACK;
+
+                   Types ::= Type;
+
+                   Types ::= Type _X106db7c3;
+
+              _X106db7c3 ::= COMMA Type;
+
+              _X106db7c3 ::= _X106db7c3 COMMA Type;
+
+              Refinement ::= LBRACE RefineStat RBRACE;
+
+              Refinement ::= LBRACE RefineStat _X35899739 RBRACE;
+
+              Refinement ::= NL LBRACE RefineStat RBRACE;
+
+              Refinement ::= NL LBRACE RefineStat _X35899739 RBRACE;
+
+              _X35899739 ::= SEMI RefineStat;
+
+              _X35899739 ::= _X35899739 SEMI RefineStat;
+
+              RefineStat ::= Dcl;
+
+              RefineStat ::= TYPE TypeDef;
+
+              RefineStat ::= ;
+
+                 TypePat ::= Type;
+
+              Ascription ::= COLON InfixType;
+
+              Ascription ::= COLON Annotation;
+
+              Ascription ::= COLON Annotation _X3f14edf4;
+
+              Ascription ::= COLON UNDERSCORE ASTERISK;
+
+                    Expr ::= Bindings RDARROW Expr;
+
+                    Expr ::= ID RDARROW Expr;
+
+                    Expr ::= IMPLICIT ID RDARROW Expr;
+
+                    Expr ::= UNDERSCORE RDARROW Expr;
+
+                    Expr ::= Expr1;
+
+                   Expr1 ::= IF LPAREN Expr RPAREN Expr;
+
+                   Expr1 ::= IF LPAREN Expr RPAREN Expr ELSE Expr;
+
+                   Expr1 ::= IF LPAREN Expr RPAREN Expr SEMI ELSE Expr;
+
+                   Expr1 ::= IF LPAREN Expr RPAREN _Xe773a166 Expr;
+
+                   Expr1 ::= IF LPAREN Expr RPAREN _Xe773a166 Expr ELSE Expr;
+
+                   Expr1 ::= IF LPAREN Expr RPAREN _Xe773a166 Expr SEMI ELSE Expr;
+
+                   Expr1 ::= WHILE LPAREN Expr RPAREN Expr;
+
+                   Expr1 ::= WHILE LPAREN Expr RPAREN _Xe773a166 Expr;
+
+                   Expr1 ::= TRY LBRACE Block RBRACE;
+
+                   Expr1 ::= TRY LBRACE Block RBRACE FINALLY Expr;
+
+                   Expr1 ::= TRY LBRACE Block RBRACE CATCH LBRACE CaseClauses RBRACE;
+
+                   Expr1 ::= TRY LBRACE Block RBRACE CATCH LBRACE CaseClauses RBRACE FINALLY Expr;
+
+                   Expr1 ::= TRY Expr;
+
+                   Expr1 ::= TRY Expr FINALLY Expr;
+
+                   Expr1 ::= TRY Expr CATCH LBRACE CaseClauses RBRACE;
+
+                   Expr1 ::= TRY Expr CATCH LBRACE CaseClauses RBRACE FINALLY Expr;
+
+                   Expr1 ::= DO Expr WHILE LPAREN Expr RPAREN;
+
+                   Expr1 ::= DO Expr SEMI WHILE LPAREN Expr RPAREN;
+
+                   Expr1 ::= FOR LPAREN Enumerators RPAREN Expr;
+
+                   Expr1 ::= FOR LPAREN Enumerators RPAREN YIELD Expr;
+
+                   Expr1 ::= FOR LPAREN Enumerators RPAREN _Xe773a166 Expr;
+
+                   Expr1 ::= FOR LPAREN Enumerators RPAREN _Xe773a166 YIELD Expr;
+
+                   Expr1 ::= FOR LBRACE Enumerators RBRACE Expr;
+
+                   Expr1 ::= FOR LBRACE Enumerators RBRACE YIELD Expr;
+
+                   Expr1 ::= FOR LBRACE Enumerators RBRACE _Xe773a166 Expr;
+
+                   Expr1 ::= FOR LBRACE Enumerators RBRACE _Xe773a166 YIELD Expr;
+
+                   Expr1 ::= THROW Expr;
+
+                   Expr1 ::= RETURN;
+
+                   Expr1 ::= RETURN Expr;
+
+                   Expr1 ::= ID EQ Expr;
+
+                   Expr1 ::= SimpleExpr DOT ID EQ Expr;
+
+                   Expr1 ::= SimpleExpr1 ArgumentExprs EQ Expr;
+
+                   Expr1 ::= PostfixExpr;
+
+                   Expr1 ::= PostfixExpr Ascription;
+
+                   Expr1 ::= PostfixExpr MATCH LBRACE CaseClauses RBRACE;
+
+              _Xe773a166 ::= NL;
+
+              _Xe773a166 ::= _Xe773a166 NL;
+
+             PostfixExpr ::= InfixExpr;
+
+             PostfixExpr ::= InfixExpr ID;
+
+             PostfixExpr ::= InfixExpr ID NL;
+
+               InfixExpr ::= PrefixExpr;
+
+               InfixExpr ::= InfixExpr ID InfixExpr;
+
+               InfixExpr ::= InfixExpr ID NL InfixExpr;
+
+              PrefixExpr ::= SimpleExpr;
+
+              PrefixExpr ::= MINUS SimpleExpr;
+
+              PrefixExpr ::= PLUS SimpleExpr;
+
+              PrefixExpr ::= TILDE SimpleExpr;
+
+              PrefixExpr ::= EXCLAM SimpleExpr;
+
+              SimpleExpr ::= NEW ClassTemplate;
+
+              SimpleExpr ::= NEW TemplateBody;
+
+              SimpleExpr ::= BlockExpr;
+
+              SimpleExpr ::= SimpleExpr1;
+
+              SimpleExpr ::= SimpleExpr1 UNDERSCORE;
+
+             SimpleExpr1 ::= Literal;
+
+             SimpleExpr1 ::= Path;
+
+             SimpleExpr1 ::= UNDERSCORE;
+
+             SimpleExpr1 ::= LPAREN RPAREN;
+
+             SimpleExpr1 ::= LPAREN Exprs RPAREN;
+
+             SimpleExpr1 ::= SimpleExpr DOT ID;
+
+             SimpleExpr1 ::= SimpleExpr TypeArgs;
+
+             SimpleExpr1 ::= SimpleExpr1 ArgumentExprs;
+
+             SimpleExpr1 ::= XmlExpr;
+
+                   Exprs ::= Expr;
+
+                   Exprs ::= Expr _Xcd3fec21;
+
+              _Xcd3fec21 ::= COMMA Expr;
+
+              _Xcd3fec21 ::= _Xcd3fec21 COMMA Expr;
+
+           ArgumentExprs ::= LPAREN RPAREN;
+
+           ArgumentExprs ::= LPAREN Exprs RPAREN;
+
+           ArgumentExprs ::= LPAREN PostfixExpr COLON UNDERSCORE ASTERISK RPAREN;
+
+           ArgumentExprs ::= LPAREN Exprs COMMA PostfixExpr COLON UNDERSCORE ASTERISK RPAREN;
+
+           ArgumentExprs ::= BlockExpr;
+
+           ArgumentExprs ::= NL BlockExpr;
+
+               BlockExpr ::= LBRACE CaseClauses RBRACE;
+
+               BlockExpr ::= LBRACE Block RBRACE;
+
+                   Block ::= BlockStat;
+
+                   Block ::= BlockStat ResultExpr;
+
+                   Block ::= BlockStat _Xf953e893;
+
+                   Block ::= BlockStat _Xf953e893 ResultExpr;
+
+              _Xf953e893 ::= SEMI BlockStat;
+
+              _Xf953e893 ::= _Xf953e893 SEMI BlockStat;
+
+               BlockStat ::= Import;
+
+               BlockStat ::= Def;
+
+               BlockStat ::= IMPLICIT Def;
+
+               BlockStat ::= LAZY Def;
+
+               BlockStat ::= _X3f14edf4 Def;
+
+               BlockStat ::= _X3f14edf4 IMPLICIT Def;
+
+               BlockStat ::= _X3f14edf4 LAZY Def;
+
+               BlockStat ::= TmplDef;
+
+               BlockStat ::= _X22814f0b TmplDef;
+
+               BlockStat ::= _X3f14edf4 TmplDef;
+
+               BlockStat ::= _X3f14edf4 _X22814f0b TmplDef;
+
+               BlockStat ::= Expr1;
+
+               BlockStat ::= ;
+
+              _X22814f0b ::= LocalModifier;
+
+              _X22814f0b ::= _X22814f0b LocalModifier;
+
+              ResultExpr ::= Expr1;
+
+              ResultExpr ::= Bindings RDARROW Block;
+
+              ResultExpr ::= ID COLON CompoundType RDARROW Block;
+
+              ResultExpr ::= IMPLICIT ID COLON CompoundType RDARROW Block;
+
+              ResultExpr ::= UNDERSCORE COLON CompoundType RDARROW Block;
+
+             Enumerators ::= Generator;
+
+             Enumerators ::= Generator _X12345cc1;
+
+              _X12345cc1 ::= SEMI Generator;
+
+              _X12345cc1 ::= _X12345cc1 SEMI Generator;
+
+               Generator ::= Pattern1 LARROW Expr;
+
+               Generator ::= Pattern1 LARROW Expr _Xc40631dc;
+
+              _Xc40631dc ::= Guard;
+
+              _Xc40631dc ::= SEMI Guard;
+
+              _Xc40631dc ::= SEMI Pattern1 EQ Expr;
+
+              _Xc40631dc ::= _Xc40631dc Guard;
+
+              _Xc40631dc ::= _Xc40631dc SEMI Guard;
+
+              _Xc40631dc ::= _Xc40631dc SEMI Pattern1 EQ Expr;
+
+             CaseClauses ::= CaseClause;
+
+             CaseClauses ::= CaseClause _X41f59745;
+
+              _X41f59745 ::= CaseClause;
+
+              _X41f59745 ::= _X41f59745 CaseClause;
+
+              CaseClause ::= CASE Pattern RDARROW Block;
+
+              CaseClause ::= CASE Pattern Guard RDARROW Block;
+
+                   Guard ::= IF PostfixExpr;
+
+                 Pattern ::= Pattern1;
+
+                 Pattern ::= Pattern1 _X2bddb020;
+
+              _X2bddb020 ::= OR Pattern1;
+
+              _X2bddb020 ::= _X2bddb020 OR Pattern1;
+
+                Pattern1 ::= varid COLON TypePat;
+
+                Pattern1 ::= UNDERSCORE COLON TypePat;
+
+                Pattern1 ::= Pattern2;
+
+                Pattern2 ::= varid;
+
+                Pattern2 ::= varid AT Pattern3;
+
+                Pattern2 ::= Pattern3;
+
+                Pattern3 ::= SimplePattern;
+
+                Pattern3 ::= SimplePattern _Xed854ca5;
+
+              _Xed854ca5 ::= ID SimplePattern;
+
+              _Xed854ca5 ::= ID NL SimplePattern;
+
+              _Xed854ca5 ::= _Xed854ca5 ID SimplePattern;
+
+              _Xed854ca5 ::= _Xed854ca5 ID NL SimplePattern;
+
+           SimplePattern ::= UNDERSCORE;
+
+           SimplePattern ::= varid;
+
+           SimplePattern ::= Literal;
+
+           SimplePattern ::= StableId;
+
+           SimplePattern ::= StableId LPAREN RPAREN;
+
+           SimplePattern ::= StableId LPAREN Patterns RPAREN;
+
+           SimplePattern ::= StableId LPAREN UNDERSCORE ASTERISK RPAREN;
+
+           SimplePattern ::= StableId LPAREN varid AT UNDERSCORE ASTERISK RPAREN;
+
+           SimplePattern ::= StableId LPAREN Patterns COMMA UNDERSCORE ASTERISK RPAREN;
+
+           SimplePattern ::= StableId LPAREN Patterns COMMA varid AT UNDERSCORE ASTERISK RPAREN;
+
+           SimplePattern ::= LPAREN RPAREN;
+
+           SimplePattern ::= LPAREN Patterns RPAREN;
+
+           SimplePattern ::= XmlPattern;
+
+                Patterns ::= Pattern;
+
+                Patterns ::= Pattern COMMA Patterns;
+
+                Patterns ::= UNDERSCORE ASTERISK;
+
+         TypeParamClause ::= LBRACK VariantTypeParam RBRACK;
+
+         TypeParamClause ::= LBRACK VariantTypeParam _X88b534e9 RBRACK;
+
+              _X88b534e9 ::= COMMA VariantTypeParam;
+
+              _X88b534e9 ::= _X88b534e9 COMMA VariantTypeParam;
+
+      FunTypeParamClause ::= LBRACK TypeParam RBRACK;
+
+      FunTypeParamClause ::= LBRACK TypeParam _X79414472 RBRACK;
+
+              _X79414472 ::= COMMA TypeParam;
+
+              _X79414472 ::= _X79414472 COMMA TypeParam;
+
+        VariantTypeParam ::= TypeParam;
+
+        VariantTypeParam ::= PLUS TypeParam;
+
+        VariantTypeParam ::= MINUS TypeParam;
+
+        VariantTypeParam ::= _X3f14edf4 TypeParam;
+
+        VariantTypeParam ::= _X3f14edf4 PLUS TypeParam;
+
+        VariantTypeParam ::= _X3f14edf4 MINUS TypeParam;
+
+               TypeParam ::= ID;
+
+               TypeParam ::= ID _X515a6bb5;
+
+               TypeParam ::= ID _X38d8e4b1;
+
+               TypeParam ::= ID _X38d8e4b1 _X515a6bb5;
+
+               TypeParam ::= ID UBOUNDS Type;
+
+               TypeParam ::= ID UBOUNDS Type _X515a6bb5;
+
+               TypeParam ::= ID UBOUNDS Type _X38d8e4b1;
+
+               TypeParam ::= ID UBOUNDS Type _X38d8e4b1 _X515a6bb5;
+
+               TypeParam ::= ID LBOUNDS Type;
+
+               TypeParam ::= ID LBOUNDS Type _X515a6bb5;
+
+               TypeParam ::= ID LBOUNDS Type _X38d8e4b1;
+
+               TypeParam ::= ID LBOUNDS Type _X38d8e4b1 _X515a6bb5;
+
+               TypeParam ::= ID LBOUNDS Type UBOUNDS Type;
+
+               TypeParam ::= ID LBOUNDS Type UBOUNDS Type _X515a6bb5;
+
+               TypeParam ::= ID LBOUNDS Type UBOUNDS Type _X38d8e4b1;
+
+               TypeParam ::= ID LBOUNDS Type UBOUNDS Type _X38d8e4b1 _X515a6bb5;
+
+               TypeParam ::= ID TypeParamClause;
+
+               TypeParam ::= ID TypeParamClause _X515a6bb5;
+
+               TypeParam ::= ID TypeParamClause _X38d8e4b1;
+
+               TypeParam ::= ID TypeParamClause _X38d8e4b1 _X515a6bb5;
+
+               TypeParam ::= ID TypeParamClause UBOUNDS Type;
+
+               TypeParam ::= ID TypeParamClause UBOUNDS Type _X515a6bb5;
+
+               TypeParam ::= ID TypeParamClause UBOUNDS Type _X38d8e4b1;
+
+               TypeParam ::= ID TypeParamClause UBOUNDS Type _X38d8e4b1 _X515a6bb5;
+
+               TypeParam ::= ID TypeParamClause LBOUNDS Type;
+
+               TypeParam ::= ID TypeParamClause LBOUNDS Type _X515a6bb5;
+
+               TypeParam ::= ID TypeParamClause LBOUNDS Type _X38d8e4b1;
+
+               TypeParam ::= ID TypeParamClause LBOUNDS Type _X38d8e4b1 _X515a6bb5;
+
+               TypeParam ::= ID TypeParamClause LBOUNDS Type UBOUNDS Type;
+
+               TypeParam ::= ID TypeParamClause LBOUNDS Type UBOUNDS Type _X515a6bb5;
+
+               TypeParam ::= ID TypeParamClause LBOUNDS Type UBOUNDS Type _X38d8e4b1;
+
+               TypeParam ::= ID TypeParamClause LBOUNDS Type UBOUNDS Type _X38d8e4b1 _X515a6bb5;
+
+               TypeParam ::= UNDERSCORE;
+
+               TypeParam ::= UNDERSCORE _X515a6bb5;
+
+               TypeParam ::= UNDERSCORE _X38d8e4b1;
+
+               TypeParam ::= UNDERSCORE _X38d8e4b1 _X515a6bb5;
+
+               TypeParam ::= UNDERSCORE UBOUNDS Type;
+
+               TypeParam ::= UNDERSCORE UBOUNDS Type _X515a6bb5;
+
+               TypeParam ::= UNDERSCORE UBOUNDS Type _X38d8e4b1;
+
+               TypeParam ::= UNDERSCORE UBOUNDS Type _X38d8e4b1 _X515a6bb5;
+
+               TypeParam ::= UNDERSCORE LBOUNDS Type;
+
+               TypeParam ::= UNDERSCORE LBOUNDS Type _X515a6bb5;
+
+               TypeParam ::= UNDERSCORE LBOUNDS Type _X38d8e4b1;
+
+               TypeParam ::= UNDERSCORE LBOUNDS Type _X38d8e4b1 _X515a6bb5;
+
+               TypeParam ::= UNDERSCORE LBOUNDS Type UBOUNDS Type;
+
+               TypeParam ::= UNDERSCORE LBOUNDS Type UBOUNDS Type _X515a6bb5;
+
+               TypeParam ::= UNDERSCORE LBOUNDS Type UBOUNDS Type _X38d8e4b1;
+
+               TypeParam ::= UNDERSCORE LBOUNDS Type UBOUNDS Type _X38d8e4b1 _X515a6bb5;
+
+               TypeParam ::= UNDERSCORE TypeParamClause;
+
+               TypeParam ::= UNDERSCORE TypeParamClause _X515a6bb5;
+
+               TypeParam ::= UNDERSCORE TypeParamClause _X38d8e4b1;
+
+               TypeParam ::= UNDERSCORE TypeParamClause _X38d8e4b1 _X515a6bb5;
+
+               TypeParam ::= UNDERSCORE TypeParamClause UBOUNDS Type;
+
+               TypeParam ::= UNDERSCORE TypeParamClause UBOUNDS Type _X515a6bb5;
+
+               TypeParam ::= UNDERSCORE TypeParamClause UBOUNDS Type _X38d8e4b1;
+
+               TypeParam ::= UNDERSCORE TypeParamClause UBOUNDS Type _X38d8e4b1 _X515a6bb5;
+
+               TypeParam ::= UNDERSCORE TypeParamClause LBOUNDS Type;
+
+               TypeParam ::= UNDERSCORE TypeParamClause LBOUNDS Type _X515a6bb5;
+
+               TypeParam ::= UNDERSCORE TypeParamClause LBOUNDS Type _X38d8e4b1;
+
+               TypeParam ::= UNDERSCORE TypeParamClause LBOUNDS Type _X38d8e4b1 _X515a6bb5;
+
+               TypeParam ::= UNDERSCORE TypeParamClause LBOUNDS Type UBOUNDS Type;
+
+               TypeParam ::= UNDERSCORE TypeParamClause LBOUNDS Type UBOUNDS Type _X515a6bb5;
+
+               TypeParam ::= UNDERSCORE TypeParamClause LBOUNDS Type UBOUNDS Type _X38d8e4b1;
+
+               TypeParam ::= UNDERSCORE TypeParamClause LBOUNDS Type UBOUNDS Type _X38d8e4b1 _X515a6bb5;
+
+              _X515a6bb5 ::= COLON Type;
+
+              _X515a6bb5 ::= _X515a6bb5 COLON Type;
+
+              _X38d8e4b1 ::= VBOUNDS Type;
+
+              _X38d8e4b1 ::= _X38d8e4b1 VBOUNDS Type;
+
+            ParamClauses ::= ;
+
+            ParamClauses ::= LPAREN IMPLICIT Params RPAREN;
+
+            ParamClauses ::= NL LPAREN IMPLICIT Params RPAREN;
+
+            ParamClauses ::= _X74f0666c;
+
+            ParamClauses ::= _X74f0666c LPAREN IMPLICIT Params RPAREN;
+
+            ParamClauses ::= _X74f0666c NL LPAREN IMPLICIT Params RPAREN;
+
+              _X74f0666c ::= ParamClause;
+
+              _X74f0666c ::= _X74f0666c ParamClause;
+
+             ParamClause ::= LPAREN RPAREN;
+
+             ParamClause ::= LPAREN Params RPAREN;
+
+             ParamClause ::= NL LPAREN RPAREN;
+
+             ParamClause ::= NL LPAREN Params RPAREN;
+
+                  Params ::= Param;
+
+                  Params ::= Param _Xa22a5820;
+
+              _Xa22a5820 ::= COMMA Param;
+
+              _Xa22a5820 ::= _Xa22a5820 COMMA Param;
+
+                   Param ::= ID;
+
+                   Param ::= ID EQ Expr;
+
+                   Param ::= ID COLON ParamType;
+
+                   Param ::= ID COLON ParamType EQ Expr;
+
+                   Param ::= _X3f14edf4 ID;
+
+                   Param ::= _X3f14edf4 ID EQ Expr;
+
+                   Param ::= _X3f14edf4 ID COLON ParamType;
+
+                   Param ::= _X3f14edf4 ID COLON ParamType EQ Expr;
+
+               ParamType ::= Type;
+
+               ParamType ::= RDARROW Type;
+
+               ParamType ::= Type ASTERISK;
+
+       ClassParamClauses ::= ;
+
+       ClassParamClauses ::= LPAREN IMPLICIT ClassParams RPAREN;
+
+       ClassParamClauses ::= NL LPAREN IMPLICIT ClassParams RPAREN;
+
+       ClassParamClauses ::= _X1137ef49;
+
+       ClassParamClauses ::= _X1137ef49 LPAREN IMPLICIT ClassParams RPAREN;
+
+       ClassParamClauses ::= _X1137ef49 NL LPAREN IMPLICIT ClassParams RPAREN;
+
+              _X1137ef49 ::= ClassParamClause;
+
+              _X1137ef49 ::= _X1137ef49 ClassParamClause;
+
+        ClassParamClause ::= LPAREN RPAREN;
+
+        ClassParamClause ::= LPAREN ClassParams RPAREN;
+
+        ClassParamClause ::= NL LPAREN RPAREN;
+
+        ClassParamClause ::= NL LPAREN ClassParams RPAREN;
+
+             ClassParams ::= ClassParam;
+
+             ClassParams ::= ClassParam _X08a6f345;
+
+              _X08a6f345 ::= COMMA ClassParam;
+
+              _X08a6f345 ::= _X08a6f345 COMMA ClassParam;
+
+              ClassParam ::= ID COLON ParamType;
+
+              ClassParam ::= ID COLON ParamType EQ Expr;
+
+              ClassParam ::= VAL ID COLON ParamType;
+
+              ClassParam ::= VAL ID COLON ParamType EQ Expr;
+
+              ClassParam ::= VAR ID COLON ParamType;
+
+              ClassParam ::= VAR ID COLON ParamType EQ Expr;
+
+              ClassParam ::= _Xda7cd56c ID COLON ParamType;
+
+              ClassParam ::= _Xda7cd56c ID COLON ParamType EQ Expr;
+
+              ClassParam ::= _Xda7cd56c VAL ID COLON ParamType;
+
+              ClassParam ::= _Xda7cd56c VAL ID COLON ParamType EQ Expr;
+
+              ClassParam ::= _Xda7cd56c VAR ID COLON ParamType;
+
+              ClassParam ::= _Xda7cd56c VAR ID COLON ParamType EQ Expr;
+
+              ClassParam ::= _X3f14edf4 ID COLON ParamType;
+
+              ClassParam ::= _X3f14edf4 ID COLON ParamType EQ Expr;
+
+              ClassParam ::= _X3f14edf4 VAL ID COLON ParamType;
+
+              ClassParam ::= _X3f14edf4 VAL ID COLON ParamType EQ Expr;
+
+              ClassParam ::= _X3f14edf4 VAR ID COLON ParamType;
+
+              ClassParam ::= _X3f14edf4 VAR ID COLON ParamType EQ Expr;
+
+              ClassParam ::= _X3f14edf4 _Xda7cd56c ID COLON ParamType;
+
+              ClassParam ::= _X3f14edf4 _Xda7cd56c ID COLON ParamType EQ Expr;
+
+              ClassParam ::= _X3f14edf4 _Xda7cd56c VAL ID COLON ParamType;
+
+              ClassParam ::= _X3f14edf4 _Xda7cd56c VAL ID COLON ParamType EQ Expr;
+
+              ClassParam ::= _X3f14edf4 _Xda7cd56c VAR ID COLON ParamType;
+
+              ClassParam ::= _X3f14edf4 _Xda7cd56c VAR ID COLON ParamType EQ Expr;
+
+              _Xda7cd56c ::= Modifier;
+
+              _Xda7cd56c ::= _Xda7cd56c Modifier;
+
+                Bindings ::= LPAREN Binding RPAREN;
+
+                Bindings ::= LPAREN Binding _X3bd046ce RPAREN;
+
+              _X3bd046ce ::= COMMA Binding;
+
+              _X3bd046ce ::= _X3bd046ce COMMA Binding;
+
+                 Binding ::= ID;
+
+                 Binding ::= ID COLON Type;
+
+                 Binding ::= UNDERSCORE;
+
+                 Binding ::= UNDERSCORE COLON Type;
+
+                Modifier ::= LocalModifier;
+
+                Modifier ::= AccessModifier;
+
+                Modifier ::= OVERRIDE;
+
+           LocalModifier ::= ABSTRACT;
+
+           LocalModifier ::= FINAL;
+
+           LocalModifier ::= SEALED;
+
+           LocalModifier ::= IMPLICIT;
+
+           LocalModifier ::= LAZY;
+
+          AccessModifier ::= PRIVATE;
+
+          AccessModifier ::= PRIVATE AccessQualifier;
+
+          AccessModifier ::= PROTECTED;
+
+          AccessModifier ::= PROTECTED AccessQualifier;
+
+         AccessQualifier ::= LBRACK ID RBRACK;
+
+         AccessQualifier ::= LBRACK THIS RBRACK;
+
+              Annotation ::= AT SimpleType;
+
+              Annotation ::= AT SimpleType _X184f2742;
+
+              _X184f2742 ::= ArgumentExprs;
+
+              _X184f2742 ::= _X184f2742 ArgumentExprs;
+
+        ConstrAnnotation ::= AT SimpleType ArgumentExprs;
+
+            TemplateBody ::= LBRACE TemplateStat RBRACE;
+
+            TemplateBody ::= LBRACE TemplateStat _X5383dc03 RBRACE;
+
+            TemplateBody ::= LBRACE SelfType TemplateStat RBRACE;
+
+            TemplateBody ::= LBRACE SelfType TemplateStat _X5383dc03 RBRACE;
+
+            TemplateBody ::= NL LBRACE TemplateStat RBRACE;
+
+            TemplateBody ::= NL LBRACE TemplateStat _X5383dc03 RBRACE;
+
+            TemplateBody ::= NL LBRACE SelfType TemplateStat RBRACE;
+
+            TemplateBody ::= NL LBRACE SelfType TemplateStat _X5383dc03 RBRACE;
+
+              _X5383dc03 ::= SEMI TemplateStat;
+
+              _X5383dc03 ::= _X5383dc03 SEMI TemplateStat;
+
+            TemplateStat ::= Import;
+
+            TemplateStat ::= Def;
+
+            TemplateStat ::= _Xda7cd56c Def;
+
+            TemplateStat ::= _X94b35272 Def;
+
+            TemplateStat ::= _X94b35272 _Xda7cd56c Def;
+
+            TemplateStat ::= Dcl;
+
+            TemplateStat ::= _Xda7cd56c Dcl;
+
+            TemplateStat ::= _X94b35272 Dcl;
+
+            TemplateStat ::= _X94b35272 _Xda7cd56c Dcl;
+
+            TemplateStat ::= Expr;
+
+            TemplateStat ::= ;
+
+              _X94b35272 ::= Annotation;
+
+              _X94b35272 ::= Annotation NL;
+
+              _X94b35272 ::= _X94b35272 Annotation;
+
+              _X94b35272 ::= _X94b35272 Annotation NL;
+
+                SelfType ::= ID RDARROW;
+
+                SelfType ::= ID COLON Type RDARROW;
+
+                SelfType ::= THIS COLON Type RDARROW;
+
+                  Import ::= IMPORT ImportExpr;
+
+                  Import ::= IMPORT ImportExpr _X67909128;
+
+              _X67909128 ::= COMMA ImportExpr;
+
+              _X67909128 ::= _X67909128 COMMA ImportExpr;
+
+              ImportExpr ::= StableId DOT ID;
+
+              ImportExpr ::= StableId DOT UNDERSCORE;
+
+              ImportExpr ::= StableId DOT ImportSelectors;
+
+         ImportSelectors ::= LBRACE ImportSelector RBRACE;
+
+         ImportSelectors ::= LBRACE UNDERSCORE RBRACE;
+
+         ImportSelectors ::= LBRACE _X63eb1336 ImportSelector RBRACE;
+
+         ImportSelectors ::= LBRACE _X63eb1336 UNDERSCORE RBRACE;
+
+              _X63eb1336 ::= ImportSelector COMMA;
+
+              _X63eb1336 ::= _X63eb1336 ImportSelector COMMA;
+
+          ImportSelector ::= ID;
+
+          ImportSelector ::= ID RDARROW ID;
+
+          ImportSelector ::= ID RDARROW UNDERSCORE;
+
+                     Dcl ::= VAL ValDcl;
+
+                     Dcl ::= VAR VarDcl;
+
+                     Dcl ::= DEF FunDcl;
+
+                     Dcl ::= TYPE TypeDcl;
+
+                     Dcl ::= TYPE _Xe773a166 TypeDcl;
+
+                  ValDcl ::= ids COLON Type;
+
+                  VarDcl ::= ids COLON Type;
+
+                  FunDcl ::= FunSig;
+
+                  FunDcl ::= FunSig COLON Type;
+
+                  FunSig ::= ID ParamClauses;
+
+                  FunSig ::= ID FunTypeParamClause ParamClauses;
+
+                 TypeDcl ::= ID;
+
+                 TypeDcl ::= ID UBOUNDS Type;
+
+                 TypeDcl ::= ID LBOUNDS Type;
+
+                 TypeDcl ::= ID LBOUNDS Type UBOUNDS Type;
+
+                 TypeDcl ::= ID TypeParamClause;
+
+                 TypeDcl ::= ID TypeParamClause UBOUNDS Type;
+
+                 TypeDcl ::= ID TypeParamClause LBOUNDS Type;
+
+                 TypeDcl ::= ID TypeParamClause LBOUNDS Type UBOUNDS Type;
+
+               PatVarDef ::= VAL PatDef;
+
+               PatVarDef ::= VAR VarDef;
+
+                     Def ::= PatVarDef;
+
+                     Def ::= DEF FunDef;
+
+                     Def ::= TYPE TypeDef;
+
+                     Def ::= TYPE _Xe773a166 TypeDef;
+
+                     Def ::= TmplDef;
+
+                  PatDef ::= Pattern2 EQ Expr;
+
+                  PatDef ::= Pattern2 COLON Type EQ Expr;
+
+                  PatDef ::= Pattern2 _Xf292905f EQ Expr;
+
+                  PatDef ::= Pattern2 _Xf292905f COLON Type EQ Expr;
+
+              _Xf292905f ::= COMMA Pattern2;
+
+              _Xf292905f ::= _Xf292905f COMMA Pattern2;
+
+                  VarDef ::= PatDef;
+
+                  VarDef ::= ids COLON Type EQ UNDERSCORE;
+
+                  FunDef ::= FunSig EQ Expr;
+
+                  FunDef ::= FunSig COLON Type EQ Expr;
+
+                  FunDef ::= FunSig LBRACE Block RBRACE;
+
+                  FunDef ::= FunSig NL LBRACE Block RBRACE;
+
+                  FunDef ::= THIS ParamClause ParamClauses EQ ConstrExpr;
+
+                  FunDef ::= THIS ParamClause ParamClauses ConstrBlock;
+
+                  FunDef ::= THIS ParamClause ParamClauses NL ConstrBlock;
+
+                 TypeDef ::= ID EQ Type;
+
+                 TypeDef ::= ID TypeParamClause EQ Type;
+
+                 TmplDef ::= CLASS ClassDef;
+
+                 TmplDef ::= CASE CLASS ClassDef;
+
+                 TmplDef ::= OBJECT ObjectDef;
+
+                 TmplDef ::= CASE OBJECT ObjectDef;
+
+                 TmplDef ::= TRAIT TraitDef;
+
+                ClassDef ::= ID ClassParamClauses ClassTemplateOpt;
+
+                ClassDef ::= ID AccessModifier ClassParamClauses ClassTemplateOpt;
+
+                ClassDef ::= ID _X7f7f2a0c ClassParamClauses ClassTemplateOpt;
+
+                ClassDef ::= ID _X7f7f2a0c AccessModifier ClassParamClauses ClassTemplateOpt;
+
+                ClassDef ::= ID TypeParamClause ClassParamClauses ClassTemplateOpt;
+
+                ClassDef ::= ID TypeParamClause AccessModifier ClassParamClauses ClassTemplateOpt;
+
+                ClassDef ::= ID TypeParamClause _X7f7f2a0c ClassParamClauses ClassTemplateOpt;
+
+                ClassDef ::= ID TypeParamClause _X7f7f2a0c AccessModifier ClassParamClauses ClassTemplateOpt;
+
+              _X7f7f2a0c ::= ConstrAnnotation;
+
+              _X7f7f2a0c ::= _X7f7f2a0c ConstrAnnotation;
+
+                TraitDef ::= ID TraitTemplateOpt;
+
+                TraitDef ::= ID TypeParamClause TraitTemplateOpt;
+
+               ObjectDef ::= ID ClassTemplateOpt;
+
+        ClassTemplateOpt ::= EXTENDS ClassTemplate;
+
+        ClassTemplateOpt ::= ;
+
+        ClassTemplateOpt ::= TemplateBody;
+
+        ClassTemplateOpt ::= EXTENDS TemplateBody;
+
+        TraitTemplateOpt ::= EXTENDS TraitTemplate;
+
+        TraitTemplateOpt ::= ;
+
+        TraitTemplateOpt ::= TemplateBody;
+
+        TraitTemplateOpt ::= EXTENDS TemplateBody;
+
+           ClassTemplate ::= ClassParents;
+
+           ClassTemplate ::= ClassParents TemplateBody;
+
+           ClassTemplate ::= EarlyDefs ClassParents;
+
+           ClassTemplate ::= EarlyDefs ClassParents TemplateBody;
+
+           TraitTemplate ::= TraitParents;
+
+           TraitTemplate ::= TraitParents TemplateBody;
+
+           TraitTemplate ::= EarlyDefs TraitParents;
+
+           TraitTemplate ::= EarlyDefs TraitParents TemplateBody;
+
+            ClassParents ::= Constr;
+
+            ClassParents ::= Constr _Xea837cb5;
+
+            TraitParents ::= AnnotType;
+
+            TraitParents ::= AnnotType _Xea837cb5;
+
+                  Constr ::= AnnotType;
+
+                  Constr ::= AnnotType _X184f2742;
+
+               EarlyDefs ::= LBRACE RBRACE WITH;
+
+               EarlyDefs ::= LBRACE EarlyDef RBRACE WITH;
+
+               EarlyDefs ::= LBRACE EarlyDef _Xf6c22e80 RBRACE WITH;
+
+              _Xf6c22e80 ::= SEMI EarlyDef;
+
+              _Xf6c22e80 ::= _Xf6c22e80 SEMI EarlyDef;
+
+                EarlyDef ::= PatVarDef;
+
+                EarlyDef ::= _Xda7cd56c PatVarDef;
+
+                EarlyDef ::= _X94b35272 PatVarDef;
+
+                EarlyDef ::= _X94b35272 _Xda7cd56c PatVarDef;
+
+              ConstrExpr ::= SelfInvocation;
+
+              ConstrExpr ::= ConstrBlock;
+
+             ConstrBlock ::= LBRACE SelfInvocation RBRACE;
+
+             ConstrBlock ::= LBRACE SelfInvocation _Xf953e893 RBRACE;
+
+          SelfInvocation ::= THIS ArgumentExprs;
+
+          SelfInvocation ::= THIS ArgumentExprs _X184f2742;
+
+              TopStatSeq ::= TopStat;
+
+              TopStatSeq ::= TopStat _X8c954609;
+
+              _X8c954609 ::= SEMI TopStat;
+
+              _X8c954609 ::= _X8c954609 SEMI TopStat;
+
+                 TopStat ::= TmplDef;
+
+                 TopStat ::= _Xda7cd56c TmplDef;
+
+                 TopStat ::= _X94b35272 TmplDef;
+
+                 TopStat ::= _X94b35272 _Xda7cd56c TmplDef;
+
+                 TopStat ::= Import;
+
+                 TopStat ::= Packaging;
+
+                 TopStat ::= PackageObject;
+
+                 TopStat ::= ;
+
+               Packaging ::= PACKAGE QualId LBRACE TopStatSeq RBRACE;
+
+               Packaging ::= PACKAGE QualId NL LBRACE TopStatSeq RBRACE;
+
+           PackageObject ::= PACKAGE OBJECT ObjectDef;
+
+         CompilationUnit ::= TopStatSeq;
+
+         CompilationUnit ::= _X0e364d9b TopStatSeq;
+
+              _X0e364d9b ::= PACKAGE QualId SEMI;
+
+              _X0e364d9b ::= _X0e364d9b PACKAGE QualId SEMI;

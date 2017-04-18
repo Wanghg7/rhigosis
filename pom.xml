@@ -65,6 +65,20 @@
                 <artifactId>cup-maven-plugin</artifactId>
                 <version>11b-20160615</version>
                 <executions>
+                    <!--execution>
+                        <id>cup:distinct</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <expectedConflicts>0</expectedConflicts>
+                            <nontermsToSymbols>true</nontermsToSymbols>
+                            <cupDefinition>src/main/cup/distinct.cup</cupDefinition>
+                            <className>DistinctParser</className>
+                            <symbolsName>DistinctSym</symbolsName>
+                        </configuration>
+                    </execution-->
                     <execution>
                         <id>cup:sg-input</id>
                         <phase>generate-sources</phase>
