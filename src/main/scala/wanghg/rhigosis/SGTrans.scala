@@ -16,10 +16,15 @@ object SGTrans {
 
   def main(args: Array[String]): Unit = {
     val file = new File(args(0))
+    val file2 = new File(args(1))
     require(file.exists())
     val g: Grammar = parse(file).distinct
     val expanded = expand(g).distinct
-    println(expanded)
+    val output = expanded.toString
+    println(output)
+    Utils.withWriter(file2) { writer =>
+      writer.write(output)
+    }
   }
 
   def parse(file: File): Grammar = {

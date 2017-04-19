@@ -1,6 +1,6 @@
 package wanghg
 
-import java.io.{File, FileInputStream, InputStreamReader, Reader}
+import java.io._
 
 /**
   * Created by wanghg on 9/4/2017.
@@ -29,6 +29,20 @@ object Utils {
         op(reader)
       } finally {
         reader.close()
+      }
+    } finally {
+      in.close()
+    }
+  }
+
+  def withWriter[T](file: File)(op: Writer => T): T = {
+    val in = new FileOutputStream(file)
+    try {
+      val writer = new OutputStreamWriter(in)
+      try {
+        op(writer)
+      } finally {
+        writer.close()
       }
     } finally {
       in.close()
