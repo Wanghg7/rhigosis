@@ -3,9 +3,14 @@ package wanghg.rhigosis
 /**
   * Created by wanghg on 16/4/2017.
   */
-case class Grammar(productions: List[Production]) {
+case class Grammar(terminals: List[Terminal], nonterminals: List[Nonterminal], productions: List[Production]) {
 
-  override def toString: String = productions.mkString("", "\n\n", "\n\n")
+  override def toString: String = {
+    val sb = new StringBuilder()
+    sb ++= terminals.mkString("", "\n", "\n")
+    sb ++= nonterminals.mkString("", "\n", "\n")
+    productions.mkString("", "\n\n", "\n\n")
+  }
 }
 
 case class Production(nont: Nonterminal, rhs: Rhs) {

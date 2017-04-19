@@ -23,7 +23,7 @@ object SGUtils {
     case _ => Nonterminal(Symbol(s))
   }
 
-  def grammar(s: ListBuffer[Production]) = Grammar(s.toList)
+  def grammar(s: ListBuffer[Production]) = Grammar(Nil, Nil, s.toList)
 
   def production(name: String, rhs: Rhs) = Production(Nonterminal(Symbol(name)), rhs)
 

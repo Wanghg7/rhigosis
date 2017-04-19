@@ -19,8 +19,7 @@ object SGTrans {
     require(file.exists())
     val g: Grammar = parse(file)
     val expanded = expand(g)
-    val distinct = Grammar(expanded.productions.distinct)
-    println(distinct)
+    println(expanded)
   }
 
   def parse(file: File): Grammar = {
@@ -31,13 +30,16 @@ object SGTrans {
     }
   }
 
-  def expand(g: Grammar): Grammar = Grammar(expand(g, Nil).reverse)
+  def expand(g: Grammar): Grammar = {
+    val (g2, acc2) = expand(g, Nil)
+    g2.copy(productions = acc2.reverse.distinct)
+  }
 
-  def expand(g: Grammar, acc: List[Production]): List[Production] = {
+  def expand(g: Grammar, acc: List[Production]): (Grammar, List[Production]) = {
     g match {
-      case Grammar(Nil) => acc
-      case Grammar(p :: ps) =>
-        val (g2, acc2) = expand(p, (Grammar(ps), acc))
+      case Grammar(_, _, Nil) => (g, acc)
+      case Grammar(_, _, p :: ps) =>
+        val (g2, acc2) = expand(p, (g.copy(productions = ps), acc))
         expand(g2, acc2)
     }
   }
