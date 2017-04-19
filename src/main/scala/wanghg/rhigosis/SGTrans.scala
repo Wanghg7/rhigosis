@@ -17,8 +17,8 @@ object SGTrans {
   def main(args: Array[String]): Unit = {
     val file = new File(args(0))
     require(file.exists())
-    val g: Grammar = parse(file)
-    val expanded = expand(g)
+    val g: Grammar = parse(file).distinct
+    val expanded = expand(g).distinct
     println(expanded)
   }
 
@@ -32,7 +32,7 @@ object SGTrans {
 
   def expand(g: Grammar): Grammar = {
     val (g2, acc2) = expand(g, Nil)
-    g2.copy(productions = acc2.reverse.distinct)
+    g2.copy(productions = acc2.reverse)
   }
 
   def expand(g: Grammar, acc: List[Production]): (Grammar, List[Production]) = {
@@ -83,7 +83,7 @@ object SGTrans {
           Concatenation(List(lhs, alt))
         ))
         val prod = Production(lhs, Rhs(rhs))
-        var newGacc = (g.copy(productions = prod :: g.productions), acc)
+        var newGacc = (Grammar(g.terminals, lhs :: g.nonterminals, prod :: g.productions), acc)
         newGacc = expand(nont, rest, cout, newGacc)
         newGacc = expand(nont, rest, lhs :: cout, newGacc)
         newGacc

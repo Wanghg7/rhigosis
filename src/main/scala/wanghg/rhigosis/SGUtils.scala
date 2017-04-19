@@ -10,22 +10,31 @@ object SGUtils {
 
   val ptn = "‘([^’]+)’".r
 
-  def symbol(s: String): Term = s match {
-    case "id" => Terminal('ID)
-    case "semi" => Terminal('SEMI)
-    case "nl" => Terminal('NL)
-    case "integerLiteral" => Terminal('INTEGER)
-    case "floatingPointLiteral" => Terminal('FLOAT)
-    case "booleanLiteral" => Terminal('BOOLEAN)
-    case "characterLiteral" => Terminal('CHARACTER)
-    case "stringLiteral" => Terminal('STRING)
-    case "symbolLiteral" => Terminal('SYMBOL)
-    case _ => Nonterminal(Symbol(s))
+  def symbol(terminals: ListBuffer[Terminal], nonterminals: ListBuffer[Nonterminal], s: String): Term = s match {
+    case "id" => addAndReturn(terminals, Terminal('ID))
+    case "semi" => addAndReturn(terminals, Terminal('SEMI))
+    case "nl" => addAndReturn(terminals, Terminal('NL))
+    case "integerLiteral" => addAndReturn(terminals, Terminal('INTEGER))
+    case "floatingPointLiteral" => addAndReturn(terminals, Terminal('FLOAT))
+    case "booleanLiteral" => addAndReturn(terminals, Terminal('BOOLEAN))
+    case "characterLiteral" => addAndReturn(terminals, Terminal('CHARACTER))
+    case "stringLiteral" => addAndReturn(terminals, Terminal('STRING))
+    case "symbolLiteral" => addAndReturn(terminals, Terminal('SYMBOL))
+    case _ => addAndReturn(nonterminals, Nonterminal(Symbol(s)))
   }
 
-  def grammar(s: ListBuffer[Production]) = Grammar(Nil, Nil, s.toList)
+  private def addAndReturn[T](lbuf: ListBuffer[T], e: T): T = {
+    lbuf += e
+    e
+  }
 
-  def production(name: String, rhs: Rhs) = Production(Nonterminal(Symbol(name)), rhs)
+  def emptyListBuffer[T]() = ListBuffer.empty[T];
+
+  def grammar(terminals: ListBuffer[Terminal], nonterminals: ListBuffer[Nonterminal], s: ListBuffer[Production]) =
+    Grammar(terminals.toList, nonterminals.toList, s.toList)
+
+  def production(nonterminals: ListBuffer[Nonterminal], name: String, rhs: Rhs) =
+    Production(addAndReturn(nonterminals, Nonterminal(Symbol(name))), rhs)
 
   def rhs(options: Alternation) = Rhs(options)
 
@@ -45,7 +54,7 @@ object SGUtils {
 
   def repetition(t: Alternation): Repetition = Repetition(t)
 
-  def literal(s: String): Terminal = s match {
+  def literal(terminals: ListBuffer[Terminal], s: String): Terminal = addAndReturn(terminals, s match {
     case ptn("-") => Terminal('MINUS)
     case ptn("null") => Terminal('NULL)
     case ptn(".") => Terminal('DOT)
@@ -107,7 +116,7 @@ object SGUtils {
     case ptn("trait") => Terminal('TRAIT)
     case ptn("extends") => Terminal('EXTENDS)
     case ptn("package") => Terminal('PACKAGE)
-  }
+  })
 
 
 }

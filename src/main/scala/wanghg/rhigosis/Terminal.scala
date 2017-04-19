@@ -7,10 +7,13 @@ case class Grammar(terminals: List[Terminal], nonterminals: List[Nonterminal], p
 
   override def toString: String = {
     val sb = new StringBuilder()
-    sb ++= terminals.mkString("", "\n", "\n")
-    sb ++= nonterminals.mkString("", "\n", "\n")
-    productions.mkString("", "\n\n", "\n\n")
+    sb ++= terminals.map(String.format("terminal %s;", _)).mkString("\n", "\n", "\n")
+    sb ++= nonterminals.map(String.format("nonterminal %s;", _)).mkString("\n", "\n", "\n")
+    sb ++= productions.mkString("\n\n", "\n\n", "\n\n")
+    sb.toString
   }
+
+  def distinct: Grammar = Grammar(terminals.distinct, nonterminals.distinct, productions.distinct)
 }
 
 case class Production(nont: Nonterminal, rhs: Rhs) {

@@ -2,6 +2,11 @@ package wanghg.rhigosis;
 
 import scala.collection.mutable.ListBuffer;
 
+action code {:
+    private ListBuffer<Terminal> terminals = SGUtils.emptyListBuffer();
+    private ListBuffer<Nonterminal> nonterminals = SGUtils.emptyListBuffer();
+:}
+
 terminal SYMBOL;
 terminal LHS;
 terminal BAR;
@@ -27,7 +32,7 @@ nonterminal repetition;
 start with grammar;
 
 grammar         ::= productions:ps {:
-    RESULT = SGUtils.grammar((ListBuffer<Production>)ps);
+    RESULT = SGUtils.grammar(terminals, nonterminals, (ListBuffer<Production>)ps);
 :};
 
 productions       ::= production:p {:
@@ -38,7 +43,7 @@ productions       ::= production:p {:
 :};
 
 production            ::= LHS:l rhs:r {:
-    RESULT = SGUtils.production((String)l, (Rhs)r);
+    RESULT = SGUtils.production(nonterminals, (String)l, (Rhs)r);
 :};
 
 rhs             ::= alternation:alt {:
@@ -63,10 +68,10 @@ concatenation        ::= term:t {:
 :};
 
 term            ::= SYMBOL:sym {:
-    RESULT = SGUtils.symbol((String)sym);
+    RESULT = SGUtils.symbol(terminals, nonterminals, (String)sym);
 :}
                   | LITERAL:lit {:
-    RESULT = SGUtils.literal((String)lit);
+    RESULT = SGUtils.literal(terminals, (String)lit);
 :}
                   | grouping:grp {:
     RESULT = grp;
