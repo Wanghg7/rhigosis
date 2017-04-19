@@ -9,6 +9,7 @@ case class Grammar(terminals: List[Terminal], nonterminals: List[Nonterminal], p
     val sb = new StringBuilder()
     sb ++= terminals.map(String.format("terminal %s;", _)).mkString("\n", "\n", "\n")
     sb ++= nonterminals.map(String.format("nonterminal %s;", _)).mkString("\n", "\n", "\n")
+    sb ++= "\n\nstart with CompilationUnit;\n\n"
     sb ++= productions.mkString("\n\n", "\n\n", "\n\n")
     sb.toString
   }

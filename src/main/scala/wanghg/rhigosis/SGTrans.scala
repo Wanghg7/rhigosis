@@ -23,6 +23,7 @@ object SGTrans {
     val output = expanded.toString
     println(output)
     Utils.withWriter(file2) { writer =>
+      writer.write("package wanghg.rhigosis;\n\n")
       writer.write(output)
     }
   }
