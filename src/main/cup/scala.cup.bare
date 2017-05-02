@@ -11,6 +11,7 @@ terminal ASTERISK;
 terminal AT;
 terminal BOOLEAN;
 terminal CASE;
+terminal CATCH;
 terminal CHARACTER;
 terminal CLASS;
 terminal COLON;
@@ -25,6 +26,9 @@ terminal EXTENDS;
 terminal FINAL;
 terminal FINALLY;
 terminal FLOAT;
+terminal FOR;
+terminal FORSOME;
+terminal HASH;
 terminal ID;
 terminal IF;
 terminal IMPLICIT;
@@ -36,6 +40,7 @@ terminal LBOUNDS;
 terminal LBRACE;
 terminal LBRACK;
 terminal LPAREN;
+terminal MATCH;
 terminal MINUS;
 terminal NEW;
 terminal NL;
@@ -72,9 +77,11 @@ terminal VAL;
 terminal VAR;
 terminal VARID;
 terminal VBOUNDS;
+terminal WHILE;
 terminal WITH;
 terminal XMLEXPR;
 terminal XMLPATTERN;
+terminal YIELD;
 
 // -----------------------------------------------------------------------------
 // nonterminals
@@ -214,73 +221,6 @@ nonterminal TopStat2;
 nonterminal Packaging;
 nonterminal PackageObject;
 nonterminal CompilationUnit;
-nonterminal MINUS_INTEGER;
-nonterminal MINUS_FLOAT;
-nonterminal DOT_ID;
-nonterminal COMMA_ID;
-nonterminal ID_DOT_THIS;
-nonterminal SUPER_DOT_ID;
-nonterminal ID_DOT_SUPER_DOT_ID;
-nonterminal ID_DOT_SUPER;
-nonterminal LBRACK_ID_RBRACK;
-nonterminal LPAREN_RPAREN;
-nonterminal FORSOME_LBRACE;
-nonterminal ID_NL;
-nonterminal HASH_ID;
-nonterminal DOT_TYPE;
-nonterminal NL_LBRACE;
-nonterminal COLON_UNDERSCORE_ASTERISK;
-nonterminal UNDERSCORE_RDARROW;
-nonterminal ID_RDARROW;
-nonterminal IMPLICIT_ID_RDARROW;
-nonterminal IF_LPAREN;
-nonterminal SEMI_ELSE;
-nonterminal WHILE_LPAREN;
-nonterminal CATCH_LBRACE;
-nonterminal RBRACE_FINALLY;
-nonterminal TRY_LBRACE;
-nonterminal RBRACE_CATCH_LBRACE;
-nonterminal SEMI_WHILE_LPAREN;
-nonterminal FOR_LBRACE;
-nonterminal RBRACE_NL_YIELD;
-nonterminal FOR_LPAREN;
-nonterminal RPAREN_NL_YIELD;
-nonterminal ID_EQ;
-nonterminal DOT_ID_EQ;
-nonterminal MATCH_LBRACE;
-nonterminal COLON_UNDERSCORE_ASTERISK_RPAREN;
-nonterminal UNDERSCORE_COLON;
-nonterminal ID_COLON;
-nonterminal IMPLICIT_ID_COLON;
-nonterminal VARID_COLON;
-nonterminal VARID_AT;
-nonterminal LPAREN_UNDERSCORE_ASTERISK_RPAREN;
-nonterminal LPAREN_VARID_AT_UNDERSCORE_ASTERISK_RPAREN;
-nonterminal COMMA_UNDERSCORE_ASTERISK_RPAREN;
-nonterminal COMMA_VARID_AT_UNDERSCORE_ASTERISK_RPAREN;
-nonterminal UNDERSCORE_ASTERISK;
-nonterminal UNDERSCORE_UBOUNDS;
-nonterminal UNDERSCORE_LBOUNDS;
-nonterminal ID_UBOUNDS;
-nonterminal ID_LBOUNDS;
-nonterminal LPAREN_IMPLICIT;
-nonterminal NL_LPAREN_IMPLICIT;
-nonterminal NL_LPAREN_RPAREN;
-nonterminal NL_LPAREN;
-nonterminal VAR_ID_COLON;
-nonterminal VAL_ID_COLON;
-nonterminal LBRACK_THIS_RBRACK;
-nonterminal THIS_COLON;
-nonterminal DOT_UNDERSCORE;
-nonterminal ID_RDARROW_UNDERSCORE;
-nonterminal ID_RDARROW_ID;
-nonterminal EQ_UNDERSCORE;
-nonterminal CASE_CLASS;
-nonterminal CASE_OBJECT;
-nonterminal LBRACE_RBRACE_WITH;
-nonterminal LBRACE_WITH;
-nonterminal RBRACE_WITH;
-nonterminal PACKAGE_OBJECT;
 
 // -----------------------------------------------------------------------------
 // precedences
@@ -293,9 +233,9 @@ nonterminal PACKAGE_OBJECT;
 start with CompilationUnit;
 
 Literal           ::=        INTEGER
-                    |  MINUS_INTEGER
+                    |  MINUS INTEGER
                     |        FLOAT
-                    |  MINUS_FLOAT
+                    |  MINUS FLOAT
                     |  BOOLEAN
                     |  CHARACTER
                     |  STRING
@@ -304,27 +244,27 @@ Literal           ::=        INTEGER
                     ;
 
 QualId            ::=  ID
-                    |  QualId DOT_ID
+                    |  QualId DOT ID
                     ;
 
 ids               ::=  ID
-                    |  ids COMMA_ID
+                    |  ids COMMA ID
                     ;
 
 Path              ::=  StableId
                     |         THIS
-                    |  ID_DOT_THIS
+                    |  ID DOT THIS
                     ;
 
 StableId          ::=  ID
-                    |  Path DOT_ID
-                    |         SUPER_DOT_ID
-                    |         SUPER ClassQualifier DOT_ID
-                    |  ID_DOT_SUPER_DOT_ID
-                    |  ID_DOT_SUPER ClassQualifier DOT_ID
+                    |  Path DOT ID
+                    |         SUPER                DOT ID
+                    |         SUPER ClassQualifier DOT ID
+                    |  ID DOT SUPER                DOT ID
+                    |  ID DOT SUPER ClassQualifier DOT ID
                     ;
 
-ClassQualifier    ::=  LBRACK_ID_RBRACK
+ClassQualifier    ::=  LBRACK ID RBRACK
                     ;
 
 Type              ::=  FunctionArgTypes RDARROW Type
@@ -333,7 +273,7 @@ Type              ::=  FunctionArgTypes RDARROW Type
                     ;
 
 FunctionArgTypes  ::=  InfixType
-                    |  LPAREN_RPAREN
+                    |  LPAREN            RPAREN
                     |  LPAREN ParamTypes RPAREN
                     ;
 
@@ -341,7 +281,7 @@ ParamTypes        ::=  ParamType
                     |  ParamTypes COMMA ParamType
                     ;
 
-ExistentialClause ::=  FORSOME_LBRACE ExistentialDcls RBRACE
+ExistentialClause ::=  FORSOME LBRACE ExistentialDcls RBRACE
                     ;
 
 ExistentialDcls   ::=  ExistentialDcl
@@ -354,7 +294,7 @@ ExistentialDcl    ::=  TYPE TypeDcl
 
 InfixType         ::=  CompoundType
                     |  InfixType    ID    CompoundType
-                    |  InfixType    ID_NL CompoundType
+                    |  InfixType    ID NL CompoundType
                     ;
 
 CompoundType      ::=  AnnotTypes
@@ -371,9 +311,9 @@ AnnotType         ::=  SimpleType
                     ;
 
 SimpleType        ::=  SimpleType TypeArgs
-                    |  SimpleType HASH_ID
+                    |  SimpleType HASH ID
                     |  StableId
-                    |  Path DOT_TYPE
+                    |  Path DOT TYPE
                     |  LPAREN Types RPAREN
                     ;
 
@@ -385,7 +325,7 @@ Types             ::=  Type
                     ;
 
 Refinement        ::=     LBRACE RefineStats RBRACE
-                    |  NL_LBRACE RefineStats RBRACE
+                    |  NL LBRACE RefineStats RBRACE
                     ;
 
 RefineStats       ::=  RefineStat
@@ -402,57 +342,57 @@ TypePat           ::=  Type
 
 Ascription        ::=  COLON InfixType
                     |  COLON Annotations
-                    |  COLON_UNDERSCORE_ASTERISK
+                    |  COLON UNDERSCORE ASTERISK
                     ;
 
 Annotations       ::=  Annotation
                     |  Annotations Annotation
                     ;
 
-Expr              ::=                       UNDERSCORE_RDARROW Expr
-                    |                    ID_RDARROW Expr
-                    |           IMPLICIT_ID_RDARROW Expr
+Expr              ::=                       UNDERSCORE RDARROW Expr
+                    |                    ID            RDARROW Expr
+                    |           IMPLICIT ID            RDARROW Expr
                     |  Bindings                        RDARROW Expr
                     |  Expr1
                     ;
 
-Expr1             ::=  IF_LPAREN Expr RPAREN_NL Expr
-                    |  IF_LPAREN Expr RPAREN_NL Expr      ELSE Expr
-                    |  IF_LPAREN Expr RPAREN_NL Expr SEMI_ELSE Expr
-                    |  WHILE_LPAREN Expr RPAREN_NL Expr
+Expr1             ::=  IF LPAREN Expr RPAREN_NL Expr
+                    |  IF LPAREN Expr RPAREN_NL Expr      ELSE Expr
+                    |  IF LPAREN Expr RPAREN_NL Expr SEMI ELSE Expr
+                    |  WHILE LPAREN Expr RPAREN_NL Expr
                     |  TRY                     Expr
                     |  TRY                     Expr                                 FINALLY Expr
-                    |  TRY                     Expr CATCH_LBRACE CaseClauses RBRACE
-                    |  TRY                     Expr CATCH_LBRACE CaseClauses RBRACE_FINALLY Expr
-                    |  TRY_LBRACE Block RBRACE
-                    |  TRY_LBRACE Block RBRACE_FINALLY Expr
-                    |  TRY_LBRACE Block RBRACE_CATCH_LBRACE CaseClauses RBRACE
-                    |  TRY_LBRACE Block RBRACE_CATCH_LBRACE CaseClauses RBRACE_FINALLY Expr
-                    |  DO Expr      WHILE_LPAREN Expr RPAREN
-                    |  DO Expr SEMI_WHILE_LPAREN Expr RPAREN
-                    |  FOR_LBRACE Enumerators RBRACE_NL       Expr
-                    |  FOR_LBRACE Enumerators RBRACE_NL_YIELD Expr
-                    |  FOR_LPAREN Enumerators RPAREN_NL                                    Expr
-                    |  FOR_LPAREN Enumerators RPAREN_NL_YIELD Expr
+                    |  TRY                     Expr CATCH LBRACE CaseClauses RBRACE
+                    |  TRY                     Expr CATCH LBRACE CaseClauses RBRACE FINALLY Expr
+                    |  TRY LBRACE Block RBRACE
+                    |  TRY LBRACE Block RBRACE                                      FINALLY Expr
+                    |  TRY LBRACE Block RBRACE      CATCH LBRACE CaseClauses RBRACE
+                    |  TRY LBRACE Block RBRACE      CATCH LBRACE CaseClauses RBRACE FINALLY Expr
+                    |  DO Expr      WHILE LPAREN Expr RPAREN
+                    |  DO Expr SEMI WHILE LPAREN Expr RPAREN
+                    |  FOR                              LBRACE Enumerators RBRACE_NL       Expr
+                    |  FOR                              LBRACE Enumerators RBRACE_NL YIELD Expr
+                    |  FOR LPAREN Enumerators RPAREN_NL                                    Expr
+                    |  FOR LPAREN Enumerators RPAREN_NL                              YIELD Expr
                     |  THROW Expr
                     |  RETURN
                     |  RETURN Expr
-                    |                 ID_EQ Expr
-                    |  SimpleExpr DOT_ID_EQ Expr
+                    |                 ID EQ Expr
+                    |  SimpleExpr DOT ID EQ Expr
                     |  SimpleExpr1 ArgumentExprs EQ Expr
                     |  PostfixExpr
                     |  PostfixExpr Ascription
-                    |  PostfixExpr MATCH_LBRACE CaseClauses RBRACE
+                    |  PostfixExpr MATCH LBRACE CaseClauses RBRACE
                     ;
 
 PostfixExpr       ::=  InfixExpr
                     |  InfixExpr ID
-                    |  InfixExpr ID_NL
+                    |  InfixExpr ID NL
                     ;
 
 InfixExpr         ::=  PrefixExpr
                     |  InfixExpr ID    InfixExpr
-                    |  InfixExpr ID_NL InfixExpr
+                    |  InfixExpr ID NL InfixExpr
                     ;
 
 PrefixExpr        ::=                          SimpleExpr
@@ -472,9 +412,9 @@ SimpleExpr        ::=  NEW               TemplateBody
 SimpleExpr1       ::=  Literal
                     |  Path
                     |  UNDERSCORE
-                    |  LPAREN_RPAREN
+                    |  LPAREN       RPAREN
                     |  LPAREN Exprs RPAREN
-                    |  SimpleExpr DOT_ID
+                    |  SimpleExpr DOT ID
                     |  SimpleExpr TypeArgs
                     |  SimpleExpr1 ArgumentExprs
                     |  XMLEXPR
@@ -484,10 +424,10 @@ Exprs             ::=  Expr
                     |  Exprs COMMA Expr
                     ;
 
-ArgumentExprs     ::=  LPAREN_RPAREN
+ArgumentExprs     ::=  LPAREN       RPAREN
                     |  LPAREN Exprs RPAREN
-                    |  LPAREN             PostfixExpr COLON_UNDERSCORE_ASTERISK_RPAREN
-                    |  LPAREN Exprs COMMA PostfixExpr COLON_UNDERSCORE_ASTERISK_RPAREN
+                    |  LPAREN             PostfixExpr COLON UNDERSCORE ASTERISK RPAREN
+                    |  LPAREN Exprs COMMA PostfixExpr COLON UNDERSCORE ASTERISK RPAREN
                     |     BlockExpr
                     |  NL BlockExpr
                     ;
@@ -525,9 +465,9 @@ TmplDefs1         ::=                TmplDef
                     ;
 
 ResultExpr        ::=  Expr1
-                    |                       UNDERSCORE_COLON CompoundType RDARROW Block
-                    |                    ID_COLON CompoundType RDARROW Block
-                    |           IMPLICIT_ID_COLON CompoundType RDARROW Block
+                    |                       UNDERSCORE COLON CompoundType RDARROW Block
+                    |                    ID            COLON CompoundType RDARROW Block
+                    |           IMPLICIT ID            COLON CompoundType RDARROW Block
                     |  Bindings                                           RDARROW Block
                     ;
 
@@ -556,40 +496,40 @@ Pattern           ::=  Pattern1
                     |  Pattern  OR Pattern1
                     ;
 
-Pattern1          ::=  VARID_COLON TypePat
-                    |  UNDERSCORE_COLON TypePat
+Pattern1          ::=  VARID COLON TypePat
+                    |  UNDERSCORE COLON TypePat
                     |  Pattern2
                     ;
 
 Pattern2          ::=  VARID
-                    |  VARID_AT Pattern3
+                    |  VARID AT Pattern3
                     |  Pattern3
                     ;
 
 Pattern3          ::=  SimplePattern
                     |  SimplePattern
                     |  SimplePattern ID    SimplePattern
-                    |  SimplePattern ID_NL SimplePattern
+                    |  SimplePattern ID NL SimplePattern
                     ;
 
 SimplePattern     ::=  UNDERSCORE
                     |  VARID
                     |  Literal
                     |  StableId
-                    |  StableId LPAREN_RPAREN
+                    |  StableId LPAREN          RPAREN
                     |  StableId LPAREN Patterns RPAREN
-                    |  StableId LPAREN_UNDERSCORE_ASTERISK_RPAREN
-                    |  StableId LPAREN_VARID_AT_UNDERSCORE_ASTERISK_RPAREN
-                    |  StableId LPAREN Patterns COMMA_UNDERSCORE_ASTERISK_RPAREN
-                    |  StableId LPAREN Patterns COMMA_VARID_AT_UNDERSCORE_ASTERISK_RPAREN
-                    |  LPAREN_RPAREN
+                    |  StableId LPAREN                         UNDERSCORE ASTERISK RPAREN
+                    |  StableId LPAREN                VARID AT UNDERSCORE ASTERISK RPAREN
+                    |  StableId LPAREN Patterns COMMA          UNDERSCORE ASTERISK RPAREN
+                    |  StableId LPAREN Patterns COMMA VARID AT UNDERSCORE ASTERISK RPAREN
+                    |  LPAREN          RPAREN
                     |  LPAREN Patterns RPAREN
                     |  XMLPATTERN
                     ;
 
 Patterns          ::=  Pattern
                     |  Pattern COMMA Patterns
-                    |  UNDERSCORE_ASTERISK
+                    |  UNDERSCORE ASTERISK
                     ;
 
 TypeParamClause   ::=  LBRACK VariantTypeParams RBRACK
@@ -617,17 +557,17 @@ TypeParam         ::=  TypeParam1
                     ;
 
 TypeParam1        ::=     UNDERSCORE
-                    |     UNDERSCORE_UBOUNDS Type
-                    |     UNDERSCORE_LBOUNDS Type
-                    |     UNDERSCORE_LBOUNDS Type UBOUNDS Type
+                    |     UNDERSCORE                               UBOUNDS Type
+                    |     UNDERSCORE                  LBOUNDS Type
+                    |     UNDERSCORE                  LBOUNDS Type UBOUNDS Type
                     |     UNDERSCORE TypeParamClause
                     |     UNDERSCORE TypeParamClause              UBOUNDS Type
                     |     UNDERSCORE TypeParamClause LBOUNDS Type
                     |     UNDERSCORE TypeParamClause LBOUNDS Type UBOUNDS Type
                     |  ID
-                    |  ID_UBOUNDS Type
-                    |  ID_LBOUNDS Type
-                    |  ID_LBOUNDS Type UBOUNDS Type
+                    |  ID                                         UBOUNDS Type
+                    |  ID                            LBOUNDS Type
+                    |  ID                            LBOUNDS Type UBOUNDS Type
                     |  ID            TypeParamClause
                     |  ID            TypeParamClause              UBOUNDS Type
                     |  ID            TypeParamClause LBOUNDS Type
@@ -636,15 +576,15 @@ TypeParam1        ::=     UNDERSCORE
                     ;
 
 ParamClauses      ::=
-                    |                 LPAREN_IMPLICIT Params RPAREN
-                    |              NL_LPAREN_IMPLICIT Params RPAREN
+                    |                 LPAREN IMPLICIT Params RPAREN
+                    |              NL LPAREN IMPLICIT Params RPAREN
                     |  ParamClause ParamClauses
                     ;
 
-ParamClause       ::=     LPAREN_RPAREN
+ParamClause       ::=     LPAREN        RPAREN
                     |     LPAREN Params RPAREN
-                    |  NL_LPAREN_RPAREN
-                    |  NL_LPAREN Params RPAREN
+                    |  NL LPAREN        RPAREN
+                    |  NL LPAREN Params RPAREN
                     ;
 
 Params            ::=  Param
@@ -652,9 +592,9 @@ Params            ::=  Param
                     ;
 
 Param             ::=             ID
-                    |             ID_EQ Expr
-                    |             ID_COLON ParamType
-                    |             ID_COLON ParamType EQ Expr
+                    |             ID                 EQ Expr
+                    |             ID COLON ParamType
+                    |             ID COLON ParamType EQ Expr
                     |  Annotation Param
                     ;
 
@@ -664,15 +604,15 @@ ParamType         ::=  Type
                     ;
 
 ClassParamClauses ::=
-                    |                      LPAREN_IMPLICIT ClassParams RPAREN
-                    |                   NL_LPAREN_IMPLICIT ClassParams RPAREN
+                    |                      LPAREN IMPLICIT ClassParams RPAREN
+                    |                   NL LPAREN IMPLICIT ClassParams RPAREN
                     |  ClassParamClause ClassParamClauses
                     ;
 
-ClassParamClause  ::=     LPAREN_RPAREN
+ClassParamClause  ::=     LPAREN             RPAREN
                     |     LPAREN ClassParams RPAREN
-                    |  NL_LPAREN_RPAREN
-                    |  NL_LPAREN ClassParams RPAREN
+                    |  NL LPAREN             RPAREN
+                    |  NL LPAREN ClassParams RPAREN
                     ;
 
 ClassParams       ::=  ClassParam
@@ -683,12 +623,12 @@ ClassParam        ::=             ClassParam1
                     |  Annotation ClassParam
                     ;
 
-ClassParam1       ::=                   ID_COLON ParamType
-                    |                   ID_COLON ParamType EQ Expr
-                    |               VAR_ID_COLON ParamType
-                    |               VAR_ID_COLON ParamType EQ Expr
-                    |           VAL_ID_COLON ParamType
-                    |           VAL_ID_COLON ParamType EQ Expr
+ClassParam1       ::=                   ID COLON ParamType
+                    |                   ID COLON ParamType EQ Expr
+                    |               VAR ID COLON ParamType
+                    |               VAR ID COLON ParamType EQ Expr
+                    |           VAL     ID COLON ParamType
+                    |           VAL     ID COLON ParamType EQ Expr
                     |  Modifier ClassParam1
                     ;
 
@@ -700,9 +640,9 @@ Bindings1         ::=  Binding
                     ;
 
 Binding           ::=     UNDERSCORE
-                    |     UNDERSCORE_COLON Type
+                    |     UNDERSCORE COLON Type
                     |  ID
-                    |  ID_COLON Type
+                    |  ID            COLON Type
                     ;
 
 Modifier          ::=  LocalModifier
@@ -723,8 +663,8 @@ AccessModifier    ::=          PROTECTED
                     |  PRIVATE           AccessQualifier
                     ;
 
-AccessQualifier   ::=  LBRACK_THIS_RBRACK
-                    |  LBRACK_ID_RBRACK
+AccessQualifier   ::=  LBRACK    THIS RBRACK
+                    |  LBRACK ID      RBRACK
                     ;
 
 Annotation        ::=  AT SimpleType
@@ -736,8 +676,8 @@ ConstrAnnotation  ::=  AT SimpleType ArgumentExprs
 
 TemplateBody      ::=     LBRACE          TemplateBody1 RBRACE
                     |     LBRACE SelfType TemplateBody1 RBRACE
-                    |  NL_LBRACE          TemplateBody1 RBRACE
-                    |  NL_LBRACE SelfType TemplateBody1 RBRACE
+                    |  NL LBRACE          TemplateBody1 RBRACE
+                    |  NL LBRACE SelfType TemplateBody1 RBRACE
                     ;
 
 TemplateBody1     ::=  TemplateStat
@@ -769,9 +709,9 @@ Dcls1             ::=           Dcl
                     |  Modifier Dcls1
                     ;
 
-SelfType          ::=  ID_RDARROW
-                    |  ID_COLON Type RDARROW
-                    |  THIS_COLON Type RDARROW
+SelfType          ::=  ID            RDARROW
+                    |  ID COLON Type RDARROW
+                    |  THIS COLON Type RDARROW
                     ;
 
 Import            ::=  IMPORT ImportExpr
@@ -779,8 +719,8 @@ Import            ::=  IMPORT ImportExpr
                     ;
 
 ImportExpr        ::=  StableId DOT               ImportSelectors
-                    |  StableId DOT_UNDERSCORE
-                    |  StableId DOT_ID
+                    |  StableId DOT    UNDERSCORE
+                    |  StableId DOT ID
                     ;
 
 ImportSelectors   ::=  LBRACE ImportSelectors1 RBRACE
@@ -792,8 +732,8 @@ ImportSelectors1  ::=                                      UNDERSCORE
                     ;
 
 ImportSelector    ::=  ID
-                    |  ID_RDARROW_UNDERSCORE
-                    |  ID_RDARROW_ID
+                    |  ID            RDARROW UNDERSCORE
+                    |  ID RDARROW ID
                     ;
 
 Dcl               ::=  VAL ValDcl
@@ -817,9 +757,9 @@ FunSig            ::=  ID                    ParamClauses
                     ;
 
 TypeDcl           ::=  ID
-                    |  ID_UBOUNDS Type
-                    |  ID_LBOUNDS Type
-                    |  ID_LBOUNDS Type UBOUNDS Type
+                    |  ID                              UBOUNDS Type
+                    |  ID                 LBOUNDS Type
+                    |  ID                 LBOUNDS Type UBOUNDS Type
                     |  ID TypeParamClause
                     |  ID TypeParamClause              UBOUNDS Type
                     |  ID TypeParamClause LBOUNDS Type
@@ -845,26 +785,26 @@ PatDef1           ::=  Pattern2
                     ;
 
 VarDef            ::=  PatDef
-                    |  ids COLON Type EQ_UNDERSCORE
+                    |  ids COLON Type EQ UNDERSCORE
                     ;
 
 FunDef            ::=  FunSig            EQ Expr
                     |  FunSig COLON Type EQ Expr
                     |  FunSig    LBRACE Block RBRACE
-                    |  FunSig NL_LBRACE Block RBRACE
+                    |  FunSig NL LBRACE Block RBRACE
                     |  THIS ParamClause ParamClauses                  ConstrBlock
                     |  THIS ParamClause ParamClauses               NL ConstrBlock
                     |  THIS ParamClause ParamClauses EQ ConstrExpr
                     ;
 
-TypeDef           ::=  ID_EQ Type
+TypeDef           ::=  ID                 EQ Type
                     |  ID TypeParamClause EQ Type
                     ;
 
 TmplDef           ::=       CLASS ClassDef
-                    |  CASE_CLASS ClassDef
+                    |  CASE CLASS ClassDef
                     |       OBJECT ObjectDef
-                    |  CASE_OBJECT ObjectDef
+                    |  CASE OBJECT ObjectDef
                     |  TRAIT TraitDef
                     ;
 
@@ -922,8 +862,8 @@ Constr            ::=  AnnotType
                     |  Constr ArgumentExprs
                     ;
 
-EarlyDefs         ::= LBRACE_RBRACE_WITH
-                    | LBRACE_WITH EarlyDefs1 RBRACE_WITH
+EarlyDefs         ::= LBRACE            RBRACE WITH
+                    | LBRACE EarlyDefs1 RBRACE WITH
                     ;
 
 EarlyDefs1        ::= EarlyDef
@@ -975,10 +915,10 @@ TopStat2          ::=           TmplDef
                     ;
 
 Packaging         ::=  PACKAGE QualId    LBRACE TopStatSeq RBRACE
-                    |  PACKAGE QualId NL_LBRACE TopStatSeq RBRACE
+                    |  PACKAGE QualId NL LBRACE TopStatSeq RBRACE
                     ;
 
-PackageObject     ::=  PACKAGE_OBJECT ObjectDef
+PackageObject     ::=  PACKAGE OBJECT ObjectDef
                     ;
 
 CompilationUnit   ::=                      TopStatSeq
