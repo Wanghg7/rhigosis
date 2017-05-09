@@ -49,4 +49,17 @@ object Utils {
     }
   }
 
+  def readFile(file: File): String = {
+    val sb = new java.lang.StringBuilder
+    val buf = new Array[Char](1024)
+    Utils.withReader(file) { reader =>
+      var n = 0
+      while (n != -1) {
+        sb.append(buf, 0, n)
+        n = reader.read(buf)
+      }
+    }
+    sb.toString
+  }
+
 }

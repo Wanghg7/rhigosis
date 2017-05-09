@@ -65,7 +65,7 @@
             <!-- ====================================================================== -->
             <!-- generate-sources                                                       -->
             <!-- ====================================================================== -->
-            <plugin>
+            <!--plugin>
                 <groupId>com.github.vbmacher</groupId>
                 <artifactId>cup-maven-plugin</artifactId>
                 <version>11b-20160615</version>
@@ -100,7 +100,7 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
+            </plugin-->
             <!--plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>build-helper-maven-plugin</artifactId>
